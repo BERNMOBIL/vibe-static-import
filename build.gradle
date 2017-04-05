@@ -41,7 +41,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-batch")
     compile 'org.apache.commons:commons-csv:1.4'
     compile group: 'net.lingala.zip4j', name: 'zip4j', version: '1.2.4'
-    optional "org.springframework.boot:spring-boot-configuration-processor"
+    //optional "org.springframework.boot:spring-boot-configuration-processor"
     runtime 'org.xerial:sqlite-jdbc:3.16.1'
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')

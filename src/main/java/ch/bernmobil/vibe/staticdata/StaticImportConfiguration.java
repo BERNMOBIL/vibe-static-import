@@ -41,15 +41,19 @@ import org.springframework.context.annotation.Configuration;
 public class StaticImportConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final DataSource dataSource;
+    private final DataSource postgresDataSource;
+    private final DataSource mapperDataSource;
     private static final int chunkSize = 100;
 
     @Autowired
     public StaticImportConfiguration(JobBuilderFactory jobBuilderFactory,
-        StepBuilderFactory stepBuilderFactory, @Qualifier("PostgresDataSource") DataSource dataSource) {
+            StepBuilderFactory stepBuilderFactory,
+            @Qualifier("PostgresDataSource") DataSource postgresDataSource,
+            @Qualifier("MapperDataSource") DataSource mapperDataSource) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
-        this.dataSource = dataSource;
+        this.postgresDataSource = postgresDataSource;
+        this.mapperDataSource = mapperDataSource;
     }
 
     @Bean
@@ -126,32 +130,33 @@ public class StaticImportConfiguration {
 
     @Bean
     public Step areaImportStep() {
-        return createStepBuilder("areaImportStep", new AreaImport(dataSource), new AreaProcessor());
+        return createStepBuilder("areaImportStep", new AreaImport(postgresDataSource), new AreaProcessor());
     }
 
     @Bean
     public Step stopImportStep() {
-        return createStepBuilder("stopImportStep", new StopImport(dataSource), new StopProcessor());
+        return createStepBuilder("stopImportStep", new StopImport(postgresDataSource), new StopProcessor());
     }
 
     @Bean
     public Step routeImportStep() {
-        return createStepBuilder("routeImportStep", new RouteImport(dataSource), new RouteProcessor());
+        return createStepBuilder("routeImportStep", new RouteImport(postgresDataSource), new RouteProcessor());
     }
 
     @Bean
     public Step calendarDateImportStep() {
-        return createStepBuilder("calendarDateImportStep", new CalendarDateImport(dataSource), new CalendarDateProcessor());
+        return createStepBuilder("calendarDateImportStep", new CalendarDateImport(
+                postgresDataSource), new CalendarDateProcessor());
     }
 
     @Bean
     public Step journeyImportStep() {
-        return createStepBuilder("journeyImportStep", new TripImport(dataSource), new JourneyProcessor());
+        return createStepBuilder("journeyImportStep", new TripImport(postgresDataSource), new JourneyProcessor());
     }
 
     @Bean
     public Step scheduleImportStep() {
-        return createStepBuilder("scheduleImportStep", new StopTimeImport(dataSource), new ScheduleProcessor());
+        return createStepBuilder("scheduleImportStep", new StopTimeImport(postgresDataSource), new ScheduleProcessor());
     }
 
     private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer,
@@ -176,7 +181,7 @@ public class StaticImportConfiguration {
         JdbcBatchItemWriter<T> writer = new JdbcBatchItemWriter<>();
         writer.setSql(preparedStatement);
         writer.setItemPreparedStatementSetter(preparedStatementSetter);
-        writer.setDataSource(dataSource);
+        writer.setDataSource(mapperDataSource);
         return writer;
     }
 }

@@ -30,6 +30,8 @@ jar {
 
 sourceCompatibility = 1.8
 
+compileJava.dependsOn(processResources)
+
 repositories {
     mavenCentral()
 }
@@ -37,10 +39,10 @@ repositories {
 dependencies {
     compile group: 'com.google.transit', name: 'gtfs-realtime-bindings', version: '0.0.4'
     compile("org.springframework.boot:spring-boot-starter-batch")
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile 'org.apache.commons:commons-csv:1.4'
     compile group: 'net.lingala.zip4j', name: 'zip4j', version: '1.2.4'
-    compile 'org.xerial:sqlite-jdbc:3.16.1'
+    optional "org.springframework.boot:spring-boot-configuration-processor"
+    runtime 'org.xerial:sqlite-jdbc:3.16.1'
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

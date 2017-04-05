@@ -1,0 +1,27 @@
+TRUNCATE TABLE public.area
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.calendar_date
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.calendar_exception
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.journey
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.journey_disruption
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.route
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.schedule
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.schedule_update
+    CONTINUE IDENTITY
+    CASCADE;
+TRUNCATE TABLE public.stop
+    CONTINUE IDENTITY
+    CASCADE;

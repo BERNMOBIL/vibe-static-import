@@ -10,11 +10,14 @@ import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
@@ -31,22 +34,41 @@ public class SpringConfig {
     @Value("org/springframework/batch/core/schema-sqlite.sql")
     private Resource dataRepositorySchema;
 
+    @Value("mapperDatabaseSchema.sql")
+    private Resource mapperDatabaseSchema;
+
+    @Value("dropMapperDatabase.sql")
+    private Resource mapperDropDatabase;
+
+    @Value("truncatePostgres.sql")
+    private Resource truncatePostgres;
+
+    private Environment environment;
+
     @Primary
     @Bean
     public DataSource sqliteDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setUrl("jdbc:sqlite:repository.sqlite");
+        dataSource.setDriverClassName(environment.getProperty("bernmobil.springconfig.jobrepository.driver"));
+        dataSource.setUrl(environment.getProperty("bernmobil.springconfig.jobrepository.datasource"));
+        return dataSource;
+    }
+
+    @Bean("MapperDataSource")
+    public DataSource mapperDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getProperty("bernmobil.springconfig.mappingrepository.driver"));
+        dataSource.setUrl(environment.getProperty("bernmobil.springconfig.mappingrepository.datasource"));
         return dataSource;
     }
 
     @Bean("PostgresDataSource")
     public DataSource postgresDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/vibe");
-        dataSource.setUsername("vibe");
-        dataSource.setPassword("vibe");
+        dataSource.setDriverClassName(environment.getProperty("bernmobil.datasource.driver"));
+        dataSource.setUrl(environment.getProperty("bernmobil.datasource.url"));
+        dataSource.setUsername(environment.getProperty("bernmobil.datasource.username"));
+        dataSource.setPassword(environment.getProperty("bernmobil.datasource.password"));
         return dataSource;
     }
 
@@ -55,19 +77,33 @@ public class SpringConfig {
         return new DefaultBatchConfigurer(dataSource);
     }
 
-    @Bean
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) throws MalformedURLException {
+    @Bean("PostgresInitializer")
+    public DataSourceInitializer postgresInitializer(@Qualifier("PostgresDataSource") DataSource dataSource) {
+        return dataSourceInitializer(dataSource, truncatePostgres);
+    }
+
+    @Bean("MappingDatabaseInitializer")
+    public DataSourceInitializer mappingSourceInitializer(@Qualifier("MapperDataSource") DataSource dataSource){
+        return dataSourceInitializer(dataSource, mapperDropDatabase, mapperDatabaseSchema);
+    }
+
+    private DataSourceInitializer dataSourceInitializer(DataSource dataSource, Resource... sqlScripts) {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
 
-        databasePopulator.addScript(dropRepositoryTables);
-        databasePopulator.addScript(dataRepositorySchema);
-        databasePopulator.setIgnoreFailedDrops(true);
+        for(Resource resource : sqlScripts){
+            databasePopulator.addScript(resource);
+        }
 
         DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
         initializer.setDatabasePopulator(databasePopulator);
 
         return initializer;
+    }
+
+    @Bean("JobRepositoryInitializer")
+    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) throws MalformedURLException {
+        return dataSourceInitializer(dataSource, dropRepositoryTables, dataRepositorySchema);
     }
 
     private JobRepository getJobRepository() throws Exception {
@@ -88,5 +124,10 @@ public class SpringConfig {
         jobLauncher.setJobRepository(getJobRepository());
         jobLauncher.afterPropertiesSet();
         return jobLauncher;
+    }
+
+    @Autowired
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 }

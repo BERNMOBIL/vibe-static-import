@@ -1,5 +1,5 @@
-DROP TABLE area_mapper;
-DROP TABLE calendar_date_mapper;
-DROP TABLE journey_mapper;
-DROP TABLE route_mapper;
-DROP TABLE stop_mapper;
+DROP TABLE IF EXISTS area_mapper;
+DROP TABLE IF EXISTS calendar_date_mapper;
+DROP TABLE IF EXISTS journey_mapper;
+DROP TABLE IF EXISTS route_mapper;
+DROP TABLE IF EXISTS stop_mapper;

@@ -7,22 +7,27 @@ import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 
 public class AreaImport extends Import<GtfsStop, Area> {
     private static final String[] fieldNames = {"stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station"};
-    private static final String path = "gtfs/stops.txt";
+    private static final String path = "stops.txt";
     private static final String insertQuery = "INSERT INTO area (id, name) VALUES(?, ?)";
 
-    private static ItemPreparedStatementSetter<Area> getItemPreparedStatementSetter() {
-        return (item, ps) -> {
-            ps.setLong(1, item.getId());
-            ps.setString(2, item.getName());
-        };
+
+    public AreaImport(DataSource dataSource, String folder) {
+        super(dataSource, fieldNames, folder + path, new StopFieldSetMapper(), insertQuery, new AreaPreparedStatementSetter());
     }
 
-    @Autowired
-    public AreaImport(DataSource dataSource) {
-        super(dataSource, fieldNames, path, new StopFieldSetMapper(), insertQuery, getItemPreparedStatementSetter());
+    public static class AreaPreparedStatementSetter implements ItemPreparedStatementSetter<Area> {
+
+        @Override
+        public void setValues(Area item, PreparedStatement ps) throws SQLException {
+            ps.setLong(1, item.getId());
+            ps.setString(2, item.getName());
+        }
     }
 
 }

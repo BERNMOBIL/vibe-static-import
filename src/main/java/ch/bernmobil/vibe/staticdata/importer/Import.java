@@ -1,6 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 import javax.sql.DataSource;
+
+import ch.bernmobil.vibe.staticdata.StaticImportConfiguration;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;

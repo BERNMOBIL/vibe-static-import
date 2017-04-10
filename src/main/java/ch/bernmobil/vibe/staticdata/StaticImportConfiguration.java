@@ -5,13 +5,7 @@ import ch.bernmobil.vibe.staticdata.entity.sync.CalendarDateMapper;
 import ch.bernmobil.vibe.staticdata.entity.sync.JourneyMapper;
 import ch.bernmobil.vibe.staticdata.entity.sync.RouteMapper;
 import ch.bernmobil.vibe.staticdata.entity.sync.StopMapper;
-import ch.bernmobil.vibe.staticdata.importer.AreaImport;
-import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
-import ch.bernmobil.vibe.staticdata.importer.Import;
-import ch.bernmobil.vibe.staticdata.importer.RouteImport;
-import ch.bernmobil.vibe.staticdata.importer.StopImport;
-import ch.bernmobil.vibe.staticdata.importer.StopTimeImport;
-import ch.bernmobil.vibe.staticdata.importer.TripImport;
+import ch.bernmobil.vibe.staticdata.importer.*;
 import ch.bernmobil.vibe.staticdata.processor.AreaProcessor;
 import ch.bernmobil.vibe.staticdata.processor.CalendarDateProcessor;
 import ch.bernmobil.vibe.staticdata.processor.JourneyProcessor;
@@ -19,6 +13,8 @@ import ch.bernmobil.vibe.staticdata.processor.RouteProcessor;
 import ch.bernmobil.vibe.staticdata.processor.ScheduleProcessor;
 import ch.bernmobil.vibe.staticdata.processor.StopProcessor;
 import javax.sql.DataSource;
+
+import ch.bernmobil.vibe.staticdata.writer.ZipInputStreamWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -32,17 +28,28 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.zip.ZipInputStream;
 
 
 @Configuration
 @EnableBatchProcessing
 public class StaticImportConfiguration {
+    @Value("${bernmobil.staticsource.url}")
+    private String staticFileUrl;
+
+    @Value("${bernmobil.staticsource.folder}")
+    public String destinationFolder;
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+
     private final DataSource postgresDataSource;
     private final DataSource mapperDataSource;
+
     private static final int chunkSize = 100;
 
     @Autowired
@@ -60,7 +67,8 @@ public class StaticImportConfiguration {
     public Job importStaticJob(){
         return jobBuilderFactory.get("importStaticJob")
                 .incrementer(new RunIdIncrementer())
-                .flow(areaImportStep())
+                .flow(fileDownloadStep())
+                .next(areaImportStep())
                 .next(stopImportStep())
                 .next(routeImportStep())
                 .next(journeyImportStep())
@@ -75,6 +83,15 @@ public class StaticImportConfiguration {
                 .build();
     }
 
+    @Bean
+    public Step fileDownloadStep() {
+        return stepBuilderFactory.get("download GTFS Files")
+                .<ZipInputStream, ZipInputStream>chunk(1)
+                .reader(new ZipFileDownload(staticFileUrl))
+                .writer(new ZipInputStreamWriter(destinationFolder))
+                //TODO let whole job fail if these steps fail
+                .build();
+    }
     @Bean
     public Step areaMapperStep() {
         String query =  "INSERT INTO area_mapper(gtfs_id, id) VALUES(?, ?)";
@@ -130,37 +147,35 @@ public class StaticImportConfiguration {
 
     @Bean
     public Step areaImportStep() {
-        return createStepBuilder("areaImportStep", new AreaImport(postgresDataSource), new AreaProcessor());
+        return createStepBuilder("areaImportStep", new AreaImport(postgresDataSource, destinationFolder), new AreaProcessor());
     }
 
     @Bean
     public Step stopImportStep() {
-        return createStepBuilder("stopImportStep", new StopImport(postgresDataSource), new StopProcessor());
+        return createStepBuilder("stopImportStep", new StopImport(postgresDataSource, destinationFolder), new StopProcessor());
     }
 
     @Bean
     public Step routeImportStep() {
-        return createStepBuilder("routeImportStep", new RouteImport(postgresDataSource), new RouteProcessor());
+        return createStepBuilder("routeImportStep", new RouteImport(postgresDataSource, destinationFolder), new RouteProcessor());
     }
 
     @Bean
     public Step calendarDateImportStep() {
-        return createStepBuilder("calendarDateImportStep", new CalendarDateImport(
-                postgresDataSource), new CalendarDateProcessor());
+        return createStepBuilder("calendarDateImportStep", new CalendarDateImport(postgresDataSource, destinationFolder), new CalendarDateProcessor());
     }
 
     @Bean
     public Step journeyImportStep() {
-        return createStepBuilder("journeyImportStep", new TripImport(postgresDataSource), new JourneyProcessor());
+        return createStepBuilder("journeyImportStep", new TripImport(postgresDataSource, destinationFolder), new JourneyProcessor());
     }
 
     @Bean
     public Step scheduleImportStep() {
-        return createStepBuilder("scheduleImportStep", new StopTimeImport(postgresDataSource), new ScheduleProcessor());
+        return createStepBuilder("scheduleImportStep", new StopTimeImport(postgresDataSource, destinationFolder), new ScheduleProcessor());
     }
 
-    private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer,
-            ItemProcessor<TIn, TOut> processor) {
+    private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer, ItemProcessor<TIn, TOut> processor) {
         return stepBuilderFactory.get(name)
             .<TIn, TOut>chunk(chunkSize)
             .reader(importer.reader())

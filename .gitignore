@@ -61,4 +61,3 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 /gtfs/
 repository.sqlite
-/mapping.sqlite

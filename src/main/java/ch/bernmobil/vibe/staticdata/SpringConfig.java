@@ -48,14 +48,13 @@ public class SpringConfig {
     @Primary
     @Bean
     public DataSource sqliteDataSource() {
-        return createDataSource(
-                environment.getProperty("bernmobil.springconfig.jobrepository.driver"),
+        return createDataSource("org.sqlite.JDBC",
                 environment.getProperty("bernmobil.springconfig.jobrepository.datasource"));
     }
 
     @Bean("MapperDataSource")
     public DataSource mapperDataSource() {
-        return createDataSource(environment.getProperty("bernmobil.springconfig.mappingrepository.driver"),
+        return createDataSource("org.postgresql.Driver",
                 environment.getProperty("bernmobil.springconfig.mappingrepository.datasource"),
                 environment.getProperty("bernmobil.springconfig.mappingrepository.username"),
                 environment.getProperty("bernmobil.springconfig.mappingrepository.password"));
@@ -63,7 +62,7 @@ public class SpringConfig {
 
     @Bean("PostgresDataSource")
     public DataSource postgresDataSource() {
-        return createDataSource(environment.getProperty("bernmobil.datasource.driver"),
+        return createDataSource("org.postgresql.Driver",
                 environment.getProperty("bernmobil.datasource.url"),
                 environment.getProperty("bernmobil.datasource.username"),
                 environment.getProperty("bernmobil.datasource.password"));

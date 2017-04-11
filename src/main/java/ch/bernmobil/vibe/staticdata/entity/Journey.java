@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.entity.sync.JourneyMapper;
+import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 
 public class Journey {
     private static long idCounter = 0;

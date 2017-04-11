@@ -1,10 +1,8 @@
-package ch.bernmobil.vibe.staticdata.entity.sync;
+package ch.bernmobil.vibe.staticdata.mapper.sync;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.support.ListItemReader;
 
 public class StopMapper {
     private static HashMap<String, StopMapper> mappings = new HashMap<>();
@@ -35,17 +33,5 @@ public class StopMapper {
 
     public static List<StopMapper> getAll() {
         return new ArrayList<>(mappings.values());
-    }
-    public static class BatchReader implements ItemReader<StopMapper> {
-        ListItemReader<StopMapper> reader;
-
-        @Override
-        public StopMapper read() throws Exception{
-            if(reader == null) {
-                reader = new ListItemReader<>(StopMapper.getAll());
-            }
-
-            return reader.read();
-        }
     }
 }

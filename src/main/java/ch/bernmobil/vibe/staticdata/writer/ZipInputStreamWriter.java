@@ -1,8 +1,5 @@
 package ch.bernmobil.vibe.staticdata.writer;
 
-import ch.bernmobil.vibe.staticdata.StaticImportConfiguration;
-import org.springframework.batch.item.ItemWriter;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.springframework.batch.item.ItemWriter;
 
 
 public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
@@ -43,7 +41,6 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
                 int count;
                 byte data[] = new byte[BUFFER];
                 String filename = entry.getName();
-                //TODO: replace with property from configuration
                 dest = new BufferedOutputStream(new FileOutputStream(folder + filename), BUFFER);
                 while ((count = zis.read(data, OFFSET, BUFFER)) != -1) {
                     dest.write(data, OFFSET, count);

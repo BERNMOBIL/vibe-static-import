@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.entity.sync.CalendarDateMapper;
+import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
 import java.sql.Date;
 
 public class CalendarDate {

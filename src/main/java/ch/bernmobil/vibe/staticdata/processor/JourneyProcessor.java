@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Journey;
-import ch.bernmobil.vibe.staticdata.entity.sync.RouteMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
+import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapper;
 import org.springframework.batch.item.ItemProcessor;
 
 public class JourneyProcessor implements ItemProcessor<GtfsTrip, Journey> {

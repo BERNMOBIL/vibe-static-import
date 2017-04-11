@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.entity.sync.AreaMapper;
-import ch.bernmobil.vibe.staticdata.entity.sync.StopMapper;
+import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
+import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapper;
 
 public class Stop {
     private static long idCounter = 0;

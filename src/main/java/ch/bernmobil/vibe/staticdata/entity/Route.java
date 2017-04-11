@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.entity.sync.RouteMapper;
+import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapper;
 
 public class Route {
 

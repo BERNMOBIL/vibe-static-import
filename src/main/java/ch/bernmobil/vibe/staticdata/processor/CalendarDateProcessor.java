@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
-import ch.bernmobil.vibe.staticdata.entity.sync.JourneyMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import org.springframework.batch.item.ItemProcessor;

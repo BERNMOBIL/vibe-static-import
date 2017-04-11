@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.entity.sync.AreaMapper;
+import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 public class Area {

@@ -1,10 +1,8 @@
-package ch.bernmobil.vibe.staticdata.entity.sync;
+package ch.bernmobil.vibe.staticdata.mapper.sync;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.support.ListItemReader;
 
 public class CalendarDateMapper {
     private static HashMap<Long, CalendarDateMapper> mappings = new HashMap<>();
@@ -35,17 +33,4 @@ public class CalendarDateMapper {
     public static List<CalendarDateMapper> getAll() {
         return new ArrayList<>(mappings.values());
     }
-    public static class BatchReader implements ItemReader<CalendarDateMapper> {
-        ListItemReader<CalendarDateMapper> reader;
-
-        @Override
-        public CalendarDateMapper read() throws Exception{
-            if(reader == null) {
-                reader = new ListItemReader<>(CalendarDateMapper.getAll());
-            }
-
-            return reader.read();
-        }
-    }
-
 }

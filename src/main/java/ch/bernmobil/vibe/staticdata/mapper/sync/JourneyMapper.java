@@ -45,5 +45,4 @@ public class JourneyMapper {
     public static List<JourneyMapper> getAll() {
         return new ArrayList<>(mappings.values());
     }
-
 }

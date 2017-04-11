@@ -1,22 +1,22 @@
 CREATE TABLE area_mapper (
-  gtfs_id STRING PRIMARY KEY,
+  gtfs_id TEXT PRIMARY KEY,
   id INTEGER
 );
 CREATE TABLE calendar_date_mapper (
-  gtfs_id STRING PRIMARY KEY,
+  gtfs_id TEXT PRIMARY KEY,
   id INTEGER
 );
 CREATE TABLE journey_mapper (
-  gtfs_trip_id STRING PRIMARY KEY,
-  gtfs_service_id STRING,
+  gtfs_trip_id TEXT PRIMARY KEY,
+  gtfs_service_id TEXT,
   id INTEGER
 );
 CREATE TABLE route_mapper (
-  gtfs_id STRING PRIMARY KEY,
+  gtfs_id TEXT PRIMARY KEY,
   id INTEGER
 );
 CREATE TABLE stop_mapper (
-  gtfs_id STRING PRIMARY KEY,
+  gtfs_id TEXT PRIMARY KEY,
   id INTEGER
 );
 CREATE INDEX area_mapper_id_index ON area_mapper(id);

@@ -24,6 +24,7 @@ public abstract class Mapper<T> {
     public abstract ItemReader<T> reader();
 
     @Bean
+    @StepScope
     public JdbcBatchItemWriter<T> writer(){
         JdbcBatchItemWriter<T> writer = new JdbcBatchItemWriter<>();
         writer.setSql(this.preparedStatement);

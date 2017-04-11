@@ -1,8 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 import javax.sql.DataSource;
-
-import ch.bernmobil.vibe.staticdata.StaticImportConfiguration;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -37,6 +36,7 @@ public abstract class Import<TIn, TOut> {
     }
 
     @Bean
+    @StepScope
     public FlatFileItemReader<TIn> reader(){
         FlatFileItemReader<TIn> reader = new FlatFileItemReader<>();
         reader.setResource(new FileSystemResource(filePath));
@@ -51,6 +51,7 @@ public abstract class Import<TIn, TOut> {
     }
 
     @Bean
+    @StepScope
     public JdbcBatchItemWriter<TOut> writer() {
         JdbcBatchItemWriter<TOut> writer = new JdbcBatchItemWriter<>();
         writer.setSql(preparedStatementString);

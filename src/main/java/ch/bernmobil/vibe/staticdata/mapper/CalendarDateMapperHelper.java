@@ -4,11 +4,9 @@ import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.support.ListItemReader;
-import org.springframework.context.annotation.Bean;
 
 public class CalendarDateMapperHelper extends Mapper<CalendarDateMapper>{
     private final static String QUERY =  "INSERT INTO calendar_date_mapper(gtfs_id, id) VALUES(?, ?)";
@@ -17,8 +15,7 @@ public class CalendarDateMapperHelper extends Mapper<CalendarDateMapper>{
         super(dataSource, QUERY, new CalendarDatePreparedStatementSetter());
     }
 
-    @Bean
-    @StepScope
+    @Override
     public CalendarDateBatchReader reader() {
         return new CalendarDateBatchReader();
     }

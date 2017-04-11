@@ -4,21 +4,20 @@ import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.apache.log4j.Logger;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.support.ListItemReader;
-import org.springframework.context.annotation.Bean;
 
 public class JourneyMapperHelper extends Mapper<JourneyMapper>{
     private final static String QUERY =  "INSERT INTO journey_mapper(gtfs_trip_id, gtfs_service_id, id) VALUES(?, ?, ?)";
+    private static final Logger logger = Logger.getLogger(JourneyMapperHelper.class);
 
     public JourneyMapperHelper(DataSource dataSource) {
         super(dataSource, QUERY, new JourneyMapperPreparedStatementSetter());
     }
 
-    @Bean
-    @StepScope
+    @Override
     public JourneyBatchReader reader() {
         return new JourneyBatchReader();
     }

@@ -48,27 +48,38 @@ public class SpringConfig {
     @Primary
     @Bean
     public DataSource sqliteDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getProperty("bernmobil.springconfig.jobrepository.driver"));
-        dataSource.setUrl(environment.getProperty("bernmobil.springconfig.jobrepository.datasource"));
-        return dataSource;
+        return createDataSource(
+                environment.getProperty("bernmobil.springconfig.jobrepository.driver"),
+                environment.getProperty("bernmobil.springconfig.jobrepository.datasource"));
     }
 
     @Bean("MapperDataSource")
     public DataSource mapperDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getProperty("bernmobil.springconfig.mappingrepository.driver"));
-        dataSource.setUrl(environment.getProperty("bernmobil.springconfig.mappingrepository.datasource"));
-        return dataSource;
+        return createDataSource(environment.getProperty("bernmobil.springconfig.mappingrepository.driver"),
+                environment.getProperty("bernmobil.springconfig.mappingrepository.datasource"),
+                environment.getProperty("bernmobil.springconfig.mappingrepository.username"),
+                environment.getProperty("bernmobil.springconfig.mappingrepository.password"));
     }
 
     @Bean("PostgresDataSource")
     public DataSource postgresDataSource() {
+        return createDataSource(environment.getProperty("bernmobil.datasource.driver"),
+                environment.getProperty("bernmobil.datasource.url"),
+                environment.getProperty("bernmobil.datasource.username"),
+                environment.getProperty("bernmobil.datasource.password"));
+    }
+
+    private DriverManagerDataSource createDataSource(String driver, String url, String username, String password) {
+        DriverManagerDataSource dataSource = createDataSource(driver, url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+
+    private DriverManagerDataSource createDataSource(String driver, String url) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getProperty("bernmobil.datasource.driver"));
-        dataSource.setUrl(environment.getProperty("bernmobil.datasource.url"));
-        dataSource.setUsername(environment.getProperty("bernmobil.datasource.username"));
-        dataSource.setPassword(environment.getProperty("bernmobil.datasource.password"));
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
         return dataSource;
     }
 

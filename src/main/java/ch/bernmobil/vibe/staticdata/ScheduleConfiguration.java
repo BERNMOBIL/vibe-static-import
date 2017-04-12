@@ -1,5 +1,6 @@
 package ch.bernmobil.vibe.staticdata;
 
+import java.time.LocalTime;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -31,7 +32,15 @@ public class ScheduleConfiguration {
                 .addString(staticImportJob.getName(),String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();
 
+        logger.info(
+                String.format("Job started [%s, with params {%s}] at %s", staticImportJob.getName(),
+                        param.toString(), LocalTime.now()));
+
         JobExecution execution = jobLauncher.run(staticImportJob, param);
+
+        logger.info(
+                String.format("Job finished [%s with status {%s}] at %s", staticImportJob.getName(),
+                        execution.getExitStatus(), LocalTime.now()));
     }
 
     @Autowired

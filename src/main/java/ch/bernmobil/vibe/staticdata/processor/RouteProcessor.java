@@ -2,12 +2,19 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Route;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
+import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapper;
 import org.springframework.batch.item.ItemProcessor;
 
 public class RouteProcessor implements ItemProcessor<GtfsRoute, Route> {
+    private IdGenerator idGenerator = new IdGenerator();
+
     @Override
     public Route process(GtfsRoute item) throws Exception {
         int type = Integer.parseInt(item.getRouteType());
-        return new Route(type, item.getRouteId());
+        long id = idGenerator.getId();
+        RouteMapper.addMapping(item.getRouteId(), id);
+        idGenerator.next();
+        return new Route(id, type);
     }
 }

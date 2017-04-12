@@ -1,27 +1,21 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapper;
-
 public class Stop {
-    private static long idCounter = 0;
-    private Long id;
+    private long id;
     private String name;
-    private Long area;
+    private long area;
 
-    public Stop(String name, String areaId, String gtfs_id) {
-        id = ++idCounter;
-        StopMapper.addMapping(gtfs_id, idCounter);
-
+    public Stop(long id, String name, long areaId) {
+        this.id = id;
         this.name = name;
-        this.area = AreaMapper.getMappingByStopId(areaId).getId();
+        this.area = areaId;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -33,11 +27,11 @@ public class Stop {
         this.name = name;
     }
 
-    public Long getArea() {
+    public long getArea() {
         return area;
     }
 
-    public void setArea(Long area) {
+    public void setArea(long area) {
         this.area = area;
     }
 }

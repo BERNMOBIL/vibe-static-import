@@ -1,26 +1,19 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-
 public class Area {
-    private static long idCounter = 0;
-
-    private Long id;
+    private long id;
     private String name;
 
-    public Area(String name, String gtfsId) {
-        this.id = ++idCounter;
-        AreaMapper.addMapping(gtfsId, id);
-
+    public Area(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -30,11 +23,5 @@ public class Area {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public static ItemPreparedStatementSetter<Area> getPreparedStatementSetter() {
-        return (item, ps) -> {
-
-        };
     }
 }

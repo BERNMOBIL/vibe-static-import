@@ -1,54 +1,60 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
 import java.sql.Date;
+import org.json.simple.JSONObject;
 
 public class CalendarDate {
-  private static long idCounter = 0;
-  private Long id;
-  //private String days; //TODO: ADD days
-  private java.sql.Date validFrom;
-  private java.sql.Date validUntil;
-  private Long journey;
+    private long id;
+    private JSONObject days;
+    private Date validFrom;
+    private Date validUntil;
+    private long journey;
 
-  public CalendarDate(Date validFrom, Date validUntil, Long journey, Long gtfs_id) {
-    this.id = ++idCounter;
-    CalendarDateMapper.addMapping(gtfs_id, id);
+    public CalendarDate(long id, Date validFrom, Date validUntil, long journey, JSONObject days) {
+        this.id = id;
+        this.validFrom = validFrom;
+        this.validUntil = validUntil;
+        this.journey = journey;
+        this.days = days;
+    }
 
-    this.validFrom = validFrom;
-    this.validUntil = validUntil;
-    this.journey = journey;
-  }
+    public long getId() {
+        return id;
+    }
 
-  public Long getId() {
-    return id;
-  }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public JSONObject getDays() {
+        return days;
+    }
 
-  public java.sql.Date getValidFrom() {
-    return validFrom;
-  }
+    public void setDays(JSONObject days) {
+        this.days = days;
+    }
 
-  public void setValidFrom(java.sql.Date validFrom) {
-    this.validFrom = validFrom;
-  }
+    public Date getValidFrom() {
+        return validFrom;
+    }
 
-  public java.sql.Date getValidUntil() {
-    return validUntil;
-  }
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
 
-  public void setValidUntil(java.sql.Date validUntil) {
-    this.validUntil = validUntil;
-  }
+    public Date getValidUntil() {
+        return validUntil;
+    }
 
-  public Long getJourney() {
-    return journey;
-  }
+    public void setValidUntil(Date validUntil) {
+        this.validUntil = validUntil;
+    }
 
-  public void setJourney(Long journey) {
-    this.journey = journey;
-  }
+    public long getJourney() {
+        return journey;
+    }
+
+    public void setJourney(long journey) {
+        this.journey = journey;
+    }
 }

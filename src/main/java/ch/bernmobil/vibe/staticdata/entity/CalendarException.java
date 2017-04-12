@@ -3,23 +3,23 @@ package ch.bernmobil.vibe.staticdata.entity;
 import java.sql.Date;
 
 public class CalendarException {
-  private Long id;
+  private long id;
   private java.sql.Date date;
   private String type;
-  private Long calendar_date;
+  private long calendar_date;
 
-  public CalendarException(Long id, Date date, String type, Long calendar_date) {
+  public CalendarException(long id, Date date, String type, long calendar_date) {
     this.id = id;
     this.date = date;
     this.type = type;
     this.calendar_date = calendar_date;
   }
 
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -39,11 +39,11 @@ public class CalendarException {
     this.type = type;
   }
 
-  public Long getCalendar_date() {
+  public long getCalendar_date() {
     return calendar_date;
   }
 
-  public void setCalendar_date(Long calendar_date) {
+  public void setCalendar_date(long calendar_date) {
     this.calendar_date = calendar_date;
   }
 }

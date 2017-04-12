@@ -1,34 +1,27 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapper;
-
 public class Route {
+    private long id;
+    private Integer type;
 
-  private static long idCounter = 0;
+    public Route(long id, int type) {
+        this.id = id;
+        this.type = type;
+    }
 
-  private Long id;
-  private Integer type;
+    public long getId() {
+        return id;
+    }
 
-  public Route(int type, String gtfs_id) {
-    this.id = ++idCounter;
-    RouteMapper.addMapping(gtfs_id, id);
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    this.type = type;
-  }
+    public int getType() {
+        return type;
+    }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public int getType() {
-    return type;
-  }
-
-  public void setType(int type) {
-    this.type = type;
-  }
+    public void setType(int type) {
+        this.type = type;
+    }
 }

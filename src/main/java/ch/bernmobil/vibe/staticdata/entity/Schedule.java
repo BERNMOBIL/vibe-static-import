@@ -3,19 +3,16 @@ package ch.bernmobil.vibe.staticdata.entity;
 import java.sql.Time;
 
 public class Schedule {
-  private static long idCounter = 0;
-
-  private Long id;
-
+  private long id;
   private String platform;
-  private java.sql.Time plannedArrival;
-  private java.sql.Time plannedDeparture;
-  private Long stop;
-  private Long journey;
-  private Long scheduleUpdate;
+  private Time plannedArrival;
+  private Time plannedDeparture;
+  private long stop;
+  private long journey;
+  private long scheduleUpdate;
 
-  public Schedule(String platform, Time plannedArrival, Time plannedDeparture, Long stop, Long journey) {
-    this.id = ++idCounter;
+  public Schedule(long id, String platform, Time plannedArrival, Time plannedDeparture, long stop, long journey) {
+    this.id = id;
 
     this.platform = platform;
     this.plannedArrival = plannedArrival;
@@ -24,19 +21,11 @@ public class Schedule {
     this.journey = journey;
   }
 
-  public static long getIdCounter() {
-    return idCounter;
-  }
-
-  public static void setIdCounter(long idCounter) {
-    Schedule.idCounter = idCounter;
-  }
-
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -64,27 +53,27 @@ public class Schedule {
     this.plannedDeparture = plannedDeparture;
   }
 
-  public Long getStop() {
+  public long getStop() {
     return stop;
   }
 
-  public void setStop(Long stop) {
+  public void setStop(long stop) {
     this.stop = stop;
   }
 
-  public Long getJourney() {
+  public long getJourney() {
     return journey;
   }
 
-  public void setJourney(Long journey) {
+  public void setJourney(long journey) {
     this.journey = journey;
   }
 
-  public Long getScheduleUpdate() {
+  public long getScheduleUpdate() {
     return scheduleUpdate;
   }
 
-  public void setScheduleUpdate(Long scheduleUpdate) {
+  public void setScheduleUpdate(long scheduleUpdate) {
     this.scheduleUpdate = scheduleUpdate;
   }
 }

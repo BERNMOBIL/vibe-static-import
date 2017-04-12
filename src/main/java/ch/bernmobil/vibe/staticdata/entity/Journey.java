@@ -1,18 +1,13 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
-
 public class Journey {
-    private static long idCounter = 0;
     private Long id;
     private String headsign;
     private Long route;
     private Long journeyDisruption;
 
-    public Journey(String headsign, Long route, String gtfs_id, String gtfs_service_id) {
-        this.id = ++idCounter;
-        JourneyMapper.addMapping(gtfs_id, gtfs_service_id, id);
-
+    public Journey(long id, String headsign, Long route) {
+        this.id = id;
         this.headsign = headsign;
         this.route = route;
     }

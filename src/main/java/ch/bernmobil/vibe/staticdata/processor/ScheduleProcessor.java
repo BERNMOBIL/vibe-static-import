@@ -2,14 +2,14 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Schedule;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapper;
 import java.sql.Time;
 import org.springframework.batch.item.ItemProcessor;
 
 public class ScheduleProcessor implements ItemProcessor<GtfsStopTime, Schedule> {
-    private IdGenerator idGenerator = new IdGenerator();
+    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
 
     @Override
     public Schedule process(GtfsStopTime item) throws Exception {

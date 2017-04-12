@@ -2,12 +2,12 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Area;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
 import org.springframework.batch.item.ItemProcessor;
 
 public class AreaProcessor implements ItemProcessor<GtfsStop, Area> {
-    private IdGenerator idGenerator = new IdGenerator();
+    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
 
     @Override
     public Area process(GtfsStop item) throws Exception {

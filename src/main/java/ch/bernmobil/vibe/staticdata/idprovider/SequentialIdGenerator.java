@@ -2,7 +2,7 @@ package ch.bernmobil.vibe.staticdata.idprovider;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class IdGenerator {
+public class SequentialIdGenerator {
     private final AtomicLong currentId = new AtomicLong();
 
     public long getId() {

@@ -2,7 +2,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import java.sql.Date;
@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import org.springframework.batch.item.ItemProcessor;
 
 public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, CalendarDate> {
-    private IdGenerator idGenerator = new IdGenerator();
+    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYYMMdd");
 
     @Override

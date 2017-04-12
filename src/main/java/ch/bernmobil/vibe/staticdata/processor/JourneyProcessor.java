@@ -2,13 +2,13 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Journey;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapper;
 import org.springframework.batch.item.ItemProcessor;
 
 public class JourneyProcessor implements ItemProcessor<GtfsTrip, Journey> {
-    private IdGenerator idGenerator = new IdGenerator();
+    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
 
     @Override
     public Journey process(GtfsTrip item) throws Exception {

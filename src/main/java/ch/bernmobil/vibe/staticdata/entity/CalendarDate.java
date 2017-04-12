@@ -1,16 +1,16 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
+import com.google.gson.JsonObject;
 import java.sql.Date;
-import org.json.simple.JSONObject;
 
 public class CalendarDate {
     private long id;
-    private JSONObject days;
+    private JsonObject days;
     private Date validFrom;
     private Date validUntil;
     private long journey;
 
-    public CalendarDate(long id, Date validFrom, Date validUntil, long journey, JSONObject days) {
+    public CalendarDate(long id, Date validFrom, Date validUntil, long journey, JsonObject days) {
         this.id = id;
         this.validFrom = validFrom;
         this.validUntil = validUntil;
@@ -26,11 +26,11 @@ public class CalendarDate {
         this.id = id;
     }
 
-    public JSONObject getDays() {
+    public JsonObject getDays() {
         return days;
     }
 
-    public void setDays(JSONObject days) {
+    public void setDays(JsonObject days) {
         this.days = days;
     }
 

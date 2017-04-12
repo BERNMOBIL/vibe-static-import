@@ -5,11 +5,12 @@ import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.batch.item.ItemProcessor;
 
 public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, CalendarDate> {
@@ -23,7 +24,7 @@ public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, Ca
         Date validUntil = new Date(dateFormat.parse(item.getDate()).getTime());
 
         DayOfWeek day = validFrom.toLocalDate().getDayOfWeek();
-        JSONObject json = saveDaysToJson(day);
+        JsonObject json = saveDaysToJson(day);
 
         long journeyId = JourneyMapper.getMappingByServiceId(item.getServiceId()).getId();
 
@@ -34,13 +35,11 @@ public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, Ca
         return new CalendarDate(id, validFrom, validUntil, journeyId, json);
     }
 
-    // JSON Object uses raw types to save in its internal hash-map.
-    @SuppressWarnings("unchecked")
-    private JSONObject saveDaysToJson(DayOfWeek day) {
-        JSONArray list = new JSONArray();
-        list.add(day);
-        JSONObject json = new JSONObject();
-        json.put("service_days", list);
+    private JsonObject saveDaysToJson(DayOfWeek day) {
+        JsonArray list = new JsonArray();
+        list.add(new JsonPrimitive(day.toString()));
+        JsonObject json = new JsonObject();
+        json.add("service_days", list);
         return json;
     }
 }

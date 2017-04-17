@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 public class MappingJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource mapperDataSource;
-    private static final int chunkSize = 100;
+    private static final int CHUNK_SIZE = 100;
 
     public MappingJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
@@ -60,7 +60,7 @@ public class MappingJobConfiguration {
 
     private <T> Step buildMappingStep(Mapper<T> mappingHelper, String stepName) {
         return stepBuilderFactory.get(stepName)
-                .<T, T>chunk(chunkSize)
+                .<T, T>chunk(CHUNK_SIZE)
                 .reader(mappingHelper.reader())
                 .writer(mappingHelper.writer())
                 .build();

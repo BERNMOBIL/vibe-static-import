@@ -54,9 +54,9 @@ task buildDocker(type: Docker, dependsOn: build) {
 dependencies {
     compile group: 'com.google.transit', name: 'gtfs-realtime-bindings', version: '0.0.4'
     compile("org.springframework.boot:spring-boot-starter-batch")
-    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
     //optional "org.springframework.boot:spring-boot-configuration-processor"
+    compile('org.postgresql:postgresql')
     runtime 'org.xerial:sqlite-jdbc:3.16.1'
-    runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -49,23 +49,23 @@ public class SpringConfig {
     @Bean
     public DataSource sqliteDataSource() {
         return createDataSource("org.sqlite.JDBC",
-                environment.getProperty("bernmobil.springconfig.jobrepository.datasource"));
+                environment.getProperty("bernmobil.jobrepository.datasource"));
     }
 
     @Bean("MapperDataSource")
     public DataSource mapperDataSource() {
         return createDataSource("org.postgresql.Driver",
-                environment.getProperty("bernmobil.springconfig.mappingrepository.datasource"),
-                environment.getProperty("bernmobil.springconfig.mappingrepository.username"),
-                environment.getProperty("bernmobil.springconfig.mappingrepository.password"));
+                environment.getProperty("bernmobil.mappingrepository.datasource.url"),
+                environment.getProperty("bernmobil.mappingrepository.datasource.username"),
+                environment.getProperty("bernmobil.mappingrepository.datasource.password"));
     }
 
     @Bean("PostgresDataSource")
     public DataSource postgresDataSource() {
         return createDataSource("org.postgresql.Driver",
-                environment.getProperty("bernmobil.datasource.url"),
-                environment.getProperty("bernmobil.datasource.username"),
-                environment.getProperty("bernmobil.datasource.password"));
+                environment.getProperty("spring.datasource.url"),
+                environment.getProperty("spring.datasource.username"),
+                environment.getProperty("spring.datasource.password"));
     }
 
     private DriverManagerDataSource createDataSource(String driver, String url, String username, String password) {

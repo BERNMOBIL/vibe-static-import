@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class IdGeneratorConfiguration {
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public IdGenerator sequentialIdGenerator() {
-        return new IdGenerator();
+    public SequentialIdGenerator sequentialIdGenerator() {
+        return new SequentialIdGenerator();
     }
 }

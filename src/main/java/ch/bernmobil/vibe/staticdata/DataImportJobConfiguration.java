@@ -39,7 +39,7 @@ public class DataImportJobConfiguration {
 
     private final DataSource postgresDataSource;
 
-    private static final int chunkSize = 100;
+    private static final int CHUNK_SIZE = 100;
 
 
     public DataImportJobConfiguration(
@@ -91,7 +91,7 @@ public class DataImportJobConfiguration {
 
     private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer, ItemProcessor<TIn, TOut> processor) {
         return stepBuilderFactory.get(name)
-                .<TIn, TOut>chunk(chunkSize)
+                .<TIn, TOut>chunk(CHUNK_SIZE)
                 .reader(importer.reader())
                 .processor(processor)
                 .writer(importer.writer())

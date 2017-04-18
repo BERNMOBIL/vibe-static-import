@@ -4,12 +4,14 @@ package ch.bernmobil.vibe.staticdata.importer;
 import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
-import com.google.gson.JsonObject;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import javax.sql.DataSource;
+
+import com.google.gson.JsonObject;
 import org.postgresql.util.PGobject;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class CalendarDateImport extends Import<GtfsCalendarDate, CalendarDate> {
     private static String[] fieldNames = {"service_id", "date", "exception_type"};
@@ -28,13 +30,13 @@ public class CalendarDateImport extends Import<GtfsCalendarDate, CalendarDate> {
             ps.setDate(2, item.getValidFrom());
             ps.setDate(3, item.getValidUntil());
             ps.setLong(4, item.getJourney());
-            ps.setObject(5, getPgJsonObject(item.getDays()));
+            ps.setObject(5, createPgJson(item.getDays()));
         }
 
-        private PGobject getPgJsonObject(JsonObject json) throws SQLException {
+        private PGobject createPgJson(JsonObject days) throws SQLException {
             PGobject jsonObject = new PGobject();
             jsonObject.setType("json");
-            jsonObject.setValue(json.toString());
+            jsonObject.setValue(days.toString());
             return jsonObject;
         }
     }

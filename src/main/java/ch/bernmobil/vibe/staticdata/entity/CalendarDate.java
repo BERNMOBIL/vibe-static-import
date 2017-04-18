@@ -1,7 +1,8 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import com.google.gson.JsonObject;
 import java.sql.Date;
+
+import com.google.gson.JsonObject;
 
 public class CalendarDate {
     private long id;

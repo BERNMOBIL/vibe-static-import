@@ -2,11 +2,13 @@ package ch.bernmobil.vibe.staticdata.entity;
 
 public class Route {
     private long id;
-    private Integer type;
+    private int type;
+    private String line;
 
-    public Route(long id, int type) {
+    public Route(long id, int type, String line) {
         this.id = id;
         this.type = type;
+        this.line = line;
     }
 
     public long getId() {
@@ -24,4 +26,13 @@ public class Route {
     public void setType(int type) {
         this.type = type;
     }
+
+    public String getLine() {
+        return line;
+    }
+
+    public void setLine(String line) {
+        this.line = line;
+    }
+
 }

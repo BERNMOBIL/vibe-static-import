@@ -1,22 +1,21 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
 public class Journey {
-    private Long id;
+    private long id;
     private String headsign;
-    private Long route;
-    private Long journeyDisruption;
+    private long route;
 
-    public Journey(long id, String headsign, Long route) {
+    public Journey(long id, String headsign, long route) {
         this.id = id;
         this.headsign = headsign;
         this.route = route;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -28,19 +27,11 @@ public class Journey {
         this.headsign = headsign;
     }
 
-    public Long getRoute() {
+    public long getRoute() {
         return route;
     }
 
-    public void setRoute(Long route) {
+    public void setRoute(long route) {
         this.route = route;
-    }
-
-    public Long getJourneyDisruption() {
-        return journeyDisruption;
-    }
-
-    public void setJourneyDisruption(Long journeyDistruption) {
-        this.journeyDisruption = journeyDistruption;
     }
 }

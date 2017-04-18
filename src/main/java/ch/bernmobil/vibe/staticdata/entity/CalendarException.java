@@ -4,15 +4,15 @@ import java.sql.Date;
 
 public class CalendarException {
   private long id;
-  private java.sql.Date date;
+  private Date date;
   private String type;
-  private long calendar_date;
+  private long calendarDate;
 
-  public CalendarException(long id, Date date, String type, long calendar_date) {
+  public CalendarException(long id, Date date, String type, long calendarDate) {
     this.id = id;
     this.date = date;
     this.type = type;
-    this.calendar_date = calendar_date;
+    this.calendarDate = calendarDate;
   }
 
   public long getId() {
@@ -23,11 +23,11 @@ public class CalendarException {
     this.id = id;
   }
 
-  public java.sql.Date getDate() {
+  public Date getDate() {
     return date;
   }
 
-  public void setDate(java.sql.Date date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 
@@ -39,11 +39,11 @@ public class CalendarException {
     this.type = type;
   }
 
-  public long getCalendar_date() {
-    return calendar_date;
+  public long getCalendarDate() {
+    return calendarDate;
   }
 
-  public void setCalendar_date(long calendar_date) {
-    this.calendar_date = calendar_date;
+  public void setCalendarDate(long calendarDate) {
+    this.calendarDate = calendarDate;
   }
 }

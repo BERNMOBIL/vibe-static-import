@@ -15,6 +15,6 @@ public class RouteProcessor implements ItemProcessor<GtfsRoute, Route> {
         long id = idGenerator.getId();
         RouteMapper.addMapping(item.getRouteId(), id);
         idGenerator.next();
-        return new Route(id, type);
+        return new Route(id, type, item.getRouteShortName());
     }
 }

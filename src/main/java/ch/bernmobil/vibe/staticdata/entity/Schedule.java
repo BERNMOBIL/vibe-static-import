@@ -9,7 +9,6 @@ public class Schedule {
   private Time plannedDeparture;
   private long stop;
   private long journey;
-  private long scheduleUpdate;
 
   public Schedule(long id, String platform, Time plannedArrival, Time plannedDeparture, long stop, long journey) {
     this.id = id;
@@ -69,11 +68,4 @@ public class Schedule {
     this.journey = journey;
   }
 
-  public long getScheduleUpdate() {
-    return scheduleUpdate;
-  }
-
-  public void setScheduleUpdate(long scheduleUpdate) {
-    this.scheduleUpdate = scheduleUpdate;
-  }
 }

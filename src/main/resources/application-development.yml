@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vibe
+    username: vibe
+    password: vibe
+
+bernmobil:
+  mappingrepository:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/mappings
+      username: vibe
+      password: vibe

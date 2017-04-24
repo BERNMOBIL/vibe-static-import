@@ -3,15 +3,17 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.staticdata.entity.Stop;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
+import ch.bernmobil.vibe.staticdata.importer.AreaImport;
+import ch.bernmobil.vibe.staticdata.importer.StopImport;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
 import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapper;
 import org.springframework.batch.item.ItemProcessor;
 
-public class StopProcessor implements ItemProcessor<GtfsStop, Stop>{
-    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
+public class StopProcessor extends Processor<GtfsStop, Stop>{
 
     @Override
     public Stop process(GtfsStop item) throws Exception {
+        SequentialIdGenerator idGenerator = getIdGenerator(StopImport.getTableName());
         String parentStation = item.getParentStation();
         if(!parentStation.isEmpty()) {
             long id = idGenerator.getId();

@@ -19,6 +19,7 @@ public abstract class Mapper<T> {
         this.preparedStatementSetter = preparedStatementSetter;
     }
 
+
     @Bean
     @StepScope
     public abstract ItemReader<T> reader();

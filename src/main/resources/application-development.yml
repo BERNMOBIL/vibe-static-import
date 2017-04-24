@@ -3,6 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/vibe
     username: vibe
     password: vibe
+  batch:
+    job:
+      enabled: true
 
 bernmobil:
   mappingrepository:

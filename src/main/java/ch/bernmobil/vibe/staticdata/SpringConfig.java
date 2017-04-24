@@ -66,20 +66,6 @@ public class SpringConfig {
                 environment.getProperty("spring.datasource.password"));
     }
 
-    private DriverManagerDataSource createDataSource(String driver, String url, String username, String password) {
-        DriverManagerDataSource dataSource = createDataSource(driver, url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
-
-    private DriverManagerDataSource createDataSource(String driver, String url) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
-        return dataSource;
-    }
-
     @Bean
     public BatchConfigurer configurer(DataSource dataSource){
         return new DefaultBatchConfigurer(dataSource);
@@ -87,19 +73,37 @@ public class SpringConfig {
 
     @Bean("PostgresInitializer")
     public DataSourceInitializer postgresInitializer(@Qualifier("PostgresDataSource") DataSource dataSource) {
-        return dataSourceInitializer(dataSource, truncatePostgres);
+        return dataSourceInitializer(dataSource, null);
+//        return dataSourceInitializer(dataSource, truncatePostgres);
     }
 
     @Bean("MappingDatabaseInitializer")
     public DataSourceInitializer mappingSourceInitializer(@Qualifier("MapperDataSource") DataSource dataSource){
-        return dataSourceInitializer(dataSource, mapperDropDatabase, mapperDatabaseSchema);
+        return dataSourceInitializer(dataSource, null);
+//        return dataSourceInitializer(dataSource, mapperDropDatabase, mapperDatabaseSchema);
+    }
+
+    @Bean("JobRepositoryInitializer")
+    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) throws MalformedURLException {
+//        return dataSourceInitializer(dataSource, null);
+        return dataSourceInitializer(dataSource, dropRepositoryTables, dataRepositorySchema);
+    }
+
+    @Bean("jobLauncher")
+    public JobLauncher getJobLauncher() throws Exception {
+        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
+        jobLauncher.setJobRepository(getJobRepository());
+        jobLauncher.afterPropertiesSet();
+        return jobLauncher;
     }
 
     private DataSourceInitializer dataSourceInitializer(DataSource dataSource, Resource... sqlScripts) {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
 
-        for(Resource resource : sqlScripts){
-            databasePopulator.addScript(resource);
+        if(sqlScripts != null) {
+            for(Resource resource : sqlScripts){
+                databasePopulator.addScript(resource);
+            }
         }
 
         DataSourceInitializer initializer = new DataSourceInitializer();
@@ -107,11 +111,6 @@ public class SpringConfig {
         initializer.setDatabasePopulator(databasePopulator);
 
         return initializer;
-    }
-
-    @Bean("JobRepositoryInitializer")
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) throws MalformedURLException {
-        return dataSourceInitializer(dataSource, dropRepositoryTables, dataRepositorySchema);
     }
 
     private JobRepository getJobRepository() throws Exception {
@@ -126,12 +125,18 @@ public class SpringConfig {
         return new ResourcelessTransactionManager();
     }
 
-    @Bean("jobLauncher")
-    public JobLauncher getJobLauncher() throws Exception {
-        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-        jobLauncher.setJobRepository(getJobRepository());
-        jobLauncher.afterPropertiesSet();
-        return jobLauncher;
+    private DriverManagerDataSource createDataSource(String driver, String url, String username, String password) {
+        DriverManagerDataSource dataSource = createDataSource(driver, url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+
+    private DriverManagerDataSource createDataSource(String driver, String url) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        return dataSource;
     }
 
     @Autowired

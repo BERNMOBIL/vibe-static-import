@@ -3,14 +3,20 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.staticdata.entity.Area;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
+import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
-import org.springframework.batch.item.ItemProcessor;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
-public class AreaProcessor implements ItemProcessor<GtfsStop, Area> {
-    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
+@Component
+public class AreaProcessor extends Processor<GtfsStop, Area> {
 
     @Override
     public Area process(GtfsStop item) throws Exception {
+        SequentialIdGenerator idGenerator = getIdGenerator(AreaImport.getTableName());
         String name = item.getStopName();
         String parentStation = item.getParentStation();
         if(parentStation.isEmpty()) {
@@ -21,4 +27,7 @@ public class AreaProcessor implements ItemProcessor<GtfsStop, Area> {
         }
         return null;
     }
+
+
+
 }

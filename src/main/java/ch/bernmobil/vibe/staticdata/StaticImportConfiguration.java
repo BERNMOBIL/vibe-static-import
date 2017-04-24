@@ -1,6 +1,7 @@
 package ch.bernmobil.vibe.staticdata;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -22,22 +23,27 @@ public class StaticImportConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private MappingJobConfiguration mappingJobConfiguration;
     private DataImportJobConfiguration dataImportJobConfiguration;
+    private final JobExecutionListener jobExecutionListener;
+
 
     @Autowired
     public StaticImportConfiguration(JobBuilderFactory jobBuilderFactory,
-            MappingJobConfiguration mappingJobConfiguration,
-            DataImportJobConfiguration dataImportJobConfiguration) {
+        MappingJobConfiguration mappingJobConfiguration,
+        DataImportJobConfiguration dataImportJobConfiguration,
+        JobExecutionListener jobExecutionListener) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.mappingJobConfiguration = mappingJobConfiguration;
         this.dataImportJobConfiguration = dataImportJobConfiguration;
+        this.jobExecutionListener = jobExecutionListener;
     }
 
     @Bean
     public Job importStaticJob(){
         return jobBuilderFactory.get("importStaticJob")
+                .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())
-                .flow(dataImportJobConfiguration.fileDownloadStep())
-                .next(dataImportJobConfiguration.areaImportStep())
+//                .flow(dataImportJobConfiguration.fileDownloadStep())
+                .flow(dataImportJobConfiguration.areaImportStep())
                 .next(dataImportJobConfiguration.stopImportStep())
                 .next(dataImportJobConfiguration.routeImportStep())
                 .next(dataImportJobConfiguration.journeyImportStep())

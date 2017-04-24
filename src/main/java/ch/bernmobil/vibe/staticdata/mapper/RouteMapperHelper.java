@@ -1,5 +1,7 @@
 package ch.bernmobil.vibe.staticdata.mapper;
 
+import ch.bernmobil.vibe.staticdata.QueryBuilder;
+import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,10 +11,12 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.support.ListItemReader;
 
 public class RouteMapperHelper extends Mapper<RouteMapper>{
-    private final static String QUERY =  "INSERT INTO route_mapper(gtfs_id, id) VALUES(?, ?)";
+    private final static String TABLE_NAME = "route_mapper";
+    private final static String FIELDS[] = {"gtfs_id", "id", "update"};
+    private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
 
     public RouteMapperHelper(DataSource dataSource) {
-        super(dataSource, QUERY, new RouteMapperPreparedStatementSetter());
+        super(dataSource, INSERT_QUERY, new RouteMapperPreparedStatementSetter());
     }
 
     @Override
@@ -26,6 +30,7 @@ public class RouteMapperHelper extends Mapper<RouteMapper>{
         public void setValues(RouteMapper item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setLong(2, item.getId());
+            ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
         }
     }
 

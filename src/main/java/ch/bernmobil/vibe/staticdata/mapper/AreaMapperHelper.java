@@ -1,5 +1,7 @@
 package ch.bernmobil.vibe.staticdata.mapper;
 
+import ch.bernmobil.vibe.staticdata.QueryBuilder;
+import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,10 +11,12 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.support.ListItemReader;
 
 public class AreaMapperHelper extends Mapper<AreaMapper>{
-    private final static String QUERY =  "INSERT INTO area_mapper(gtfs_id, id) VALUES(?, ?)";
+    private final static String TABLE_NAME = "area_mapper";
+    private final static String FIELDS[] = {"gtfs_id", "id", "update"};
+    private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
 
     public AreaMapperHelper(DataSource dataSource) {
-        super(dataSource, QUERY, new AreaMapperPreparedStatementSetter());
+        super(dataSource, INSERT_QUERY, new AreaMapperPreparedStatementSetter());
     }
 
     @Override
@@ -26,6 +30,7 @@ public class AreaMapperHelper extends Mapper<AreaMapper>{
         public void setValues(AreaMapper item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setLong(2, item.getId());
+            ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
         }
     }
 

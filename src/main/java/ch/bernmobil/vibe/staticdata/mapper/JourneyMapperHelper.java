@@ -1,5 +1,7 @@
 package ch.bernmobil.vibe.staticdata.mapper;
 
+import ch.bernmobil.vibe.staticdata.QueryBuilder;
+import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,11 +12,14 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.support.ListItemReader;
 
 public class JourneyMapperHelper extends Mapper<JourneyMapper>{
-    private final static String QUERY =  "INSERT INTO journey_mapper(gtfs_trip_id, gtfs_service_id, id) VALUES(?, ?, ?)";
+    private final static String TABLE_NAME = "journey_mapper";
+    private final static String FIELDS[] = {"gtfs_trip_id", "gtfs_service_id", "id", "update"};
+    private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
+
     private static final Logger logger = Logger.getLogger(JourneyMapperHelper.class);
 
     public JourneyMapperHelper(DataSource dataSource) {
-        super(dataSource, QUERY, new JourneyMapperPreparedStatementSetter());
+        super(dataSource, INSERT_QUERY, new JourneyMapperPreparedStatementSetter());
     }
 
     @Override
@@ -29,6 +34,7 @@ public class JourneyMapperHelper extends Mapper<JourneyMapper>{
             ps.setString(1, item.getGtfsTripId());
             ps.setString(2, item.getGtfsServiceId());
             ps.setLong(3, item.getId());
+            ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
         }
     }
 

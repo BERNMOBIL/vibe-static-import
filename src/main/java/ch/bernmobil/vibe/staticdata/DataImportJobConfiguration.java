@@ -1,5 +1,6 @@
 package ch.bernmobil.vibe.staticdata;
 
+import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
 import ch.bernmobil.vibe.staticdata.importer.Import;
@@ -44,7 +45,8 @@ public class DataImportJobConfiguration {
 
     public DataImportJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
-            @Qualifier("PostgresDataSource")DataSource postgresDataSource) {
+            @Qualifier("PostgresDataSource")DataSource postgresDataSource
+    ) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.postgresDataSource = postgresDataSource;
     }
@@ -61,32 +63,55 @@ public class DataImportJobConfiguration {
 
     @Bean
     public Step areaImportStep() {
-        return createStepBuilder("areaImportStep", new AreaImport(postgresDataSource, destinationFolder), new AreaProcessor());
+        return createStepBuilder(
+            "areaImportStep",
+            new AreaImport(postgresDataSource, destinationFolder),
+            new AreaProcessor()
+        );
     }
 
     @Bean
     public Step stopImportStep() {
-        return createStepBuilder("stopImportStep", new StopImport(postgresDataSource, destinationFolder), new StopProcessor());
+        return createStepBuilder(
+            "stopImportStep",
+            new StopImport(postgresDataSource, destinationFolder),
+            new StopProcessor()
+        );
     }
 
     @Bean
     public Step routeImportStep() {
-        return createStepBuilder("routeImportStep", new RouteImport(postgresDataSource, destinationFolder), new RouteProcessor());
+        return createStepBuilder(
+            "routeImportStep",
+            new RouteImport(postgresDataSource, destinationFolder),
+            new RouteProcessor()
+        );
     }
 
     @Bean
     public Step calendarDateImportStep() {
-        return createStepBuilder("calendarDateImportStep", new CalendarDateImport(postgresDataSource, destinationFolder), new CalendarDateProcessor());
+        return createStepBuilder(
+            "calendarDateImportStep",
+            new CalendarDateImport(postgresDataSource, destinationFolder),
+            new CalendarDateProcessor()
+        );
     }
 
     @Bean
     public Step journeyImportStep() {
-        return createStepBuilder("journeyImportStep", new TripImport(postgresDataSource, destinationFolder), new JourneyProcessor());
+        return createStepBuilder(
+            "journeyImportStep",
+            new TripImport(postgresDataSource, destinationFolder),
+            new JourneyProcessor()
+        );
     }
 
     @Bean
     public Step scheduleImportStep() {
-        return createStepBuilder("scheduleImportStep", new StopTimeImport(postgresDataSource, destinationFolder), new ScheduleProcessor());
+        return createStepBuilder("scheduleImportStep",
+            new StopTimeImport(postgresDataSource, destinationFolder),
+            new ScheduleProcessor()
+        );
     }
 
     private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer, ItemProcessor<TIn, TOut> processor) {

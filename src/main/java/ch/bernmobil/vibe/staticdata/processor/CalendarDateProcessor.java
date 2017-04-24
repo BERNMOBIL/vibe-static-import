@@ -3,6 +3,8 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
+import ch.bernmobil.vibe.staticdata.importer.AreaImport;
+import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
 import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapper;
 import com.google.gson.JsonArray;
@@ -13,12 +15,12 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import org.springframework.batch.item.ItemProcessor;
 
-public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, CalendarDate> {
-    private SequentialIdGenerator idGenerator = new SequentialIdGenerator();
+public class CalendarDateProcessor extends Processor<GtfsCalendarDate, CalendarDate> {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYYMMdd");
 
     @Override
     public CalendarDate process(GtfsCalendarDate item) throws Exception {
+        SequentialIdGenerator idGenerator = getIdGenerator(CalendarDateImport.getTableName());
 
         Date validFrom = new Date(dateFormat.parse(item.getDate()).getTime());
         Date validUntil = new Date(dateFormat.parse(item.getDate()).getTime());

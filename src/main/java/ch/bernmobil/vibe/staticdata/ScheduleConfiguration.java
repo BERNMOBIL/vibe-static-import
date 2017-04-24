@@ -25,6 +25,7 @@ public class ScheduleConfiguration {
 
     private Job staticImportJob;
 
+
     @Scheduled(cron = "0 0 2 1/1 * ?")
     public void run()
             throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {

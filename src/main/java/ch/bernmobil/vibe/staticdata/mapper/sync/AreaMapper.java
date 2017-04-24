@@ -1,5 +1,6 @@
 package ch.bernmobil.vibe.staticdata.mapper.sync;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,4 +35,6 @@ public class AreaMapper {
     public static List<AreaMapper> getAll() {
         return new ArrayList<>(mappings.values());
     }
+
+
 }

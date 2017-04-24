@@ -21,8 +21,10 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -41,12 +43,16 @@ public class DataImportJobConfiguration {
 
     private static final int CHUNK_SIZE = 100;
 
+    private ApplicationContext applicationContext;
 
+    @Autowired
     public DataImportJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
-            @Qualifier("PostgresDataSource")DataSource postgresDataSource) {
+            @Qualifier("PostgresDataSource")DataSource postgresDataSource,
+            ApplicationContext applicationContext) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.postgresDataSource = postgresDataSource;
+        this.applicationContext = applicationContext;
     }
 
     @Bean
@@ -61,32 +67,40 @@ public class DataImportJobConfiguration {
 
     @Bean
     public Step areaImportStep() {
-        return createStepBuilder("areaImportStep", new AreaImport(postgresDataSource, destinationFolder), new AreaProcessor());
+        return createStepBuilder("area import",
+                new AreaImport(postgresDataSource, destinationFolder),
+                applicationContext.getBean(AreaProcessor.class));
     }
 
     @Bean
     public Step stopImportStep() {
-        return createStepBuilder("stopImportStep", new StopImport(postgresDataSource, destinationFolder), new StopProcessor());
+        return createStepBuilder("stop import", new StopImport(postgresDataSource, destinationFolder),
+                applicationContext.getBean(StopProcessor.class));
     }
 
     @Bean
     public Step routeImportStep() {
-        return createStepBuilder("routeImportStep", new RouteImport(postgresDataSource, destinationFolder), new RouteProcessor());
+        return createStepBuilder("route import", new RouteImport(postgresDataSource, destinationFolder),
+                applicationContext.getBean(RouteProcessor.class));
     }
 
     @Bean
     public Step calendarDateImportStep() {
-        return createStepBuilder("calendarDateImportStep", new CalendarDateImport(postgresDataSource, destinationFolder), new CalendarDateProcessor());
+        return createStepBuilder("calendar-date import",
+                new CalendarDateImport(postgresDataSource, destinationFolder),
+                applicationContext.getBean(CalendarDateProcessor.class));
     }
 
     @Bean
     public Step journeyImportStep() {
-        return createStepBuilder("journeyImportStep", new TripImport(postgresDataSource, destinationFolder), new JourneyProcessor());
+        return createStepBuilder("journey import", new TripImport(postgresDataSource, destinationFolder),
+                applicationContext.getBean(JourneyProcessor.class));
     }
 
     @Bean
     public Step scheduleImportStep() {
-        return createStepBuilder("scheduleImportStep", new StopTimeImport(postgresDataSource, destinationFolder), new ScheduleProcessor());
+        return createStepBuilder("schedule import", new StopTimeImport(postgresDataSource, destinationFolder),
+                applicationContext.getBean(ScheduleProcessor.class));
     }
 
     private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer, ItemProcessor<TIn, TOut> processor) {

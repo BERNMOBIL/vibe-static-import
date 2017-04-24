@@ -29,6 +29,8 @@ public class CustomJobListener implements JobExecutionListener {
     @Override
     public void afterJob(JobExecution jobExecution) {
         Logger logger = Logger.getLogger(CustomJobListener.class);
+        logger.info("mattu-start-cleaning");
+        updateManager.cleanOldData();
         logger.info("mattu-after-job");
     }
 }

@@ -36,7 +36,10 @@ public class QueryBuilder {
         return this;
     }
 
-
+    public QueryBuilder Delete(String table) {
+        query = "DELETE FROM " + table;
+        return this;
+    }
 
     public String getQuery() {
         return query;
@@ -60,6 +63,10 @@ public class QueryBuilder {
 
         public static Predicate equals(Object left, Object right) {
             return new Predicate(left.toString() + " = " + right.toString());
+        }
+
+        public static Predicate notEquals(Object left, Object right) {
+            return new Predicate(left.toString() + " <> " + right.toString());
         }
 
         public static Predicate joinAnd(List<Predicate> predicates) {

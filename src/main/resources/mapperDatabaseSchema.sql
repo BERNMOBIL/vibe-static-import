@@ -27,8 +27,7 @@ CREATE TABLE stop_mapper (
 
 CREATE TABLE update_history (
   id SERIAL PRIMARY KEY,
-  time TIMESTAMP,
-  update TIMESTAMP
+  time TIMESTAMP
 );
 
 CREATE INDEX area_mapper_id_index ON area_mapper(id);

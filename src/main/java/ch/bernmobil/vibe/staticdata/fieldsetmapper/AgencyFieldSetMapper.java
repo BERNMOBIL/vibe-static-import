@@ -1,13 +1,11 @@
 package ch.bernmobil.vibe.staticdata.fieldsetmapper;
 
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsAgency;
-import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
 
 public class AgencyFieldSetMapper implements FieldSetMapper<GtfsAgency> {
-    private Logger logger = Logger.getLogger(AgencyFieldSetMapper.class);
 
     @Override
     public GtfsAgency mapFieldSet(FieldSet fieldSet) throws BindException {

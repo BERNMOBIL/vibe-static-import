@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-import org.springframework.batch.item.support.ListItemReader;
 
 public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping>{
     private final static String QUERY =  "INSERT INTO calendar_date_mapper(gtfs_id, id) VALUES(?, ?)";
@@ -14,13 +13,7 @@ public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping>{
 
     public CalendarDateMapperHelper(DataSource dataSource,
             MapperStore<Long, CalendarDateMapping> mapperStore) {
-        super(dataSource, QUERY, new CalendarDatePreparedStatementSetter());
-        this.mapperStore = mapperStore;
-    }
-
-    @Override
-    public ListItemReader<CalendarDateMapping> reader() {
-        return new ListItemReader<>(mapperStore.getMappings());
+        super(dataSource, QUERY, new CalendarDatePreparedStatementSetter(), mapperStore);
     }
 
     public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDateMapping> {

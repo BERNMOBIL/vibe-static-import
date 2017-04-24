@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JourneyProcessor implements ItemProcessor<GtfsTrip, Journey> {
-    private SequentialIdGenerator idGenerator;
-    private MapperStore<String, RouteMapping> mapperStore;
-    private JourneyMapperStore journeyMapperStore;
+    private final SequentialIdGenerator idGenerator;
+    private final MapperStore<String, RouteMapping> mapperStore;
+    private final JourneyMapperStore journeyMapperStore;
 
     @Autowired
     public JourneyProcessor(SequentialIdGenerator idGenerator,

@@ -3,12 +3,10 @@ package ch.bernmobil.vibe.staticdata.importer;
 import ch.bernmobil.vibe.staticdata.entity.Area;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import javax.sql.DataSource;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 
 public class AreaImport extends Import<GtfsStop, Area> {

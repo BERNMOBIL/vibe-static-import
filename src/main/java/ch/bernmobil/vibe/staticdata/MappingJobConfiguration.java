@@ -28,7 +28,7 @@ public class MappingJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource mapperDataSource;
     private static final int CHUNK_SIZE = 100;
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Autowired
     public MappingJobConfiguration(

@@ -20,8 +20,8 @@ public class StaticImportConfiguration {
     public String destinationFolder;
 
     private final JobBuilderFactory jobBuilderFactory;
-    private MappingJobConfiguration mappingJobConfiguration;
-    private DataImportJobConfiguration dataImportJobConfiguration;
+    private final MappingJobConfiguration mappingJobConfiguration;
+    private final DataImportJobConfiguration dataImportJobConfiguration;
 
     @Autowired
     public StaticImportConfiguration(JobBuilderFactory jobBuilderFactory,

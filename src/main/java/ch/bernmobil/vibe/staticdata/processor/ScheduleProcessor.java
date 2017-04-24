@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleProcessor implements ItemProcessor<GtfsStopTime, Schedule> {
-    private SequentialIdGenerator idGenerator;
-    private MapperStore<String, StopMapping> stopMapper;
-    private JourneyMapperStore journeyMapper;
+    private final SequentialIdGenerator idGenerator;
+    private final MapperStore<String, StopMapping> stopMapper;
+    private final JourneyMapperStore journeyMapper;
 
     @Autowired
     public ScheduleProcessor(SequentialIdGenerator idGenerator,

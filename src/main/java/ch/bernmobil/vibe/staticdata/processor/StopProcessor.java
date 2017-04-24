@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StopProcessor implements ItemProcessor<GtfsStop, Stop>{
-    private SequentialIdGenerator idGenerator;
-    private MapperStore<String, StopMapping> stopMapper;
-    private MapperStore<String, AreaMapping> areaMapper;
+    private final SequentialIdGenerator idGenerator;
+    private final MapperStore<String, StopMapping> stopMapper;
+    private final MapperStore<String, AreaMapping> areaMapper;
 
     @Autowired
     public StopProcessor(SequentialIdGenerator idGenerator,

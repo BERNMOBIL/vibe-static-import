@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RouteProcessor implements ItemProcessor<GtfsRoute, Route> {
-    private SequentialIdGenerator idGenerator;
-    private MapperStore<String, RouteMapping> mapperStore;
+    private final SequentialIdGenerator idGenerator;
+    private final MapperStore<String, RouteMapping> mapperStore;
 
     @Autowired
     public RouteProcessor(SequentialIdGenerator idGenerator,

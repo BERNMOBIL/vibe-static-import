@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MapperStore<I, O> {
-    protected Map<I, O> mappingMap = new HashMap<>();
+    protected final Map<I, O> mappingMap = new HashMap<>();
 
     public void addMapping(I id, O mapping) {
         mappingMap.put(id, mapping);

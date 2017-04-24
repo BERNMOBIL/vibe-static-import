@@ -6,20 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-import org.springframework.batch.item.support.ListItemReader;
 
 public class StopMapperHelper extends Mapper<StopMapping>{
     private final static String QUERY =  "INSERT INTO stop_mapper(gtfs_id, id) VALUES(?, ?)";
-    private MapperStore<String, StopMapping> mapperStore;
 
     public StopMapperHelper(DataSource dataSource, MapperStore<String, StopMapping> mapperStore) {
-        super(dataSource, QUERY, new StopMapperPreparedStatementSetter());
-        this.mapperStore = mapperStore;
-    }
-
-    @Override
-    public ListItemReader<StopMapping> reader() {
-        return new ListItemReader<>(mapperStore.getMappings());
+        super(dataSource, QUERY, new StopMapperPreparedStatementSetter(), mapperStore);
     }
 
     public static class StopMapperPreparedStatementSetter implements ItemPreparedStatementSetter<StopMapping> {

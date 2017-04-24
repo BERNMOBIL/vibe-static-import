@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, CalendarDate> {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-    private SequentialIdGenerator idGenerator;
-    private MapperStore<Long, CalendarDateMapping> calendarDateMapper;
-    private JourneyMapperStore journeyMapperStore;
+    private final SequentialIdGenerator idGenerator;
+    private final MapperStore<Long, CalendarDateMapping> calendarDateMapper;
+    private final JourneyMapperStore journeyMapperStore;
 
     @Autowired
     public CalendarDateProcessor(SequentialIdGenerator idGenerator,

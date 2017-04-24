@@ -43,7 +43,7 @@ public class DataImportJobConfiguration {
 
     private static final int CHUNK_SIZE = 100;
 
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Autowired
     public DataImportJobConfiguration(

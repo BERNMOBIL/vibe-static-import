@@ -2,11 +2,12 @@ package ch.bernmobil.vibe.staticdata.mapper.store;
 
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JourneyMapperStore extends MapperStore<String, JourneyMapping> {
-    private Map<String, String> internalKeyMappings = new HashMap<>();
+    private final Map<String, String> internalKeyMappings = new HashMap<>();
 
     @Override
     public void addMapping(String gtfsTripId, JourneyMapping mapping) {
@@ -22,8 +23,4 @@ public class JourneyMapperStore extends MapperStore<String, JourneyMapping> {
         return mappingMap.get(internalKeyMappings.get(gtfsServiceId));
     }
 
-    @Override
-    public List<JourneyMapping> getMappings() {
-        return super.getMappings();
-    }
 }

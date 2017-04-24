@@ -3,17 +3,15 @@ package ch.bernmobil.vibe.staticdata.importer;
 import ch.bernmobil.vibe.staticdata.entity.Stop;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import javax.sql.DataSource;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 
 public class StopImport extends Import<GtfsStop, Stop> {
-    private static String[] fieldNames = {"stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station"};
-    private static String path = "stops.txt";
+    private static final String[] fieldNames = {"stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station"};
+    private static final String path = "stops.txt";
     private static final String insertQuery = "INSERT INTO stop (id, name, area) VALUES(?, ?, ?)";
 
 

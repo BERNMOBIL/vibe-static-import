@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-import org.springframework.batch.item.support.ListItemReader;
 
 public class JourneyMapperHelper extends Mapper<JourneyMapping>{
     private final static String QUERY =  "INSERT INTO journey_mapper(gtfs_trip_id, gtfs_service_id, id) VALUES(?, ?, ?)";
@@ -14,13 +13,7 @@ public class JourneyMapperHelper extends Mapper<JourneyMapping>{
 
     public JourneyMapperHelper(DataSource dataSource,
             JourneyMapperStore mapperStore) {
-        super(dataSource, QUERY, new JourneyMapperPreparedStatementSetter());
-        this.mapperStore = mapperStore;
-    }
-
-    @Override
-    public ListItemReader<JourneyMapping> reader() {
-        return new ListItemReader<>(mapperStore.getMappings());
+        super(dataSource, QUERY, new JourneyMapperPreparedStatementSetter(), mapperStore);
     }
 
     public static class JourneyMapperPreparedStatementSetter implements ItemPreparedStatementSetter<JourneyMapping> {

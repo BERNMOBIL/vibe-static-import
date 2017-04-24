@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, CalendarDate> {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYYMMdd");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
     private SequentialIdGenerator idGenerator;
     private MapperStore<Long, CalendarDateMapping> calendarDateMapper;

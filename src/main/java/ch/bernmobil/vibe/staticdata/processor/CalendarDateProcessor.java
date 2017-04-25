@@ -7,6 +7,7 @@ import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapping;
+import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -40,8 +41,11 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, CalendarD
         DayOfWeek day = validFrom.toLocalDate().getDayOfWeek();
         JsonObject json = saveDaysToJson(day);
 
-        //TODO: null pointer exception
-        long journeyId = journeyMapperStore.getMappingByServiceId(item.getServiceId()).getId();
+        JourneyMapping journeyMapper = journeyMapperStore.getMappingByServiceId(item.getServiceId());
+        if(journeyMapper ==  null) {
+            return null;
+        }
+        long journeyId = journeyMapper.getId();
 
         long gtfsServiceId = Long.parseLong(item.getServiceId());
         long id = idGenerator.getId();

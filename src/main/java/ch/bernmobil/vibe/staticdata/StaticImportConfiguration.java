@@ -25,6 +25,7 @@ public class StaticImportConfiguration {
     private final DataImportJobConfiguration dataImportJobConfiguration;
     private final JobExecutionListener jobExecutionListener;
 
+
     @Autowired
     public StaticImportConfiguration(JobBuilderFactory jobBuilderFactory,
         MappingJobConfiguration mappingJobConfiguration,

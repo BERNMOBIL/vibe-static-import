@@ -16,7 +16,7 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
     private static final int BUFFER = 1024;
     private static final int OFFSET = 0;
 
-    private String folder;
+    private final String folder;
 
     public ZipInputStreamWriter(String folder) {
         this.folder = folder;

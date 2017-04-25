@@ -21,10 +21,9 @@ public class StaticImportConfiguration {
     public String destinationFolder;
 
     private final JobBuilderFactory jobBuilderFactory;
-    private MappingJobConfiguration mappingJobConfiguration;
-    private DataImportJobConfiguration dataImportJobConfiguration;
+    private final MappingJobConfiguration mappingJobConfiguration;
+    private final DataImportJobConfiguration dataImportJobConfiguration;
     private final JobExecutionListener jobExecutionListener;
-
 
     @Autowired
     public StaticImportConfiguration(JobBuilderFactory jobBuilderFactory,
@@ -42,8 +41,9 @@ public class StaticImportConfiguration {
         return jobBuilderFactory.get("importStaticJob")
                 .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())
-//                .flow(dataImportJobConfiguration.fileDownloadStep())
-                .flow(dataImportJobConfiguration.areaImportStep())
+                //TODO: something
+                .flow(dataImportJobConfiguration.fileDownloadStep())
+                .next(dataImportJobConfiguration.areaImportStep())
                 .next(dataImportJobConfiguration.stopImportStep())
                 .next(dataImportJobConfiguration.routeImportStep())
                 .next(dataImportJobConfiguration.journeyImportStep())

@@ -23,8 +23,7 @@ public class CalendarDateImport extends Import<GtfsCalendarDate, CalendarDate> {
     private static final String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, DATABASE_FIELDS).getQuery();
 
     public CalendarDateImport(DataSource dataSource, String folder) {
-        super(dataSource, FIELD_NAMES, folder + PATH, new CalendarDateFieldSetMapper(),
-            INSERT_QUERY, new CalendarDatePreparedStatementSetter());
+        super(dataSource, FIELD_NAMES, folder + PATH, new CalendarDateFieldSetMapper(), INSERT_QUERY, new CalendarDatePreparedStatementSetter());
     }
 
     public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDate> {

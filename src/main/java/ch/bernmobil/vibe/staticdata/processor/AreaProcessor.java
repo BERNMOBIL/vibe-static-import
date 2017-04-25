@@ -4,15 +4,20 @@ import ch.bernmobil.vibe.staticdata.entity.Area;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapper;
-import javax.sql.DataSource;
+import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AreaProcessor extends Processor<GtfsStop, Area> {
+public class AreaProcessor extends Processor<GtfsStop,Area> {
+    private final MapperStore<String, AreaMapping> mappingStore;
+
+    //TODO: idgenerator injection somehow
+    @Autowired
+    public AreaProcessor(MapperStore<String, AreaMapping> mappingStore) {
+        this.mappingStore = mappingStore;
+    }
 
     @Override
     public Area process(GtfsStop item) throws Exception {
@@ -21,13 +26,10 @@ public class AreaProcessor extends Processor<GtfsStop, Area> {
         String parentStation = item.getParentStation();
         if(parentStation.isEmpty()) {
             Area area = new Area(idGenerator.getId(), name);
-            AreaMapper.addMapping(item.getStopId(), idGenerator.getId());
+            mappingStore.addMapping(item.getStopId(), new AreaMapping(item.getStopId(), idGenerator.getId()));
             idGenerator.next();
             return area;
         }
         return null;
     }
-
-
-
 }

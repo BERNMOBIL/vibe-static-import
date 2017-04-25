@@ -5,11 +5,10 @@ import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.entity.Journey;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.TripFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
-import javax.sql.DataSource;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 public class TripImport extends Import<GtfsTrip, Journey> {
     private static final String[] FIELD_NAMES = {"route_id", "service_id", "trip_id", "trip_headsign", "trip_short_name", "direction_id", "block_id", "shape_id"};

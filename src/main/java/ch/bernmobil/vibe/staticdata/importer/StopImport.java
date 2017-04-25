@@ -5,11 +5,10 @@ import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.entity.Stop;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import javax.sql.DataSource;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 
 public class StopImport extends Import<GtfsStop, Stop> {

@@ -28,7 +28,11 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, CalendarD
         DayOfWeek day = validFrom.toLocalDate().getDayOfWeek();
         JsonObject json = saveDaysToJson(day);
 
-        long journeyId = JourneyMapper.getMappingByServiceId(item.getServiceId()).getId();
+        JourneyMapper journeyMapper = JourneyMapper.getMappingByServiceId(item.getServiceId());
+        if(journeyMapper ==  null) {
+            return null;
+        }
+        long journeyId = journeyMapper.getId();
 
         long gtfsServiceId = Long.parseLong(item.getServiceId());
         long id = idGenerator.getId();

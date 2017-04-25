@@ -42,7 +42,7 @@ public class StaticImportConfiguration {
         return jobBuilderFactory.get("importStaticJob")
                 .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())
-//                .flow(dataImportJobConfiguration.fileDownloadStep())
+                //.flow(dataImportJobConfiguration.fileDownloadStep())
                 .flow(dataImportJobConfiguration.areaImportStep())
                 .next(dataImportJobConfiguration.stopImportStep())
                 .next(dataImportJobConfiguration.routeImportStep())

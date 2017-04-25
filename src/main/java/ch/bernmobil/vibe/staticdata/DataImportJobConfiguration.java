@@ -1,6 +1,5 @@
 package ch.bernmobil.vibe.staticdata;
 
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
 import ch.bernmobil.vibe.staticdata.importer.Import;
@@ -37,16 +36,14 @@ public class DataImportJobConfiguration {
     public String destinationFolder;
 
     private final StepBuilderFactory stepBuilderFactory;
-
     private final DataSource postgresDataSource;
 
     private static final int CHUNK_SIZE = 100;
 
 
     public DataImportJobConfiguration(
-            StepBuilderFactory stepBuilderFactory,
-            @Qualifier("PostgresDataSource")DataSource postgresDataSource
-    ) {
+        StepBuilderFactory stepBuilderFactory,
+        @Qualifier("PostgresDataSource") DataSource postgresDataSource) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.postgresDataSource = postgresDataSource;
     }

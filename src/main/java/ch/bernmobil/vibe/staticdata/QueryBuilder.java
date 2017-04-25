@@ -6,21 +6,21 @@ import java.util.List;
 public class QueryBuilder {
     private String query;
 
-    public QueryBuilder Select(String table) {
-        return Select("*", table);
+    public QueryBuilder select(String table) {
+        return select("*", table);
     }
 
-    public QueryBuilder Select(String fields, String table) {
+    public QueryBuilder select(String fields, String table) {
         query = "SELECT " + fields + " FROM " + table;
         return this;
     }
 
-    public QueryBuilder Where(Predicate predicate) {
+    public QueryBuilder where(Predicate predicate) {
         query += " WHERE " + predicate.toString();
         return this;
     }
 
-    public QueryBuilder Insert(String table, String[] fields, String[] values) {
+    public QueryBuilder insert(String table, String[] fields, String[] values) {
         String fieldSeperator = ", ";
         query = "INSERT INTO " + table + "(";
         for(String field : fields) {
@@ -36,8 +36,13 @@ public class QueryBuilder {
         return this;
     }
 
-    public QueryBuilder Delete(String table) {
+    public QueryBuilder delete(String table) {
         query = "DELETE FROM " + table;
+        return this;
+    }
+
+    public QueryBuilder truncate(String table) {
+        query = "TRUNCATE " + table;
         return this;
     }
 
@@ -49,7 +54,7 @@ public class QueryBuilder {
         public QueryBuilder Insert(String table, String... fields) {
             ArrayList<String> questionMarks = new ArrayList<>();
             for(int i = 0; i < fields.length; i++) questionMarks.add("?");
-            return new QueryBuilder().Insert(table, fields, questionMarks.toArray(new String[questionMarks.size()]));
+            return new QueryBuilder().insert(table, fields, questionMarks.toArray(new String[questionMarks.size()]));
         }
     }
 
@@ -70,30 +75,30 @@ public class QueryBuilder {
         }
 
         public static Predicate joinAnd(List<Predicate> predicates) {
-            return Join(" AND ", predicates);
+            return join(" AND ", predicates);
         }
 
         public static Predicate joinOr(List<Predicate> predicates) {
-            return Join(" OR ", predicates);
+            return join(" OR ", predicates);
         }
 
         public Predicate and(Predicate predicate) {
-            return Join("AND", predicate);
+            return join("AND", predicate);
         }
 
         public Predicate or(Predicate predicate) {
-            return Join("AND", predicate);
+            return join("AND", predicate);
         }
 
         public String toString() {
             return predicate;
         }
 
-        private Predicate Join(String operator, Predicate predicate) {
+        private Predicate join(String operator, Predicate predicate) {
             return new Predicate(toString() + " " + operator + " " + predicate.toString());
         }
 
-        private static Predicate Join(String operator, List<Predicate> predicates) {
+        private static Predicate join(String operator, List<Predicate> predicates) {
             String result = "";
             for(Predicate predicate : predicates) {
                 result += predicate.toString() + operator;

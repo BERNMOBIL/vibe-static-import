@@ -3,7 +3,6 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +15,7 @@ public abstract class Processor<TIn, TOut> implements ItemProcessor<TIn, TOut> {
     private static JdbcTemplate jdbcTemplate;
 
     private void loadSequentialIdGenerator(String tableName) {
-        String query = new QueryBuilder().Select("max(id)", tableName).getQuery();
+        String query = new QueryBuilder().select("max(id)", tableName).getQuery();
         Integer maxId = jdbcTemplate.queryForObject(query, Integer.class);
         this.idGenerator = new SequentialIdGenerator(maxId == null ? 0L : maxId + 1L);
     }

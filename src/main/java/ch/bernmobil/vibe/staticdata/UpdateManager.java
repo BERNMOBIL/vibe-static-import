@@ -19,7 +19,9 @@ public class UpdateManager {
     private final JdbcTemplate jdbcMapperTemplate;
     private final JdbcTemplate jdbcVibeTemplate;
     private static ArrayList<Timestamp> updateHistory;
-    private final String[] TABLES_TO_DELETE = {"schedule", "calendar_date", "calendar_exception", "journey", "route", "stop", "area"};
+    private static final String[] TABLES_TO_DELETE = {"schedule", "calendar_date", "calendar_exception", "journey", "route", "stop", "area"};
+    private static final String[] MAPPING_TABLES_TO_DELETE = {"area_mapper", "calendar_date_mapper", "journey_mapper", "route_mapper", "stop_mapper" };
+    private static final int UPDATE_HISTORY_LENGTH = 2;
 
 
     @Autowired
@@ -45,50 +47,78 @@ public class UpdateManager {
         if (updateHistory.isEmpty()) {
             return new Timestamp(0);
         }
-
-        return updateHistory
-            .stream()
-            .max((t1, t2) -> t1.after(t2) ? 1 : -1)
-            .get();
+        return getLatestUpdateTimestamp(1)[0];
     }
 
-     public void loadUpdateHistory() {
-        String query = new QueryBuilder().Select("update_history").getQuery();
-        List<Map<String, Object>> rows = jdbcMapperTemplate.queryForList(query);
-        updateHistory = new ArrayList<>();
-        for (Map row : rows) {
-            Timestamp timestamp = (Timestamp) row.get("time");
-            updateHistory.add(timestamp);
-        }
+    public static Timestamp[] getLatestUpdateTimestamp(int number) {
+        return updateHistory
+            .stream()
+            .sorted((t1, t2) -> t1.after(t2) ? -1 : 1)
+            .limit(number)
+            .toArray(size -> new Timestamp[size]);
     }
 
     public void cleanOldData() {
         if(updateHistory == null) {
             loadUpdateHistory();
         }
+        Timestamp[] lastUpdates = getLatestUpdateTimestamp(UPDATE_HISTORY_LENGTH);
 
-        Timestamp[] lastUpdates = updateHistory
-            .stream()
-            .sorted((t1, t2) -> t1.after(t2) ? -1 : 1)
-            .limit(2)
-            .toArray(size -> new Timestamp[size]);
+        jdbcVibeTemplate.update(new QueryBuilder().truncate("schedule_update").getQuery());
 
+        deleteByUpdateTimestamp(TABLES_TO_DELETE, lastUpdates, jdbcVibeTemplate);
+        deleteByUpdateTimestamp(MAPPING_TABLES_TO_DELETE, lastUpdates, jdbcMapperTemplate);
+    }
+
+    public void repairFailedUpdate() {
+        Timestamp failedUpdateTimestamp = getLatestUpdateTimestamp();
+        deleteByUpdateTimestamp("update_history", failedUpdateTimestamp, jdbcMapperTemplate, "time");
+        deleteByUpdateTimestamp(TABLES_TO_DELETE, failedUpdateTimestamp, jdbcVibeTemplate);
+        deleteByUpdateTimestamp(MAPPING_TABLES_TO_DELETE, failedUpdateTimestamp, jdbcMapperTemplate);
+    }
+
+    private void deleteByUpdateTimestamp(String table, Timestamp[] lastUpdates, JdbcTemplate jdbcTemplate) {
         ArrayList<Predicate> predicates = new ArrayList<>();
-
         for(Timestamp timestamp : lastUpdates) {
             predicates.add(Predicate.notEquals("update", "'" + timestamp + "'"));
         }
         Predicate predicate = Predicate.joinAnd(predicates);
+        jdbcTemplate.update(
+            new QueryBuilder()
+                .delete(table)
+                .where(predicate)
+                .getQuery()
+        );
+    }
 
-        jdbcVibeTemplate.update("TRUNCATE schedule_update");
+    private void deleteByUpdateTimestamp(String table, Timestamp updateTimestamp, JdbcTemplate jdbcTemplate, String timestampColumn) {
+        jdbcTemplate.update(
+            new QueryBuilder()
+                .delete(table)
+                .where(Predicate.equals(timestampColumn, "'" + updateTimestamp + "'"))
+                .getQuery()
+        );
+    }
 
-        for(String tableName : TABLES_TO_DELETE) {
-            String query = new QueryBuilder()
-                .Delete(tableName)
-                .Where(predicate)
-                .getQuery();
+    private void deleteByUpdateTimestamp(String[] tables, Timestamp updateTimestamp, JdbcTemplate jdbcTemplate) {
+        for(String table : tables) {
+            deleteByUpdateTimestamp(table, updateTimestamp, jdbcTemplate, "update");
+        }
+    }
 
-            jdbcVibeTemplate.update(query);
+    private void deleteByUpdateTimestamp(String[] tables, Timestamp[] lastUpdates, JdbcTemplate jdbcTemplate) {
+        for(String table : tables) {
+            deleteByUpdateTimestamp(table, lastUpdates, jdbcTemplate);
+        }
+    }
+
+     public void loadUpdateHistory() {
+        updateHistory = new ArrayList<>();
+        String query = new QueryBuilder().select("update_history").getQuery();
+        List<Map<String, Object>> rows = jdbcMapperTemplate.queryForList(query);
+        for (Map row : rows) {
+            Timestamp timestamp = (Timestamp) row.get("time");
+            updateHistory.add(timestamp);
         }
     }
 }

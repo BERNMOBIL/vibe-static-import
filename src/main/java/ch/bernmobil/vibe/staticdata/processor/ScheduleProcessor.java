@@ -18,14 +18,21 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
         Time plannedArrival = Time.valueOf(item.getArrivalTime());
         Time plannedDeparture = Time.valueOf(item.getDepartureTime());
 
-        long stop = StopMapper.getMappingByStopId(item.getStopId()).getId();
-        long journey = JourneyMapper.getMappingByTripId(item.getTripId()).getId();
+        StopMapper stopMapper = StopMapper.getMappingByStopId(item.getStopId());
+        JourneyMapper journeyMapper = JourneyMapper.getMappingByTripId(item.getTripId());
+
+        if(stopMapper == null || journeyMapper == null) {
+            return null;
+        }
+
+        long stopId = stopMapper.getId();
+        long journeyId = journeyMapper.getId();
 
         String platform = parsePlatform(item.getStopId());
 
         long id = idGenerator.getId();
         idGenerator.next();
-        return new Schedule(id, platform, plannedArrival, plannedDeparture, stop, journey);
+        return new Schedule(id, platform, plannedArrival, plannedDeparture, stopId, journeyId);
     }
 
     private String parsePlatform(String stopId)  {

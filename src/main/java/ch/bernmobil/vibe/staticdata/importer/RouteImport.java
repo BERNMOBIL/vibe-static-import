@@ -11,7 +11,7 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 public class RouteImport extends Import<GtfsRoute, Route> {
     private static final String[] fieldNames = {"route_id", "agency_id", "route_short_name", "route_long_name", "route_desc", "route_type", "route_url", "route_color", "route_text_color"};
     private static final String path = "routes.txt";
-    private static final String insertQuery = "INSERT INTO route (id, type) VALUES(?, ?)";
+    private static final String insertQuery = "INSERT INTO route (id, type, line) VALUES(?, ?, ?)";
 
 
     public RouteImport(DataSource dataSource, String folder) {
@@ -24,6 +24,7 @@ public class RouteImport extends Import<GtfsRoute, Route> {
         public void setValues(Route item, PreparedStatement ps) throws SQLException {
             ps.setLong(1, item.getId());
             ps.setInt(2, item.getType());
+            ps.setString(3, item.getLine());
         }
     }
 }

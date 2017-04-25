@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.batch.item.ItemReader;
 
 public class ZipFileDownload implements ItemReader<ZipInputStream> {
-    private Logger logger = Logger.getLogger(ZipFileDownload.class);
-    private String fileSource;
+    private final Logger logger = Logger.getLogger(ZipFileDownload.class);
+    private final String fileSource;
 
     private boolean firstRun = true;
     private ZipInputStream zip;

@@ -52,7 +52,6 @@ task buildDocker(type: Docker, dependsOn: build) {
 
 
 dependencies {
-    compile group: 'com.google.transit', name: 'gtfs-realtime-bindings', version: '0.0.4'
     compile("org.springframework.boot:spring-boot-starter-batch")
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"

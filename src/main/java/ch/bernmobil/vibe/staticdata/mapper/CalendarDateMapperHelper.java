@@ -1,44 +1,27 @@
 package ch.bernmobil.vibe.staticdata.mapper;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapper;
+import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapping;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-import org.springframework.batch.item.support.ListItemReader;
 
-public class CalendarDateMapperHelper extends Mapper<CalendarDateMapper>{
+public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping>{
     private final static String QUERY =  "INSERT INTO calendar_date_mapper(gtfs_id, id) VALUES(?, ?)";
+    private MapperStore<Long, CalendarDateMapping> mapperStore;
 
-    public CalendarDateMapperHelper(DataSource dataSource) {
-        super(dataSource, QUERY, new CalendarDatePreparedStatementSetter());
+    public CalendarDateMapperHelper(DataSource dataSource,
+            MapperStore<Long, CalendarDateMapping> mapperStore) {
+        super(dataSource, QUERY, new CalendarDatePreparedStatementSetter(), mapperStore);
     }
 
-    @Override
-    public CalendarDateBatchReader reader() {
-        return new CalendarDateBatchReader();
-    }
-
-    public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDateMapper> {
+    public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDateMapping> {
 
         @Override
-        public void setValues(CalendarDateMapper item, PreparedStatement ps) throws SQLException {
+        public void setValues(CalendarDateMapping item, PreparedStatement ps) throws SQLException {
             ps.setLong(1, item.getGtfsId());
             ps.setLong(2, item.getId());
         }
     }
-
-    public static class CalendarDateBatchReader implements ItemReader<CalendarDateMapper> {
-        private static ListItemReader<CalendarDateMapper> reader;
-
-        @Override
-        public CalendarDateMapper read() throws Exception {
-            if(reader == null) {
-                reader = new ListItemReader<>(CalendarDateMapper.getAll());
-            }
-            return reader.read();
-        }
-    }
-
 }

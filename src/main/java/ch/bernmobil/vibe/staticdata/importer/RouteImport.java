@@ -9,8 +9,8 @@ import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 public class RouteImport extends Import<GtfsRoute, Route> {
-    private static String[] fieldNames = {"route_id", "agency_id", "route_short_name", "route_long_name", "route_desc", "route_type", "route_url", "route_color", "route_text_color"};
-    private static String path = "routes.txt";
+    private static final String[] fieldNames = {"route_id", "agency_id", "route_short_name", "route_long_name", "route_desc", "route_type", "route_url", "route_color", "route_text_color"};
+    private static final String path = "routes.txt";
     private static final String insertQuery = "INSERT INTO route (id, type, line) VALUES(?, ?, ?)";
 
 

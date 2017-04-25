@@ -13,12 +13,12 @@ import org.springframework.core.io.FileSystemResource;
 
 public abstract class Import<TIn, TOut> {
 
-    private DataSource dataSource;
-    private String[] fieldNames;
-    private String filePath;
-    private FieldSetMapper<TIn> fieldSetMapper;
-    private String preparedStatementString;
-    private ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter;
+    private final DataSource dataSource;
+    private final String[] fieldNames;
+    private final String filePath;
+    private final FieldSetMapper<TIn> fieldSetMapper;
+    private final String preparedStatementString;
+    private final ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter;
 
     public Import(DataSource dataSource,
             String[] fieldNames,

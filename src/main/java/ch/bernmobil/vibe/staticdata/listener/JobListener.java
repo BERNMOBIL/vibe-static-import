@@ -1,6 +1,7 @@
 package ch.bernmobil.vibe.staticdata.listener;
 
 import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.staticdata.communication.UpdateNotificationSender;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -10,14 +11,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JobListener implements JobExecutionListener {
+    private static Logger logger = Logger.getLogger(JobListener.class);
     private final UpdateManager updateManager;
-    private final static Logger LOGGER = Logger.getLogger(JobListener.class);
+    private final UpdateNotificationSender updateNotificationSender;
 
     @Autowired
-    public JobListener(UpdateManager updateManager) {
+    public JobListener(UpdateManager updateManager, UpdateNotificationSender updateNotificationSender) {
         this.updateManager = updateManager;
+        this.updateNotificationSender = updateNotificationSender;
     }
-
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
@@ -28,15 +30,16 @@ public class JobListener implements JobExecutionListener {
     public void afterJob(JobExecution jobExecution) {
         BatchStatus status = jobExecution.getStatus();
         if(!status.equals(BatchStatus.COMPLETED)) {
-            LOGGER.warn(String.format("Job execution failed. %s",
+            logger.warn(String.format("Job execution failed. %s",
                     jobExecution.getAllFailureExceptions()));
-            LOGGER.info("Reparing database");
+            logger.info("Reparing database");
             updateManager.repairFailedUpdate();
-            LOGGER.info("Reparing database finished");
+            logger.info("Reparing database finished");
         } else {
-            LOGGER.info("Success - start update cleanup");
+            logger.info("Success - start update cleanup");
+            updateNotificationSender.send(UpdateManager.getLatestUpdateTimestamp().toLocalDateTime().toString());
             updateManager.cleanOldData();
-            LOGGER.info("Finished - everything up to date");
+            logger.info("Finished - everything up to date");
         }
     }
 }

@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobListener implements JobExecutionListener {
     private final UpdateManager updateManager;
+    private final static Logger LOGGER = Logger.getLogger(JobListener.class);
 
     @Autowired
     public JobListener(UpdateManager updateManager) {
         this.updateManager = updateManager;
     }
-        Logger logger = Logger.getLogger(JobListener.class);
+
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        logger.info("Start static import");
         updateManager.createUpdateTimestamp();
     }
 
@@ -28,13 +28,15 @@ public class JobListener implements JobExecutionListener {
     public void afterJob(JobExecution jobExecution) {
         BatchStatus status = jobExecution.getStatus();
         if(!status.equals(BatchStatus.COMPLETED)) {
-            logger.info("Something went wrong - start repair process");
+            LOGGER.warn(String.format("Job execution failed. %s",
+                    jobExecution.getAllFailureExceptions()));
+            LOGGER.info("Reparing database");
             updateManager.repairFailedUpdate();
-            logger.info("DB repaired");
+            LOGGER.info("Reparing database finished");
         } else {
-            logger.info("Success - start update cleanup");
+            LOGGER.info("Success - start update cleanup");
             updateManager.cleanOldData();
-            logger.info("Finished - everything up to date");
+            LOGGER.info("Finished - everything up to date");
         }
     }
 }

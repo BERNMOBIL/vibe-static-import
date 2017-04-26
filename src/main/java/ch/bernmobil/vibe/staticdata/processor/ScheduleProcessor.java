@@ -9,17 +9,19 @@ import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import java.sql.Time;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
+    private static final Logger LOGGER = Logger.getLogger(ScheduleProcessor.class);
     private final MapperStore<String, StopMapping> stopMapper;
     private final JourneyMapperStore journeyMapper;
 
     @Autowired
-    public ScheduleProcessor(SequentialIdGenerator idGenerator,
+    public ScheduleProcessor(
             @Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapper) {
         this.stopMapper = stopMapper;
@@ -36,6 +38,10 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
         JourneyMapping journeyMapping = journeyMapper.getMappingByTripId(item.getTripId());
 
         if(stopMapping == null || journeyMapping == null) {
+            LOGGER.warn(
+                    String.format("Combination of stop id '%s' and trip id '%s' could not be found. Skipping item",
+                            item.getStopId(),
+                            item.getTripId()));
             return null;
         }
 
@@ -46,6 +52,7 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
 
         long id = idGenerator.getId();
         idGenerator.next();
+        LOGGER.debug(String.format("Save schedule with properties: %s, %s, %s, %s, %s, %s", id, platform, plannedArrival, plannedDeparture, stopId, journeyId));
         return new Schedule(id, platform, plannedArrival, plannedDeparture, stopId, journeyId);
     }
 

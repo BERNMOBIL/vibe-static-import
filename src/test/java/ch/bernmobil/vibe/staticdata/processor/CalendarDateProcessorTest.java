@@ -45,7 +45,7 @@ public class CalendarDateProcessorTest {
 
         GtfsCalendarDate gtfsCalendarDate = buildCalendarDate(serviceId, "20170101");
 
-        CalendarDateProcessor processor = new CalendarDateProcessor(idGenerator, mapperStore, journeyMapperStore);
+        CalendarDateProcessor processor = new CalendarDateProcessor(mapperStore, journeyMapperStore);
         CalendarDate c = processor.process(gtfsCalendarDate);
 
         assertThat(c.getId(), is(calendarDateId));

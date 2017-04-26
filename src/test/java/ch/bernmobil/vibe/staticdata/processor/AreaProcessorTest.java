@@ -35,7 +35,7 @@ public class AreaProcessorTest {
         long areaId = 1;
         when(idGenerator.getId()).thenReturn(areaId);
 
-        AreaProcessor processor = new AreaProcessor(idGenerator, store);
+        AreaProcessor processor = new AreaProcessor(store);
 
         String stopId = "123";
         GtfsStop stop = buildGtfsStop("stop", stopId, "");
@@ -54,7 +54,7 @@ public class AreaProcessorTest {
         long areaId = 1L;
         when(idGenerator.getId()).thenReturn(areaId);
 
-        AreaProcessor processor = new AreaProcessor(idGenerator, store);
+        AreaProcessor processor = new AreaProcessor(store);
 
         String stopId = "123";
         GtfsStop stop = buildGtfsStop("stop", stopId, "111");

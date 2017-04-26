@@ -4,7 +4,7 @@ public class Area {
     private long id;
     private String name;
 
-    public Area(Long id, String name) {
+    public Area(long id, String name) {
         this.id = id;
         this.name = name;
     }

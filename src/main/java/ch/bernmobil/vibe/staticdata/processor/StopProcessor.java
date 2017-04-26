@@ -17,8 +17,7 @@ public class StopProcessor extends Processor<GtfsStop, Stop>{
     private final MapperStore<String, AreaMapping> areaMapper;
 
     @Autowired
-    public StopProcessor(SequentialIdGenerator idGenerator,
-            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
+    public StopProcessor(@Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
             @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> areaMapper) {
         this.stopMapper = stopMapper;
         this.areaMapper = areaMapper;

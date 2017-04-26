@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class Processor<TIn, TOut> implements ItemProcessor<TIn, TOut> {
     private SequentialIdGenerator idGenerator;
-    private static JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     private void loadSequentialIdGenerator(String tableName) {
         String query = new QueryBuilder().select("max(id)", tableName).getQuery();
@@ -31,7 +31,7 @@ public abstract class Processor<TIn, TOut> implements ItemProcessor<TIn, TOut> {
     public abstract TOut process(TIn item) throws Exception;
 
     @Autowired
-    public void set_JdbcTemplate(@Qualifier("PostgresDataSource")DataSource dataSource) {
+    public void setJdbcTemplate(@Qualifier("PostgresDataSource")DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

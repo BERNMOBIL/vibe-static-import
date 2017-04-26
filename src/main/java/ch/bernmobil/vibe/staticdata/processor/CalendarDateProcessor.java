@@ -26,7 +26,7 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, CalendarD
     private final JourneyMapperStore journeyMapperStore;
 
     @Autowired
-    public CalendarDateProcessor(SequentialIdGenerator idGenerator,
+    public CalendarDateProcessor(
             @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> calendarDateMapper,
             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore) {
         this.calendarDateMapper = calendarDateMapper;

@@ -8,13 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class AreaMapperHelper extends Mapper<AreaMapping>{
     private final static String TABLE_NAME = "area_mapper";
     private final static String FIELDS[] = {"gtfs_id", "id", "update"};
     private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
 
-    public AreaMapperHelper(DataSource dataSource, MapperStore<String, AreaMapping> mapperStore) {
+    public AreaMapperHelper(DataSource dataSource,
+                            @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> mapperStore) {
         super(dataSource, INSERT_QUERY, new AreaMapperPreparedStatementSetter(), mapperStore);
     }
 

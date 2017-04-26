@@ -8,13 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class StopMapperHelper extends Mapper<StopMapping>{
     private final static String TABLE_NAME = "stop_mapper";
     private final static String FIELDS[] = {"gtfs_id", "id", "update"};
     private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
 
-    public StopMapperHelper(DataSource dataSource, MapperStore<String, StopMapping> mapperStore) {
+    public StopMapperHelper(DataSource dataSource,
+                            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> mapperStore) {
         super(dataSource, INSERT_QUERY, new StopMapperPreparedStatementSetter(), mapperStore);
     }
 

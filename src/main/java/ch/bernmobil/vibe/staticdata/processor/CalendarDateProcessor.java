@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,8 +26,9 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, CalendarD
     private final JourneyMapperStore journeyMapperStore;
 
     @Autowired
-    public CalendarDateProcessor(MapperStore<Long, CalendarDateMapping> calendarDateMapper,
-            JourneyMapperStore journeyMapperStore) {
+    public CalendarDateProcessor(SequentialIdGenerator idGenerator,
+            @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> calendarDateMapper,
+            @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore) {
         this.calendarDateMapper = calendarDateMapper;
         this.journeyMapperStore = journeyMapperStore;
     }

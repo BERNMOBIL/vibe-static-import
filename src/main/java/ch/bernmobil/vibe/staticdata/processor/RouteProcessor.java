@@ -7,6 +7,7 @@ import ch.bernmobil.vibe.staticdata.importer.RouteImport;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +15,7 @@ public class RouteProcessor extends Processor<GtfsRoute, Route> {
     private final MapperStore<String, RouteMapping> mapperStore;
 
     @Autowired
-    public RouteProcessor(MapperStore<String, RouteMapping> mapperStore) {
+    public RouteProcessor(@Qualifier("routeMapperStore") MapperStore<String, RouteMapping> mapperStore) {
         this.mapperStore = mapperStore;
     }
 

@@ -7,6 +7,8 @@ import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +17,8 @@ public class AreaProcessor extends Processor<GtfsStop,Area> {
 
     //TODO: idgenerator injection somehow
     @Autowired
-    public AreaProcessor(MapperStore<String, AreaMapping> mappingStore) {
+    public AreaProcessor(SequentialIdGenerator idGenerator,
+                         @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> mappingStore) {
         this.mappingStore = mappingStore;
     }
 

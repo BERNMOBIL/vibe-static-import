@@ -8,13 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping>{
     private final static String TABLE_NAME = "calendar_date_mapper";
     private final static String FIELDS[] = {"gtfs_id", "id", "update"};
     private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
 
-    public CalendarDateMapperHelper(DataSource dataSource, MapperStore<Long, CalendarDateMapping> mapperStore) {
+    public CalendarDateMapperHelper(DataSource dataSource,
+           @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> mapperStore) {
         super(dataSource, INSERT_QUERY, new CalendarDatePreparedStatementSetter(), mapperStore);
     }
 

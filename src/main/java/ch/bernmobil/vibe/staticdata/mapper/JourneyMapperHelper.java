@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class JourneyMapperHelper extends Mapper<JourneyMapping>{
     private final static String TABLE_NAME = "journey_mapper";
@@ -16,7 +17,7 @@ public class JourneyMapperHelper extends Mapper<JourneyMapping>{
 
 
     public JourneyMapperHelper(DataSource dataSource,
-            JourneyMapperStore mapperStore) {
+                               @Qualifier("journeyMapperStore")JourneyMapperStore mapperStore) {
         super(dataSource, INSERT_QUERY, new JourneyMapperPreparedStatementSetter(), mapperStore);
     }
 

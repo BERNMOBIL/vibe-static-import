@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class RouteMapperHelper extends Mapper<RouteMapping>{
     private final static String TABLE_NAME = "route_mapper";
@@ -15,7 +16,7 @@ public class RouteMapperHelper extends Mapper<RouteMapping>{
     private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, FIELDS).getQuery();
 
     public RouteMapperHelper(DataSource dataSource,
-            MapperStore<String, RouteMapping> mapperStore) {
+                             @Qualifier("routeMapperStore") MapperStore<String, RouteMapping> mapperStore) {
         super(dataSource, INSERT_QUERY, new RouteMapperPreparedStatementSetter(), mapperStore);
     }
 

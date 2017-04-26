@@ -9,6 +9,7 @@ import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapping;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +21,7 @@ public class JourneyProcessor implements ItemProcessor<GtfsTrip, Journey> {
     @Autowired
     public JourneyProcessor(SequentialIdGenerator idGenerator,
             MapperStore<String, RouteMapping> mapperStore,
-            JourneyMapperStore journeyMapperStore) {
+            @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore) {
         this.idGenerator = idGenerator;
         this.mapperStore = mapperStore;
         this.journeyMapperStore = journeyMapperStore;

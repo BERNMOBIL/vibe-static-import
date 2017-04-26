@@ -44,7 +44,7 @@ public class MappingJobConfiguration {
     @SuppressWarnings("unchecked")
     public Step areaMapperStep() {
         MapperStore<String, AreaMapping> mapperStore =
-                (MapperStore<String, AreaMapping>)applicationContext.getBean(MapperStore.class);
+                (MapperStore<String, AreaMapping>)applicationContext.getBean("areaMapperStore");
 
         AreaMapperHelper helper = new AreaMapperHelper(mapperDataSource, mapperStore);
         return buildMappingStep(helper, "area mapper");
@@ -54,7 +54,7 @@ public class MappingJobConfiguration {
     @SuppressWarnings("unchecked")
     public Step calendarDateMapperStep() {
         MapperStore<Long, CalendarDateMapping> mapperStore =
-                (MapperStore<Long, CalendarDateMapping>)applicationContext.getBean(MapperStore.class);
+                (MapperStore<Long, CalendarDateMapping>)applicationContext.getBean("calendarDateMapperStore");
 
         CalendarDateMapperHelper helper = new CalendarDateMapperHelper(mapperDataSource,
                 mapperStore);
@@ -64,7 +64,7 @@ public class MappingJobConfiguration {
     @Bean
     @SuppressWarnings("unchecked")
     public Step journeyMapperStep() {
-        JourneyMapperStore mapperStore = applicationContext.getBean(JourneyMapperStore.class);
+        JourneyMapperStore mapperStore = (JourneyMapperStore)applicationContext.getBean("journeyMapperStore");
 
         JourneyMapperHelper helper = new JourneyMapperHelper(mapperDataSource, mapperStore);
         return buildMappingStep(helper, "journey mapper");
@@ -74,7 +74,7 @@ public class MappingJobConfiguration {
     @SuppressWarnings("unchecked")
     public Step routeMapperStep() {
         MapperStore<String, RouteMapping> mapperStore =
-                (MapperStore<String, RouteMapping>)applicationContext.getBean(MapperStore.class);
+                (MapperStore<String, RouteMapping>)applicationContext.getBean("routeMapperStore");
 
         RouteMapperHelper helper = new RouteMapperHelper(mapperDataSource, mapperStore);
         return buildMappingStep(helper, "route mapper");
@@ -84,7 +84,7 @@ public class MappingJobConfiguration {
     @SuppressWarnings("unchecked")
     public Step stopMapperStep() {
         MapperStore<String, StopMapping> mapperStore =
-                (MapperStore<String, StopMapping>)applicationContext.getBean(MapperStore.class);
+                (MapperStore<String, StopMapping>)applicationContext.getBean("stopMapperStore");
 
         StopMapperHelper helper = new StopMapperHelper(mapperDataSource, mapperStore);
         return buildMappingStep(helper, "stop mapper");

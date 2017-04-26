@@ -61,7 +61,6 @@ public class DataImportJobConfiguration {
                 .<ZipInputStream, ZipInputStream>chunk(1)
                 .reader(new ZipFileDownload(staticFileUrl))
                 .writer(new ZipInputStreamWriter(destinationFolder))
-                //TODO let whole job fail if these steps fail
                 .build();
     }
 
@@ -74,13 +73,15 @@ public class DataImportJobConfiguration {
 
     @Bean
     public Step stopImportStep() {
-        return createStepBuilder("stop import", new StopImport(postgresDataSource, destinationFolder),
+        return createStepBuilder("stop import",
+                new StopImport(postgresDataSource, destinationFolder),
                 applicationContext.getBean(StopProcessor.class));
     }
 
     @Bean
     public Step routeImportStep() {
-        return createStepBuilder("route import", new RouteImport(postgresDataSource, destinationFolder),
+        return createStepBuilder("route import",
+                new RouteImport(postgresDataSource, destinationFolder),
                 applicationContext.getBean(RouteProcessor.class));
     }
 
@@ -93,13 +94,15 @@ public class DataImportJobConfiguration {
 
     @Bean
     public Step journeyImportStep() {
-        return createStepBuilder("journey import", new TripImport(postgresDataSource, destinationFolder),
+        return createStepBuilder("journey import",
+                new TripImport(postgresDataSource, destinationFolder),
                 applicationContext.getBean(JourneyProcessor.class));
     }
 
     @Bean
     public Step scheduleImportStep() {
-        return createStepBuilder("schedule import", new StopTimeImport(postgresDataSource, destinationFolder),
+        return createStepBuilder("schedule import",
+                new StopTimeImport(postgresDataSource, destinationFolder),
                 applicationContext.getBean(ScheduleProcessor.class));
     }
 

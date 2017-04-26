@@ -6,13 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping>{
     private final static String QUERY =  "INSERT INTO calendar_date_mapper(gtfs_id, id) VALUES(?, ?)";
-    private MapperStore<Long, CalendarDateMapping> mapperStore;
 
     public CalendarDateMapperHelper(DataSource dataSource,
-            MapperStore<Long, CalendarDateMapping> mapperStore) {
+                                    @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> mapperStore) {
         super(dataSource, QUERY, new CalendarDatePreparedStatementSetter(), mapperStore);
     }
 

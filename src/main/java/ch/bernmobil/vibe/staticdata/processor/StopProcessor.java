@@ -8,6 +8,7 @@ import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
 import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,8 +19,8 @@ public class StopProcessor implements ItemProcessor<GtfsStop, Stop>{
 
     @Autowired
     public StopProcessor(SequentialIdGenerator idGenerator,
-            MapperStore<String, StopMapping> stopMapper,
-            MapperStore<String, AreaMapping> areaMapper) {
+            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
+            @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> areaMapper) {
         this.idGenerator = idGenerator;
         this.stopMapper = stopMapper;
         this.areaMapper = areaMapper;

@@ -6,11 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class StopMapperHelper extends Mapper<StopMapping>{
     private final static String QUERY =  "INSERT INTO stop_mapper(gtfs_id, id) VALUES(?, ?)";
 
-    public StopMapperHelper(DataSource dataSource, MapperStore<String, StopMapping> mapperStore) {
+    public StopMapperHelper(DataSource dataSource,
+                            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> mapperStore) {
         super(dataSource, QUERY, new StopMapperPreparedStatementSetter(), mapperStore);
     }
 

@@ -9,6 +9,7 @@ import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import java.sql.Time;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,8 +20,8 @@ public class ScheduleProcessor implements ItemProcessor<GtfsStopTime, Schedule> 
 
     @Autowired
     public ScheduleProcessor(SequentialIdGenerator idGenerator,
-            MapperStore<String, StopMapping> stopMapper,
-            JourneyMapperStore journeyMapper) {
+            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
+            @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapper) {
         this.idGenerator = idGenerator;
         this.stopMapper = stopMapper;
         this.journeyMapper = journeyMapper;

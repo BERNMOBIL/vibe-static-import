@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,8 +27,8 @@ public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, Ca
 
     @Autowired
     public CalendarDateProcessor(SequentialIdGenerator idGenerator,
-            MapperStore<Long, CalendarDateMapping> calendarDateMapper,
-            JourneyMapperStore journeyMapperStore) {
+            @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> calendarDateMapper,
+            @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore) {
         this.idGenerator = idGenerator;
         this.calendarDateMapper = calendarDateMapper;
         this.journeyMapperStore = journeyMapperStore;

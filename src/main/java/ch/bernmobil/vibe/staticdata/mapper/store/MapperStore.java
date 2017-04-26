@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * @param <O> An object containing the mapping information
  */
 
-@Component
 public class MapperStore<I, O> {
     protected final Map<I, O> mappingMap = new HashMap<>();
 

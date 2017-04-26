@@ -6,12 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class RouteMapperHelper extends Mapper<RouteMapping>{
     private final static String QUERY =  "INSERT INTO route_mapper(gtfs_id, id) VALUES(?, ?)";
 
     public RouteMapperHelper(DataSource dataSource,
-            MapperStore<String, RouteMapping> mapperStore) {
+                             @Qualifier("routeMapperStore") MapperStore<String, RouteMapping> mapperStore) {
         super(dataSource, QUERY, new RouteMapperPreparedStatementSetter(), mapperStore);
     }
 

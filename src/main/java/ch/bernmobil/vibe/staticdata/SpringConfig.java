@@ -73,19 +73,16 @@ public class SpringConfig {
 
     @Bean("PostgresInitializer")
     public DataSourceInitializer postgresInitializer(@Qualifier("PostgresDataSource") DataSource dataSource) {
-        return dataSourceInitializer(dataSource, null);
-//        return dataSourceInitializer(dataSource, truncatePostgres);
+        return dataSourceInitializer(dataSource);
     }
 
     @Bean("MappingDatabaseInitializer")
     public DataSourceInitializer mappingSourceInitializer(@Qualifier("MapperDataSource") DataSource dataSource){
-        return dataSourceInitializer(dataSource, null);
-//        return dataSourceInitializer(dataSource, mapperDropDatabase, mapperDatabaseSchema);
+        return dataSourceInitializer(dataSource);
     }
 
     @Bean("JobRepositoryInitializer")
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) throws MalformedURLException {
-//        return dataSourceInitializer(dataSource, null);
+    public DataSourceInitializer jobRepositoryInitializer(DataSource dataSource) throws MalformedURLException {
         return dataSourceInitializer(dataSource, dropRepositoryTables, dataRepositorySchema);
     }
 
@@ -97,15 +94,15 @@ public class SpringConfig {
         return jobLauncher;
     }
 
+    private DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
+        return dataSourceInitializer(dataSource, new Resource[]{});
+    }
+
     private DataSourceInitializer dataSourceInitializer(DataSource dataSource, Resource... sqlScripts) {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-
-        if(sqlScripts != null) {
-            for(Resource resource : sqlScripts){
-                databasePopulator.addScript(resource);
-            }
+        for(Resource resource : sqlScripts){
+            databasePopulator.addScript(resource);
         }
-
         DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
         initializer.setDatabasePopulator(databasePopulator);

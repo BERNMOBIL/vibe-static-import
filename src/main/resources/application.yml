@@ -3,6 +3,10 @@ spring:
     url: jdbc:postgresql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
     username: ${RDS_USERNAME}
     password: ${RDS_PASSWORD}
+  rabbitmq:
+    host: ${MQ_HOSTNAME}
+    username: ${MQ_USERNAME}
+    password: ${MQ_PASSWORD}
 bernmobil:
   mappingrepository:
     datasource:

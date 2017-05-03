@@ -31,7 +31,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableBatchProcessing
 public class DataImportJobConfiguration {
+    private static final int CHUNK_SIZE = 100;
     @Value("${bernmobil.staticsource.url}")
+
     private String staticFileUrl;
 
     @Value("${bernmobil.staticsource.folder}")
@@ -39,15 +41,12 @@ public class DataImportJobConfiguration {
 
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource postgresDataSource;
-
-    private static final int CHUNK_SIZE = 100;
-
     private final ApplicationContext applicationContext;
 
     @Autowired
     public DataImportJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
-            @Qualifier("PostgresDataSource")DataSource postgresDataSource,
+            @Qualifier("PostgresDataSource") DataSource postgresDataSource,
             ApplicationContext applicationContext) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.postgresDataSource = postgresDataSource;

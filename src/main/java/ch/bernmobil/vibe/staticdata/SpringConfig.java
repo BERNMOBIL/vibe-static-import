@@ -26,10 +26,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableBatchProcessing
 public class SpringConfig {
-    @Value("org/springframework/batch/core/schema-drop-sqlite.sql")
+    @Value("classpath:/org/springframework/batch/core/schema-drop-sqlite.sql")
     private Resource dropRepositoryTables;
 
-    @Value("org/springframework/batch/core/schema-sqlite.sql")
+    @Value("classpath:/org/springframework/batch/core/schema-sqlite.sql")
     private Resource dataRepositorySchema;
 
     @Value("mapperDatabaseSchema.sql")

@@ -1,17 +1,17 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-import java.sql.Date;
-
 import com.google.gson.JsonObject;
+import java.sql.Date;
+import java.util.UUID;
 
 public class CalendarDate {
-    private long id;
+    private UUID id;
     private JsonObject days;
     private Date validFrom;
     private Date validUntil;
-    private long journey;
+    private UUID journey;
 
-    public CalendarDate(long id, Date validFrom, Date validUntil, long journey, JsonObject days) {
+    public CalendarDate(UUID id, Date validFrom, Date validUntil, UUID journey, JsonObject days) {
         this.id = id;
         this.validFrom = validFrom;
         this.validUntil = validUntil;
@@ -19,11 +19,11 @@ public class CalendarDate {
         this.days = days;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -51,11 +51,11 @@ public class CalendarDate {
         this.validUntil = validUntil;
     }
 
-    public long getJourney() {
+    public UUID getJourney() {
         return journey;
     }
 
-    public void setJourney(long journey) {
+    public void setJourney(UUID journey) {
         this.journey = journey;
     }
 }

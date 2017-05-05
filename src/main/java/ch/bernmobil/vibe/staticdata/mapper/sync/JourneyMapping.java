@@ -1,11 +1,13 @@
 package ch.bernmobil.vibe.staticdata.mapper.sync;
 
+import java.util.UUID;
+
 public class JourneyMapping {
     private String gtfsTripId;
     private String gtfsServiceId;
-    private long id;
+    private UUID id;
 
-    public JourneyMapping(String gtfsTripId, String gtfsServiceId, long id) {
+    public JourneyMapping(String gtfsTripId, String gtfsServiceId, UUID id) {
         this.gtfsTripId = gtfsTripId;
         this.gtfsServiceId = gtfsServiceId;
         this.id = id;
@@ -27,11 +29,11 @@ public class JourneyMapping {
         this.gtfsServiceId = gtfsServiceId;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

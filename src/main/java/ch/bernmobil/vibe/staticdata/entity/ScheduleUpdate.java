@@ -1,26 +1,27 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
 import java.sql.Time;
+import java.util.UUID;
 
 public class ScheduleUpdate {
-  private long id;
+  private UUID id;
   private Time actualArrival;
   private Time actualDeparture;
-  private long schedule;
+  private UUID schedule;
 
-  public ScheduleUpdate(long id, Time actualArrival, Time actualDeparture,
-          long schedule) {
+  public ScheduleUpdate(UUID id, Time actualArrival, Time actualDeparture,
+          UUID schedule) {
     this.id = id;
     this.actualArrival = actualArrival;
     this.actualDeparture = actualDeparture;
     this.schedule = schedule;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -40,11 +41,11 @@ public class ScheduleUpdate {
     this.actualDeparture = actualDeparture;
   }
 
-  public long getSchedule() {
+  public UUID getSchedule() {
     return schedule;
   }
 
-  public void setSchedule(long schedule) {
+  public void setSchedule(UUID schedule) {
     this.schedule = schedule;
   }
 }

@@ -41,6 +41,7 @@ public class UpdateManager {
         updateHistory.add(now);
     }
 
+    //TODO Split up update manager and inject a proxy object containing a history object which lazy loads the updates if needed
     public static Timestamp getLatestUpdateTimestamp() {
         if (updateHistory.isEmpty()) {
             return new Timestamp(0);
@@ -54,7 +55,7 @@ public class UpdateManager {
                 //TODO: could be converted to localtime to use comparator instead of ternay function
                 .sorted((t1, t2) -> t1.after(t2) ? -1 : 1)
                 .limit(number)
-                .toArray(size -> new Timestamp[size]);
+                .toArray(Timestamp[]::new);
     }
 
     public void cleanOldData() {

@@ -6,14 +6,12 @@ import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
-import javax.sql.DataSource;
-
 import com.google.gson.JsonObject;
-import org.postgresql.util.PGobject;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.postgresql.util.PGobject;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 public class CalendarDateImport extends Import<GtfsCalendarDate, CalendarDate> {
     private static final String[] FIELD_NAMES = {"service_id", "date", "exception_type"};
@@ -30,10 +28,10 @@ public class CalendarDateImport extends Import<GtfsCalendarDate, CalendarDate> {
 
         @Override
         public void setValues(CalendarDate item, PreparedStatement ps) throws SQLException {
-            ps.setLong(1, item.getId());
+            ps.setObject(1, item.getId());
             ps.setDate(2, item.getValidFrom());
             ps.setDate(3, item.getValidUntil());
-            ps.setLong(4, item.getJourney());
+            ps.setObject(4, item.getJourney());
             ps.setObject(5, createPgJson(item.getDays()));
             ps.setTimestamp(6, UpdateManager.getLatestUpdateTimestamp());
 

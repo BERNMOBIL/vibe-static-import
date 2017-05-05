@@ -1,28 +1,33 @@
 CREATE TABLE area_mapper (
-  gtfs_id TEXT, --PRIMARY KEY,
-  id INTEGER,
-  update TIMESTAMP
+  gtfs_id TEXT,
+  id UUID,
+  update TIMESTAMP,
+  UNIQUE (gtfs_id, update)
 );
 CREATE TABLE calendar_date_mapper (
-  gtfs_id TEXT, -- PRIMARY KEY,
-  id INTEGER,
-  update TIMESTAMP
+  gtfs_id TEXT,
+  id UUID,
+  update TIMESTAMP,
+  UNIQUE (gtfs_id, update)
 );
 CREATE TABLE journey_mapper (
-  gtfs_trip_id TEXT, -- TEXT PRIMARY KEY,
+  gtfs_trip_id TEXT,
   gtfs_service_id TEXT,
-  id INTEGER,
-  update TIMESTAMP
+  id UUID,
+  update TIMESTAMP,
+  UNIQUE (gtfs_trip_id, gtfs_service_id, update)
 );
 CREATE TABLE route_mapper (
-  gtfs_id TEXT, -- PRIMARY KEY,
-  id INTEGER,
-  update TIMESTAMP
+  gtfs_id TEXT,
+  id UUID,
+  update TIMESTAMP,
+  UNIQUE (gtfs_id, update)
 );
 CREATE TABLE stop_mapper (
-  gtfs_id TEXT, -- PRIMARY KEY,
-  id INTEGER,
-  update TIMESTAMP
+  gtfs_id TEXT,
+  id UUID,
+  update TIMESTAMP,
+  UNIQUE (gtfs_id, update)
 );
 
 CREATE TABLE update_history (

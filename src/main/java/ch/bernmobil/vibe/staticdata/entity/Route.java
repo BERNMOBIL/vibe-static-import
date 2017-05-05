@@ -1,21 +1,23 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
+import java.util.UUID;
+
 public class Route {
-    private long id;
+    private UUID id;
     private int type;
     private String line;
 
-    public Route(long id, int type, String line) {
+    public Route(UUID id, int type, String line) {
         this.id = id;
         this.type = type;
         this.line = line;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

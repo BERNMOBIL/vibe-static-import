@@ -2,13 +2,12 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Schedule;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
-import ch.bernmobil.vibe.staticdata.importer.StopTimeImport;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import java.sql.Time;
+import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
-    private static final Logger LOGGER = Logger.getLogger(ScheduleProcessor.class);
+    private  final Logger logger = Logger.getLogger(ScheduleProcessor.class);
     private final MapperStore<String, StopMapping> stopMapper;
     private final JourneyMapperStore journeyMapper;
 
@@ -30,7 +29,6 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
 
     @Override
     public Schedule process(GtfsStopTime item) throws Exception {
-        SequentialIdGenerator idGenerator = getIdGenerator(StopTimeImport.getTableName());
         Time plannedArrival = Time.valueOf(item.getArrivalTime());
         Time plannedDeparture = Time.valueOf(item.getDepartureTime());
 
@@ -38,21 +36,21 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
         JourneyMapping journeyMapping = journeyMapper.getMappingByTripId(item.getTripId());
 
         if(stopMapping == null || journeyMapping == null) {
-            LOGGER.warn(
+            logger.warn(
                     String.format("Combination of stop id '%s' and trip id '%s' could not be found. Skipping item",
                             item.getStopId(),
                             item.getTripId()));
             return null;
         }
 
-        long stopId = stopMapping.getId();
-        long journeyId = journeyMapping.getId();
+        UUID stopId = stopMapping.getId();
+        UUID journeyId = journeyMapping.getId();
 
         String platform = parsePlatform(item.getStopId());
 
-        long id = idGenerator.getId();
+        UUID id = idGenerator.getId();
         idGenerator.next();
-        LOGGER.debug(String.format("Save schedule with properties: %s, %s, %s, %s, %s, %s", id, platform, plannedArrival, plannedDeparture, stopId, journeyId));
+        logger.debug(String.format("Save schedule with properties: %s, %s, %s, %s, %s, %s", id, platform, plannedArrival, plannedDeparture, stopId, journeyId));
         return new Schedule(id, platform, plannedArrival, plannedDeparture, stopId, journeyId);
     }
 

@@ -13,4 +13,10 @@ public class IdGeneratorConfiguration {
     public SequentialIdGenerator sequentialIdGenerator() {
         return new SequentialIdGenerator();
     }
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public UuidGenerator uuidGenerator() {
+        return new UuidGenerator();
+    }
 }

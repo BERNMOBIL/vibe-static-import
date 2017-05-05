@@ -1,11 +1,13 @@
 package ch.bernmobil.vibe.staticdata.mapper.sync;
 
+import java.util.UUID;
+
 public class AreaMapping {
 
     private String gtfsId;
-    private long id;
+    private UUID id;
 
-    public AreaMapping(String gtfsId, long id) {
+    public AreaMapping(String gtfsId, UUID id) {
         this.gtfsId = gtfsId;
         this.id = id;
     }
@@ -18,11 +20,11 @@ public class AreaMapping {
         this.gtfsId = gtfsId;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

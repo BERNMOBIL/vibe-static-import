@@ -53,7 +53,9 @@ public class QueryBuilder {
     public static class PreparedStatement {
         public QueryBuilder Insert(String table, String... fields) {
             ArrayList<String> questionMarks = new ArrayList<>();
-            for(int i = 0; i < fields.length; i++) questionMarks.add("?");
+            for (String field : fields) {
+                questionMarks.add("?");
+            }
             return new QueryBuilder().insert(table, fields, questionMarks.toArray(new String[questionMarks.size()]));
         }
     }

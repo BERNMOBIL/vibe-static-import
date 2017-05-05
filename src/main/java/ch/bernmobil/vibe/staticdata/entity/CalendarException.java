@@ -1,25 +1,26 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
 import java.sql.Date;
+import java.util.UUID;
 
 public class CalendarException {
-  private long id;
+  private UUID id;
   private Date date;
   private String type;
-  private long calendarDate;
+  private UUID calendarDate;
 
-  public CalendarException(long id, Date date, String type, long calendarDate) {
+  public CalendarException(UUID id, Date date, String type, UUID calendarDate) {
     this.id = id;
     this.date = date;
     this.type = type;
     this.calendarDate = calendarDate;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -39,11 +40,11 @@ public class CalendarException {
     this.type = type;
   }
 
-  public long getCalendarDate() {
+  public UUID getCalendarDate() {
     return calendarDate;
   }
 
-  public void setCalendarDate(long calendarDate) {
+  public void setCalendarDate(UUID calendarDate) {
     this.calendarDate = calendarDate;
   }
 }

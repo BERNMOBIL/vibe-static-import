@@ -1,21 +1,23 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
-public class Stop {
-    private long id;
-    private String name;
-    private long area;
+import java.util.UUID;
 
-    public Stop(long id, String name, long areaId) {
+public class Stop {
+    private UUID id;
+    private String name;
+    private UUID area;
+
+    public Stop(UUID id, String name, UUID areaId) {
         this.id = id;
         this.name = name;
         this.area = areaId;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -27,11 +29,11 @@ public class Stop {
         this.name = name;
     }
 
-    public long getArea() {
+    public UUID getArea() {
         return area;
     }
 
-    public void setArea(long area) {
+    public void setArea(UUID area) {
         this.area = area;
     }
 }

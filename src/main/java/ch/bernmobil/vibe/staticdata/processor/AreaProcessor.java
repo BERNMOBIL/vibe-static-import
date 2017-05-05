@@ -2,8 +2,6 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.staticdata.entity.Area;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
-import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AreaProcessor extends Processor<GtfsStop,Area> {
     private final MapperStore<String, AreaMapping> mappingStore;
 
-    //TODO: idgenerator injection somehow
+
     @Autowired
     public AreaProcessor(@Qualifier("areaMapperStore") MapperStore<String, AreaMapping> mappingStore) {
         this.mappingStore = mappingStore;
@@ -22,7 +20,6 @@ public class AreaProcessor extends Processor<GtfsStop,Area> {
 
     @Override
     public Area process(GtfsStop item) throws Exception {
-        SequentialIdGenerator idGenerator = getIdGenerator(AreaImport.getTableName());
         String name = item.getStopName();
         String parentStation = item.getParentStation();
         if(parentStation.isEmpty()) {

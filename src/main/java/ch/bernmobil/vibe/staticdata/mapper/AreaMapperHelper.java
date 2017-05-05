@@ -28,7 +28,7 @@ public class AreaMapperHelper extends Mapper<AreaMapping> {
         @Override
         public void setValues(AreaMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
-            ps.setLong(2, item.getId());
+            ps.setObject(2, item.getId());
             ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
         }
     }

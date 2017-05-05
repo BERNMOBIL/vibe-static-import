@@ -1,15 +1,16 @@
 package ch.bernmobil.vibe.staticdata.entity;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class JourneyDisruption {
-  private long id;
+  private UUID id;
   private String message;
   private Timestamp start;
   private Timestamp plannedEnd;
-  private long journey;
+  private UUID journey;
 
-  public JourneyDisruption(long id, String message, Timestamp start, Timestamp plannedEnd, long journey) {
+  public JourneyDisruption(UUID id, String message, Timestamp start, Timestamp plannedEnd, UUID journey) {
     this.id = id;
     this.message = message;
     this.start = start;
@@ -17,11 +18,11 @@ public class JourneyDisruption {
     this.journey = journey;
   }
 
-  public long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(UUID id) {
     this.id = id;
   }
 
@@ -49,11 +50,11 @@ public class JourneyDisruption {
     this.plannedEnd = plannedEnd;
   }
 
-  public long getJourney() {
+  public UUID getJourney() {
     return journey;
   }
 
-  public void setJourney(long journey) {
+  public void setJourney(UUID journey) {
     this.journey = journey;
   }
 }

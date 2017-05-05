@@ -28,9 +28,9 @@ public class StopImport extends Import<GtfsStop, Stop> {
 
         @Override
         public void setValues(Stop item, PreparedStatement ps) throws SQLException {
-            ps.setLong(1, item.getId());
+            ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
-            ps.setLong(3, item.getArea());
+            ps.setObject(3, item.getArea());
             ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
         }
     }

@@ -25,9 +25,9 @@ public class TripImport extends Import<GtfsTrip, Journey> {
 
         @Override
         public void setValues(Journey item, PreparedStatement ps) throws SQLException {
-            ps.setLong(1, item.getId());
+            ps.setObject(1, item.getId());
             ps.setString(2, item.getHeadsign());
-            ps.setLong(3, item.getRoute());
+            ps.setObject(3, item.getRoute());
             ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
         }
     }

@@ -5,9 +5,6 @@ import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.entity.Schedule;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopTimeFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
-import javax.sql.DataSource;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -29,12 +26,12 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
 
         @Override
         public void setValues(Schedule item, PreparedStatement ps) throws SQLException {
-            ps.setLong(1, item.getId());
+            ps.setObject(1, item.getId());
             ps.setString(2, item.getPlatform());
             ps.setTime(3, item.getPlannedArrival());
             ps.setTime(4, item.getPlannedDeparture());
-            ps.setLong(5, item.getStop());
-            ps.setLong(6, item.getJourney());
+            ps.setObject(5, item.getStop());
+            ps.setObject(6, item.getJourney());
             ps.setTimestamp(7, UpdateManager.getLatestUpdateTimestamp());
         }
     }

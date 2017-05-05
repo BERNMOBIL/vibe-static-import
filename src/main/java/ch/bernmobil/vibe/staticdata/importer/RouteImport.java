@@ -25,7 +25,7 @@ public class RouteImport extends Import<GtfsRoute, Route> {
 
         @Override
         public void setValues(Route item, PreparedStatement ps) throws SQLException {
-            ps.setLong(1, item.getId());
+            ps.setObject(1, item.getId());
             ps.setInt(2, item.getType());
             ps.setString(3, item.getLine());
             ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());

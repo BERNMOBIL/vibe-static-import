@@ -30,7 +30,7 @@ public class JourneyMapperHelper extends Mapper<JourneyMapping> {
         public void setValues(JourneyMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsTripId());
             ps.setString(2, item.getGtfsServiceId());
-            ps.setLong(3, item.getId());
+            ps.setObject(3, item.getId());
             ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
         }
     }

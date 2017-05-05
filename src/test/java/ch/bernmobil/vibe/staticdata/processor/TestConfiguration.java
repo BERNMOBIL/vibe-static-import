@@ -2,7 +2,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import static org.mockito.Mockito.mock;
 
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -19,8 +19,8 @@ public class TestConfiguration {
     @Bean
     @Primary
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public SequentialIdGenerator sequentialIdGenerator() {
-        return mock(SequentialIdGenerator.class);
+    public UuidGenerator sequentialIdGenerator() {
+        return mock(UuidGenerator.class);
     }
 
     @Bean

@@ -15,3 +15,5 @@ bernmobil:
     url: https://wp-test.bernmobil.ch/gtfs/827/static.zip?apikey=b4059f45-9b52-4511-y68f-0fdfd0fa11c1
     # Notice trailing slash
     folder: /tmp/gtfs/
+  amqp:
+    reqistration-queue: register

@@ -90,4 +90,20 @@ public class BernmobilConfigurationProperties {
             this.password = password;
         }
     }
+    @ConfigurationProperties(prefix = "bernmobil.amqp")
+    public class Amqp {
+
+        /**
+         * Name of the queue where front-end instances can register themselves
+         */
+        private String reqistrationQueue;
+
+        public String getReqistrationQueue() {
+            return reqistrationQueue;
+        }
+
+        public void setReqistrationQueue(String reqistrationQueue) {
+            this.reqistrationQueue = reqistrationQueue;
+        }
+    }
 }

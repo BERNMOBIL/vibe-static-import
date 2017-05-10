@@ -7,10 +7,14 @@ public class Journey {
     private String headsign;
     private UUID route;
 
-    public Journey(UUID id, String headsign, UUID route) {
+
+    private UUID terminalStation;
+
+    public Journey(UUID id, String headsign, UUID route, UUID terminalStation) {
         this.id = id;
         this.headsign = headsign;
         this.route = route;
+        this.terminalStation = terminalStation;
     }
 
     public UUID getId() {
@@ -35,5 +39,13 @@ public class Journey {
 
     public void setRoute(UUID route) {
         this.route = route;
+    }
+
+    public UUID getTerminalStation() {
+        return terminalStation;
+    }
+
+    public void setTerminalStation(UUID terminalStation) {
+        this.terminalStation = terminalStation;
     }
 }

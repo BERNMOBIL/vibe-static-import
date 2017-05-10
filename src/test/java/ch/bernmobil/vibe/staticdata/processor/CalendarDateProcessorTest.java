@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
@@ -20,6 +21,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.sql.Date;
 import java.util.UUID;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

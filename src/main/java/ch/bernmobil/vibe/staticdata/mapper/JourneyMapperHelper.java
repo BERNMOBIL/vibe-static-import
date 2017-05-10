@@ -4,6 +4,9 @@ import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;

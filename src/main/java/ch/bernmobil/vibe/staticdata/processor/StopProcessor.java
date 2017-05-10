@@ -28,10 +28,12 @@ public class StopProcessor extends Processor<GtfsStop, Stop>{
         if(!parentStation.isEmpty()) {
             UUID id = idGenerator.getId();
             String stopId = item.getStopId();
-            stopMapper.addMapping(stopId, new StopMapping(stopId, id));
+            stopMapper.addMapping(stopId, new StopMapping(stopId, item.getStopName(), id));
+
             UUID areaId = areaMapper.getMapping(item.getParentStation()).getId();
             idGenerator.next();
-            stopMapper.addMapping(stopId, new StopMapping(stopId, id));
+            //stopMapper.addMapping(stopId, new StopMapping(stopId, item.getStopName(), id));
+
             return new Stop(id, item.getStopName(), areaId);
         }
         return null;

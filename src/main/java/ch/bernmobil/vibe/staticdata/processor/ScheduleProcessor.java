@@ -37,11 +37,13 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
 
         if(stopMapping == null || journeyMapping == null) {
             logger.warn(
-                    String.format("Combination of stop id '%s' and trip id '%s' could not be found. Skipping item",
+                    String.format("Combination of stop id '%s' and trip id '%s' could not be found. Skipping item %s",
                             item.getStopId(),
-                            item.getTripId()));
+                            item.getTripId(),
+                            item));
             return null;
         }
+
 
         UUID stopId = stopMapping.getId();
         UUID journeyId = journeyMapping.getId();
@@ -50,6 +52,7 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
 
         UUID id = idGenerator.getId();
         idGenerator.next();
+
         logger.debug(String.format("Save schedule with properties: %s, %s, %s, %s, %s, %s", id, platform, plannedArrival, plannedDeparture, stopId, journeyId));
         return new Schedule(id, platform, plannedArrival, plannedDeparture, stopId, journeyId);
     }

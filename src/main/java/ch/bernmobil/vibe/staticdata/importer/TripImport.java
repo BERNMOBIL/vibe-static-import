@@ -14,7 +14,7 @@ public class TripImport extends Import<GtfsTrip, Journey> {
     private static final String[] FIELD_NAMES = {"route_id", "service_id", "trip_id", "trip_headsign", "trip_short_name", "direction_id", "block_id", "shape_id"};
     private static final String PATH = "trips.txt";
     private static final String TABLE_NAME = "journey";
-    private static final String[] DATABASE_FIELDS = {"id", "headsign", "route", "update"};
+    private static final String[] DATABASE_FIELDS = {"id", "headsign", "route", "terminal_station", "update"};
     private static final String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, DATABASE_FIELDS).getQuery();
 
     public TripImport(DataSource dataSource, String folder) {
@@ -28,7 +28,8 @@ public class TripImport extends Import<GtfsTrip, Journey> {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getHeadsign());
             ps.setObject(3, item.getRoute());
-            ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
+            ps.setObject(4, item.getTerminalStation());
+            ps.setTimestamp(5, UpdateManager.getLatestUpdateTimestamp());
         }
     }
 

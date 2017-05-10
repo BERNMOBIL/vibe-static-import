@@ -4,10 +4,12 @@ import java.util.UUID;
 
 public class StopMapping {
     private String gtfsId;
+    private String name;
     private UUID id;
 
-    public StopMapping(String gtfsId, UUID id) {
+    public StopMapping(String gtfsId, String name, UUID id) {
         this.gtfsId = gtfsId;
+        this.name = name;
         this.id = id;
     }
 
@@ -25,5 +27,13 @@ public class StopMapping {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

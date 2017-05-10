@@ -82,4 +82,19 @@ public class GtfsStopTime {
     public void setShapeDistTravelled(String shapeDistTravelled) {
         this.shapeDistTravelled = shapeDistTravelled;
     }
+
+    @Override
+    public String toString() {
+        return "GtfsStopTime{" +
+                "tripId='" + tripId + '\'' +
+                ", arrivalTime='" + arrivalTime + '\'' +
+                ", departureTime='" + departureTime + '\'' +
+                ", stopId='" + stopId + '\'' +
+                ", stopSequence='" + stopSequence + '\'' +
+                ", stopHeadsign='" + stopHeadsign + '\'' +
+                ", pickupType='" + pickupType + '\'' +
+                ", dropOffType='" + dropOffType + '\'' +
+                ", shapeDistTravelled='" + shapeDistTravelled + '\'' +
+                '}';
+    }
 }

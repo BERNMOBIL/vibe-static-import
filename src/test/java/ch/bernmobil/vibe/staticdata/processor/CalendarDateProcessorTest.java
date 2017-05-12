@@ -20,6 +20,8 @@ import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -44,7 +46,9 @@ public class CalendarDateProcessorTest {
         String tripId = "01-trip";
         String serviceId = "0002";
         JourneyMapping journeyMapping = new JourneyMapping(tripId, serviceId, idGenerator.getId());
-        when(journeyMapperStore.getMappingByServiceId(anyString())).thenReturn(journeyMapping);
+        List<JourneyMapping> journeyMappingList = new ArrayList<>();
+        journeyMappingList.add(journeyMapping);
+        when(journeyMapperStore.getMappingsByServiceId(anyString())).thenReturn(journeyMappingList);
 
         GtfsCalendarDate gtfsCalendarDate = buildCalendarDate(serviceId, "20170101");
 

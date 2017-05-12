@@ -17,7 +17,7 @@ public class MapperConfiguration {
     }
 
     @Bean("calendarDateMapperStore")
-    public MapperStore<Long, CalendarDateMapping> calendarDateMapperStore() {
+    public MapperStore<String, CalendarDateMapping> calendarDateMapperStore() {
         return new MapperStore<>();
     }
 

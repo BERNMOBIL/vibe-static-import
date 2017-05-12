@@ -20,21 +20,32 @@ public class JobListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
+        while(!updateManager.checkUpdateCollision()) {
+            logger.info("update collision, try again..");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         updateManager.createUpdateTimestamp();
+        updateManager.setInProgressStatus();
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
         BatchStatus status = jobExecution.getStatus();
         if(!status.equals(BatchStatus.COMPLETED)) {
-            logger.warn(String.format("Job execution failed. %s",
-                    jobExecution.getAllFailureExceptions()));
+            logger.warn(String.format("Job execution failed. %s", jobExecution.getAllFailureExceptions()));
             logger.info("Reparing database");
             updateManager.repairFailedUpdate();
+            updateManager.setErrorStatus();
             logger.info("Reparing database finished");
         } else {
             logger.info("Success - start update cleanup");
             updateManager.cleanOldData();
+            updateManager.setSuccessStatus();
             logger.info("Finished - everything up to date");
         }
     }

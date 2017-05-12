@@ -1,5 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
+import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;

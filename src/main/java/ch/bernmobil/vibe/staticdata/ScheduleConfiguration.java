@@ -33,9 +33,9 @@ public class ScheduleConfiguration {
                 .addString(staticImportJob.getName(),String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();
 
-        logger.info(
-                String.format("Job started [%s, with params {%s}] at %s", staticImportJob.getName(),
-                        param.toString(), LocalTime.now()));
+        logger.info(String.format("Job started [%s, with params {%s}] at %s", staticImportJob.getName(),
+                    param.toString(),
+                    LocalTime.now()));
 
         JobExecution execution = jobLauncher.run(staticImportJob, param);
 

@@ -1,7 +1,10 @@
 package ch.bernmobil.vibe.staticdata;
 
+import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
+import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport.ListUnpackingItemWriter;
 import ch.bernmobil.vibe.staticdata.importer.Import;
 import ch.bernmobil.vibe.staticdata.importer.RouteImport;
 import ch.bernmobil.vibe.staticdata.importer.StopImport;
@@ -15,6 +18,7 @@ import ch.bernmobil.vibe.staticdata.processor.RouteProcessor;
 import ch.bernmobil.vibe.staticdata.processor.ScheduleProcessor;
 import ch.bernmobil.vibe.staticdata.processor.StopProcessor;
 import ch.bernmobil.vibe.staticdata.writer.ZipInputStreamWriter;
+import java.util.List;
 import java.util.zip.ZipInputStream;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Step;
@@ -81,9 +85,23 @@ public class DataImportJobConfiguration {
 
     @Bean
     public Step calendarDateImportStep() {
+        /*
         return createStepBuilder("calendar-date import",
                 new CalendarDateImport(postgresDataSource, destinationFolder),
                 applicationContext.getBean(CalendarDateProcessor.class));
+*/
+        CalendarDateImport importer = new CalendarDateImport(postgresDataSource, destinationFolder);
+
+        ListUnpackingItemWriter listUnpackingItemWriter = importer.new ListUnpackingItemWriter<CalendarDate>();
+        listUnpackingItemWriter.setDelegate(importer.writer());
+
+        return stepBuilderFactory.get("calendar-date import")
+            .<GtfsCalendarDate, List<CalendarDate>>chunk(CHUNK_SIZE)
+            .reader(importer.reader())
+            .processor(applicationContext.getBean(CalendarDateProcessor.class))
+            .writer(listUnpackingItemWriter)
+            .build();
+
     }
 
     @Bean

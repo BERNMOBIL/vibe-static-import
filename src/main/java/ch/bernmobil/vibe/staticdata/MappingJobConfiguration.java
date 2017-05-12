@@ -56,8 +56,7 @@ public class MappingJobConfiguration {
         MapperStore<Long, CalendarDateMapping> mapperStore =
                 (MapperStore<Long, CalendarDateMapping>)applicationContext.getBean("calendarDateMapperStore");
 
-        CalendarDateMapperHelper helper = new CalendarDateMapperHelper(mapperDataSource,
-                mapperStore);
+        CalendarDateMapperHelper helper = new CalendarDateMapperHelper(mapperDataSource, mapperStore);
         return buildMappingStep(helper, "calendar date mapper");
     }
 

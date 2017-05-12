@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ public class UpdateManager {
     private static final String[] TABLES_TO_DELETE = {"schedule", "calendar_date", "calendar_exception", "journey", "route", "stop", "area"};
     private static final String[] MAPPING_TABLES_TO_DELETE = {"area_mapper", "calendar_date_mapper", "journey_mapper", "route_mapper", "stop_mapper"};
     private static final int UPDATE_HISTORY_LENGTH = 2;
+
 
     @Autowired
     public UpdateManager(
@@ -37,11 +39,10 @@ public class UpdateManager {
     public void createUpdateTimestamp() {
         Timestamp now = new Timestamp(System.currentTimeMillis());
         String query = new PreparedStatement().Insert("update_history", "time").getQuery();
-        jdbcMapperTemplate.update(query, new Object[]{now}, new int[]{Types.TIMESTAMP});
+        jdbcVibeTemplate.update(query, new Object[]{now}, new int[]{Types.TIMESTAMP});
         updateHistory.add(now);
     }
 
-    //TODO Split up update manager and inject a proxy object containing a history object which lazy loads the updates if needed
     public static Timestamp getLatestUpdateTimestamp() {
         if (updateHistory.isEmpty()) {
             return new Timestamp(0);
@@ -72,8 +73,7 @@ public class UpdateManager {
 
     public void repairFailedUpdate() {
         Timestamp failedUpdateTimestamp = getLatestUpdateTimestamp();
-        deleteByUpdateTimestamp("update_history", failedUpdateTimestamp, jdbcMapperTemplate,
-                "time");
+        deleteByUpdateTimestamp("update_history", failedUpdateTimestamp, jdbcVibeTemplate, "time");
         deleteByUpdateTimestamp(TABLES_TO_DELETE, failedUpdateTimestamp, jdbcVibeTemplate);
         deleteByUpdateTimestamp(MAPPING_TABLES_TO_DELETE, failedUpdateTimestamp,
                 jdbcMapperTemplate);
@@ -121,10 +121,43 @@ public class UpdateManager {
     public void loadUpdateHistory() {
         updateHistory = new ArrayList<>();
         String query = new QueryBuilder().select("update_history").getQuery();
-        List<Map<String, Object>> rows = jdbcMapperTemplate.queryForList(query);
+        List<Map<String, Object>> rows = jdbcVibeTemplate.queryForList(query);
         for (Map row : rows) {
             Timestamp timestamp = (Timestamp) row.get("time");
             updateHistory.add(timestamp);
         }
     }
+
+    public boolean checkUpdateCollision() {
+        String subquery = "(" + new QueryBuilder().select("max(time)", "update_history").getQuery() + ")";
+        Predicate predicate = Predicate.equals("time", subquery);
+        String query = new QueryBuilder().select("status", "update_history").where(predicate).getQuery();
+        String status;
+        try {
+            status = jdbcVibeTemplate.queryForObject(query, String.class);
+        } catch(EmptyResultDataAccessException e) {
+            return true;
+        }
+
+        return status == null || !status.equals("InProgress");
+    }
+
+    public void setSuccessStatus() {
+        setStatus("success");
+    }
+
+    public void setErrorStatus() {
+        setStatus("failed");
+    }
+
+    public void setInProgressStatus() {
+        setStatus("InProgress");
+    }
+
+    private void setStatus(String status) {
+        String subquery = "(" + new QueryBuilder().select("max(time)", "update_history").getQuery() + ")";
+        String query = "UPDATE update_history SET status = '" + status + "' WHERE time = " + subquery;
+        jdbcVibeTemplate.update(query);
+    }
+
 }

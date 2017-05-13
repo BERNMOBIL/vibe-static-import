@@ -1,4 +1,4 @@
-package ch.bernmobil.vibe.staticdata;
+package ch.bernmobil.vibe.staticdata.configuration;
 
 import ch.bernmobil.vibe.staticdata.mapper.AreaMapperHelper;
 import ch.bernmobil.vibe.staticdata.mapper.CalendarDateMapperHelper;

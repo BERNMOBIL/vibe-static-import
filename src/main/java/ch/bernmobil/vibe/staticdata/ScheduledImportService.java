@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @EnableScheduling
-public class ScheduleConfiguration {
-    private final static Logger logger = Logger.getLogger(ScheduleConfiguration.class);
+public class ScheduledImportService {
+    private final static Logger logger = Logger.getLogger(ScheduledImportService.class);
 
     private JobLauncher jobLauncher;
 

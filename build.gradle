@@ -61,6 +61,8 @@ dependencies {
     compile('org.postgresql:postgresql')
     compile('org.springframework.boot:spring-boot-starter-amqp')
     compile('org.springframework.cloud:spring-cloud-starter-bus-amqp')
+    compile('org.jooq:jooq:3.9.1')
+    compile('org.jooq:jool:0.9.12')
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
     runtime 'org.xerial:sqlite-jdbc:3.16.1'
     testCompile('org.springframework.boot:spring-boot-starter-test')

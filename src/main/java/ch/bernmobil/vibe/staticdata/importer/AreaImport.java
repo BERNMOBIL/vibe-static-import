@@ -8,7 +8,15 @@ import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+import org.jooq.impl.DefaultDSLContext;
+import org.jooq.impl.TableImpl;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
+
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
 
 public class AreaImport extends Import<GtfsStop, Area> {
     private static final String[] FIELD_NAMES = {"stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station"};
@@ -16,6 +24,7 @@ public class AreaImport extends Import<GtfsStop, Area> {
     private static final String TABLE_NAME = "area";
     private static final String[] DATABASE_FIELDS = {"id", "name", "update"};
     private static final String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(TABLE_NAME, DATABASE_FIELDS).getQuery();
+
 
     public AreaImport(DataSource dataSource, String folder) {
         super(dataSource, FIELD_NAMES, folder + PATH, new StopFieldSetMapper(), INSERT_QUERY, new AreaPreparedStatementSetter());
@@ -31,7 +40,6 @@ public class AreaImport extends Import<GtfsStop, Area> {
             ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
         }
     }
-
 
     public static String getTableName() {
         return TABLE_NAME;

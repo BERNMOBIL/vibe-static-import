@@ -155,6 +155,7 @@ public class UpdateManager {
     }
 
     private void setStatus(String status) {
+        //TODO: Possible SQL Injection
         String subquery = "(" + new QueryBuilder().select("max(time)", "update_history").getQuery() + ")";
         String query = "UPDATE update_history SET status = '" + status + "' WHERE time = " + subquery;
         jdbcVibeTemplate.update(query);

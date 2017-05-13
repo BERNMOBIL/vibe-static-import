@@ -90,6 +90,7 @@ public class DataImportJobConfiguration {
                 new CalendarDateImport(postgresDataSource, destinationFolder),
                 applicationContext.getBean(CalendarDateProcessor.class));
 */
+        //TODO: extract ListUnpackingItemWriter into its own class and overwrite the itemwriter in CalendarDate configuration
         CalendarDateImport importer = new CalendarDateImport(postgresDataSource, destinationFolder);
 
         ListUnpackingItemWriter listUnpackingItemWriter = importer.new ListUnpackingItemWriter<CalendarDate>();

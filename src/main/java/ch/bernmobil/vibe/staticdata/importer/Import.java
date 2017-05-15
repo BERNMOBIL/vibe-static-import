@@ -4,6 +4,7 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -54,7 +55,7 @@ public abstract class Import<TIn, TOut> {
 
     @Bean
     @StepScope
-    public JdbcBatchItemWriter<TOut> writer() {
+    public ItemWriter<TOut> writer() {
         JdbcBatchItemWriter<TOut> writer = new JdbcBatchItemWriter<>();
         writer.setSql(preparedStatementString);
         writer.setItemPreparedStatementSetter(itemPreparedStatementSetter);

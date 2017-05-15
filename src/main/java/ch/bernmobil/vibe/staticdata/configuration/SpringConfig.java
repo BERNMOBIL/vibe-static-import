@@ -1,4 +1,4 @@
-package ch.bernmobil.vibe.staticdata;
+package ch.bernmobil.vibe.staticdata.configuration;
 
 import java.net.MalformedURLException;
 import javax.sql.DataSource;

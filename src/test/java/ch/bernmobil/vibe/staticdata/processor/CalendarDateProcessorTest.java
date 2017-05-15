@@ -35,7 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = { TestConfiguration.class })
 @ActiveProfiles("testConfiguration")
 public class CalendarDateProcessorTest {
-    private MapperStore<Long, CalendarDateMapping> mapperStore;
+    private MapperStore<String, CalendarDateMapping> mapperStore;
     private JourneyMapperStore journeyMapperStore;
     private UuidGenerator idGenerator;
 
@@ -54,19 +54,19 @@ public class CalendarDateProcessorTest {
 
         CalendarDateProcessor processor = new CalendarDateProcessor(mapperStore, journeyMapperStore);
         processor.setIdGenerator(idGenerator);
-        CalendarDate c = processor.process(gtfsCalendarDate);
+        List<CalendarDate> c = processor.process(gtfsCalendarDate);
 
-        assertThat(c.getId(), is(calendarDateId));
-        assertThat(c.getJourney(), is(calendarDateId));
+        assertThat(c.get(0).getId(), is(calendarDateId));
+        assertThat(c.get(0).getJourney(), is(calendarDateId));
 
         Date sqlDate = Date.valueOf("2017-01-01");
-        assertThat(c.getValidFrom(), is(sqlDate));
-        assertThat(c.getValidUntil(), is(sqlDate));
+        assertThat(c.get(0).getValidFrom(), is(sqlDate));
+        assertThat(c.get(0).getValidUntil(), is(sqlDate));
 
         JsonObject json = new JsonParser().parse("{service_days: [\"SUNDAY\"]}").getAsJsonObject();
-        assertThat(c.getDays(), is(json));
+        assertThat(c.get(0).getDays(), is(json));
 
-        verify(mapperStore, times(1)).addMapping(eq(Long.parseLong(serviceId)), any(CalendarDateMapping.class));
+        verify(mapperStore, times(1)).addMapping(anyString(), any(CalendarDateMapping.class));
         verify(idGenerator, times(1)).next();
 
     }
@@ -80,7 +80,7 @@ public class CalendarDateProcessorTest {
 
     @Autowired
     public void setMapperStore(
-            MapperStore<Long, CalendarDateMapping> mapperStore) {
+            MapperStore<String, CalendarDateMapping> mapperStore) {
         this.mapperStore = mapperStore;
     }
 

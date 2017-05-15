@@ -6,18 +6,23 @@ import ch.bernmobil.vibe.staticdata.QueryBuilder.Predicate;
 import ch.bernmobil.vibe.staticdata.entity.UpdateHistory;
 import ch.bernmobil.vibe.staticdata.repository.UpdateHistoryRepository;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UpdateManager {
+
     private final JdbcTemplate jdbcMapperTemplate;
     private final JdbcTemplate jdbcVibeTemplate;
+    private static ArrayList<Timestamp> updateHistory;
     private static final String[] TABLES_TO_DELETE = {"schedule", "calendar_date", "calendar_exception", "journey", "route", "stop", "area"};
     private static final String[] MAPPING_TABLES_TO_DELETE = {"area_mapper", "calendar_date_mapper", "journey_mapper", "route_mapper", "stop_mapper"};
     //TODO: Extract to config file

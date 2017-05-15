@@ -2,7 +2,7 @@ package ch.bernmobil.vibe.staticdata.listener;
 
 import ch.bernmobil.vibe.staticdata.UpdateManager;
 import ch.bernmobil.vibe.staticdata.UpdateManager.Status;
-import ch.bernmobil.vibe.staticdata.entity.UpdateHistory;
+import ch.bernmobil.vibe.staticdata.communication.UpdateNotificationSender;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -15,10 +15,12 @@ public class JobListener implements JobExecutionListener {
     private static Logger logger = Logger.getLogger(JobListener.class);
     private final UpdateManager updateManager;
     private boolean ignoreUpdate = false;
+    private final UpdateNotificationSender updateNotificationSender;
 
     @Autowired
-    public JobListener(UpdateManager updateManager) {
+    public JobListener(UpdateManager updateManager, UpdateNotificationSender updateNotificationSender) {
         this.updateManager = updateManager;
+        this.updateNotificationSender = updateNotificationSender;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class JobListener implements JobExecutionListener {
             logger.info("Reparing database");
             updateManager.repairFailedUpdate();
             updateManager.setStatus(Status.FAILED);
+            updateNotificationSender.sendNotification();
             logger.info("Reparing database finished");
         }
     }

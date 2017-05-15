@@ -28,7 +28,7 @@ public class RouteImport extends Import<GtfsRoute, Route> {
             ps.setObject(1, item.getId());
             ps.setInt(2, item.getType());
             ps.setString(3, item.getLine());
-            ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(4, UpdateManager.activeUpdateTimestamp);
         }
     }
 

@@ -34,7 +34,7 @@ public class JourneyMapperHelper extends Mapper<JourneyMapping> {
             ps.setString(1, item.getGtfsTripId());
             ps.setString(2, item.getGtfsServiceId());
             ps.setObject(3, item.getId());
-            ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(4, UpdateManager.activeUpdateTimestamp);
         }
     }
 }

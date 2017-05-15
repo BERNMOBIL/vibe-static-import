@@ -44,7 +44,7 @@ public class CalendarDateImport extends Import<GtfsCalendarDate, CalendarDate> {
                 ps.setDate(3, item.getValidUntil());
                 ps.setObject(4, item.getJourney());
                 ps.setObject(5, createPgJson(item.getDays()));
-                ps.setTimestamp(6, UpdateManager.getLatestUpdateTimestamp());
+                ps.setTimestamp(6, UpdateManager.activeUpdateTimestamp);
         }
 
         private PGobject createPgJson(JsonObject days) throws SQLException {

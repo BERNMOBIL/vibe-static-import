@@ -29,7 +29,7 @@ public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping> {
         public void setValues(CalendarDateMapping item, PreparedStatement ps) throws SQLException {
             ps.setLong(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(3, UpdateManager.activeUpdateTimestamp);
         }
     }
 }

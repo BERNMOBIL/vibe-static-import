@@ -32,7 +32,7 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
             ps.setTime(4, item.getPlannedDeparture());
             ps.setObject(5, item.getStop());
             ps.setObject(6, item.getJourney());
-            ps.setTimestamp(7, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(7, UpdateManager.activeUpdateTimestamp);
         }
     }
 

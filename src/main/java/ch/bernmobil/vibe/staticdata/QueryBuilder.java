@@ -51,6 +51,16 @@ public class QueryBuilder {
         return this;
     }
 
+    public QueryBuilder orderby(String ordering) {
+        query += " ORDER BY " + ordering;
+        return this;
+    }
+
+    public QueryBuilder limit(String num) {
+        query += " LIMIT " + num;
+        return this;
+    }
+
     public String getQuery() {
         return query;
     }

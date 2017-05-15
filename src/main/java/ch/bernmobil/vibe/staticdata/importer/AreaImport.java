@@ -28,7 +28,7 @@ public class AreaImport extends Import<GtfsStop, Area> {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
             // TODO: inject
-            ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(3, UpdateManager.activeUpdateTimestamp);
         }
     }
 

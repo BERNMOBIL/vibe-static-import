@@ -29,7 +29,7 @@ public class TripImport extends Import<GtfsTrip, Journey> {
             ps.setString(2, item.getHeadsign());
             ps.setObject(3, item.getRoute());
             ps.setObject(4, item.getTerminalStation());
-            ps.setTimestamp(5, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(5, UpdateManager.activeUpdateTimestamp);
         }
     }
 

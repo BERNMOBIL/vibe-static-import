@@ -31,7 +31,7 @@ public class StopImport extends Import<GtfsStop, Stop> {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
             ps.setObject(3, item.getArea());
-            ps.setTimestamp(4, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(4, UpdateManager.activeUpdateTimestamp);
         }
     }
 

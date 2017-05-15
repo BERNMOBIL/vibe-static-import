@@ -43,8 +43,8 @@ public class StaticImportConfiguration {
                 .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())
                 //TODO: something
-                .flow(dataImportJobConfiguration.fileDownloadStep())
-                .next(dataImportJobConfiguration.areaImportStep())
+                //.flow(dataImportJobConfiguration.fileDownloadStep())
+                .flow(dataImportJobConfiguration.areaImportStep())
                 .next(dataImportJobConfiguration.stopImportStep())
                 .next(dataImportJobConfiguration.routeImportStep())
                 .next(dataImportJobConfiguration.journeyImportStep())

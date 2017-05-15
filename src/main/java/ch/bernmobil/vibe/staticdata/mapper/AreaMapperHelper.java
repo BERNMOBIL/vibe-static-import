@@ -29,7 +29,7 @@ public class AreaMapperHelper extends Mapper<AreaMapping> {
         public void setValues(AreaMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.getLatestUpdateTimestamp());
+            ps.setTimestamp(3, UpdateManager.activeUpdateTimestamp);
         }
     }
 }

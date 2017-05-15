@@ -1,6 +1,8 @@
 package ch.bernmobil.vibe.staticdata.listener;
 
 import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.staticdata.UpdateManager.Status;
+import ch.bernmobil.vibe.staticdata.entity.UpdateHistory;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class JobListener implements JobExecutionListener {
     private static Logger logger = Logger.getLogger(JobListener.class);
     private final UpdateManager updateManager;
+    private boolean ignoreUpdate = false;
 
     @Autowired
     public JobListener(UpdateManager updateManager) {
@@ -20,33 +23,33 @@ public class JobListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        while(!updateManager.checkUpdateCollision()) {
-            logger.info("update collision, try again..");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        if(updateManager.hasUpdateCollision()) {
+            logger.info("Update-Collision detected: Update aborted");
+            ignoreUpdate = true;
+            jobExecution.stop();
+        } else {
+            updateManager.startUpdate();
         }
-
-        updateManager.createUpdateTimestamp();
-        updateManager.setInProgressStatus();
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
+        if(ignoreUpdate) {
+            ignoreUpdate = false;
+            return;
+        }
         BatchStatus status = jobExecution.getStatus();
-        if(!status.equals(BatchStatus.COMPLETED)) {
+        if(status.equals(BatchStatus.COMPLETED)) {
+            logger.info("Success - start update cleanup");
+            updateManager.setStatus(Status.SUCCESS);
+            updateManager.cleanOldData();
+            logger.info("Finished - everything up to date");
+        } else {
             logger.warn(String.format("Job execution failed. %s", jobExecution.getAllFailureExceptions()));
             logger.info("Reparing database");
             updateManager.repairFailedUpdate();
-            updateManager.setErrorStatus();
+            updateManager.setStatus(Status.FAILED);
             logger.info("Reparing database finished");
-        } else {
-            logger.info("Success - start update cleanup");
-            updateManager.cleanOldData();
-            updateManager.setSuccessStatus();
-            logger.info("Finished - everything up to date");
         }
     }
 }

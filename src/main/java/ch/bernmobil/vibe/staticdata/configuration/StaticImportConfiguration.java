@@ -1,7 +1,5 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
-import ch.bernmobil.vibe.staticdata.configuration.DataImportJobConfiguration;
-import ch.bernmobil.vibe.staticdata.configuration.MappingJobConfiguration;
 import org.jooq.DSLContext;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
@@ -45,9 +43,8 @@ public class StaticImportConfiguration {
         return jobBuilderFactory.get("importStaticJob")
                 .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())
-                //TODO: something
-                //.flow(dataImportJobConfiguration.fileDownloadStep())
-                .flow(dataImportJobConfiguration.areaImportStep())
+                .flow(dataImportJobConfiguration.fileDownloadStep())
+                .next(dataImportJobConfiguration.areaImportStep())
                 .next(dataImportJobConfiguration.stopImportStep())
                 .next(dataImportJobConfiguration.routeImportStep())
                 .next(dataImportJobConfiguration.journeyImportStep())

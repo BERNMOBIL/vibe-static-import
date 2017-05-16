@@ -45,16 +45,16 @@ public class DataImportJobConfiguration {
     public String destinationFolder;
 
     private final StepBuilderFactory stepBuilderFactory;
-    private final DataSource postgresDataSource;
+    private final DataSource staticDataSource;
     private final ApplicationContext applicationContext;
 
     @Autowired
     public DataImportJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
-            @Qualifier("PostgresDataSource") DataSource postgresDataSource,
+            @Qualifier("StaticDataSource") DataSource staticDataSource,
             ApplicationContext applicationContext) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.postgresDataSource = postgresDataSource;
+        this.staticDataSource = staticDataSource;
         this.applicationContext = applicationContext;
     }
 
@@ -69,25 +69,25 @@ public class DataImportJobConfiguration {
 
     @Bean
     public Step areaImportStep() {
-        return createStepBuilder("area import", new AreaImport(postgresDataSource, destinationFolder), applicationContext.getBean(AreaProcessor.class));
+        return createStepBuilder("area import", new AreaImport(staticDataSource, destinationFolder), applicationContext.getBean(AreaProcessor.class));
     }
 
     @Bean
     public Step stopImportStep() {
         return createStepBuilder("stop import",
-                new StopImport(postgresDataSource, destinationFolder), applicationContext.getBean( StopProcessor.class));
+                new StopImport(staticDataSource, destinationFolder), applicationContext.getBean( StopProcessor.class));
     }
 
     @Bean
     public Step routeImportStep() {
         return createStepBuilder("route import",
-                new RouteImport(postgresDataSource, destinationFolder), applicationContext.getBean( RouteProcessor.class));
+                new RouteImport(staticDataSource, destinationFolder), applicationContext.getBean( RouteProcessor.class));
     }
 
     @Bean
     public Step calendarDateImportStep() {
-        CalendarDateImport importer = new CalendarDateImport(postgresDataSource, destinationFolder);
-
+        CalendarDateImport importer = new CalendarDateImport(staticDataSource, destinationFolder);
+        //TODO: unchecked
         ListUnpackingItemWriter listUnpackingItemWriter = new ListUnpackingItemWriter<CalendarDate>();
         listUnpackingItemWriter.setDelegate(importer.writer());
 
@@ -103,13 +103,13 @@ public class DataImportJobConfiguration {
     @Bean
     public Step journeyImportStep() {
         return createStepBuilder("journey import",
-                new TripImport(postgresDataSource, destinationFolder), applicationContext.getBean( JourneyProcessor.class));
+                new TripImport(staticDataSource, destinationFolder), applicationContext.getBean(JourneyProcessor.class));
     }
 
     @Bean
     public Step scheduleImportStep() {
         return createStepBuilder("schedule import",
-                new StopTimeImport(postgresDataSource, destinationFolder), applicationContext.getBean( ScheduleProcessor.class));
+                new StopTimeImport(staticDataSource, destinationFolder), applicationContext.getBean(ScheduleProcessor.class));
     }
 
     private <TIn, TOut> Step createStepBuilder(String name, Import<TIn, TOut> importer, ItemProcessor<TIn, TOut> processor) {

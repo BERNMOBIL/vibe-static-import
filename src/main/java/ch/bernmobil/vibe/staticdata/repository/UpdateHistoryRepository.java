@@ -1,10 +1,10 @@
 package ch.bernmobil.vibe.staticdata.repository;
 
-import ch.bernmobil.vibe.staticdata.entitiy.UpdateHistory;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.Predicate;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.PreparedStatement;
 import ch.bernmobil.vibe.staticdata.UpdateManager.Status;
+import ch.bernmobil.vibe.staticdata.entitiy.UpdateHistory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -24,7 +24,7 @@ public class UpdateHistoryRepository {
     private final JdbcTemplate jdbcTemplate;
     private final String TABLE = "update_history";
 
-    public UpdateHistoryRepository(@Qualifier("PostgresDataSource")DataSource dataSource) {
+    public UpdateHistoryRepository(@Qualifier("StaticDataSource")DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

@@ -2,8 +2,8 @@ package ch.bernmobil.vibe.staticdata;
 
 import static java.util.stream.Collectors.toList;
 
-import ch.bernmobil.vibe.staticdata.entitiy.UpdateHistory;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.Predicate;
+import ch.bernmobil.vibe.staticdata.entitiy.UpdateHistory;
 import ch.bernmobil.vibe.staticdata.repository.UpdateHistoryRepository;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,10 +33,10 @@ public class UpdateManager {
     @Autowired
     public UpdateManager(
         @Qualifier("MapperDataSource") DataSource mapperDataSource,
-        @Qualifier("PostgresDataSource") DataSource postgresDataSource,
+        @Qualifier("StaticDataSource") DataSource staticDataSource,
         UpdateHistoryRepository updateHistoryRepository) {
         jdbcMapperTemplate = new JdbcTemplate(mapperDataSource);
-        jdbcVibeTemplate = new JdbcTemplate(postgresDataSource);
+        jdbcVibeTemplate = new JdbcTemplate(staticDataSource);
         this.updateHistoryRepository = updateHistoryRepository;
     }
 

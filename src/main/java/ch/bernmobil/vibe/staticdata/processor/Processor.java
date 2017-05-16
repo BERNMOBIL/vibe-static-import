@@ -23,7 +23,7 @@ public abstract class Processor<TIn, TOut> implements ItemProcessor<TIn, TOut> {
     }
 
     @Autowired
-    public void setJdbcTemplate(@Qualifier("PostgresDataSource")DataSource dataSource) {
+    public void setJdbcTemplate(@Qualifier("StaticDataSource")DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

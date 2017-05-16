@@ -58,8 +58,8 @@ public class SpringConfig {
                 environment.getProperty("bernmobil.mappingrepository.datasource.password"));
     }
 
-    @Bean("PostgresDataSource")
-    public DataSource postgresDataSource() {
+    @Bean("StaticDataSource")
+    public DataSource StaticDataSource() {
         return createDataSource("org.postgresql.Driver",
                 environment.getProperty("spring.datasource.url"),
                 environment.getProperty("spring.datasource.username"),
@@ -72,7 +72,7 @@ public class SpringConfig {
     }
 
     @Bean("PostgresInitializer")
-    public DataSourceInitializer postgresInitializer(@Qualifier("PostgresDataSource") DataSource dataSource) {
+    public DataSourceInitializer postgresInitializer(@Qualifier("StaticDataSource") DataSource dataSource) {
         return dataSourceInitializer(dataSource);
     }
 

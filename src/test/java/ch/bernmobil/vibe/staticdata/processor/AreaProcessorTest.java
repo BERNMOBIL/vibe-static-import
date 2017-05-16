@@ -10,7 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import ch.bernmobil.vibe.staticdata.entity.Area;
+import ch.bernmobil.vibe.shared.entity.java.Area;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;

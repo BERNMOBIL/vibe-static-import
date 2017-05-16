@@ -1,16 +1,14 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entity.Journey;
+import ch.bernmobil.vibe.shared.entity.java.Journey;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapping;
-
+import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import java.util.Optional;
 import java.util.UUID;
-
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

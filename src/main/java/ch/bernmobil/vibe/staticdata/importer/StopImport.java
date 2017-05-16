@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
+import ch.bernmobil.vibe.shared.entity.java.Stop;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.UpdateManager;
-import ch.bernmobil.vibe.staticdata.entity.Stop;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import java.sql.PreparedStatement;

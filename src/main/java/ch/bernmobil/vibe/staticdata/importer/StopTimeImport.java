@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
+import ch.bernmobil.vibe.shared.entity.java.Schedule;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.UpdateManager;
-import ch.bernmobil.vibe.staticdata.entity.Schedule;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopTimeFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
 import java.sql.PreparedStatement;

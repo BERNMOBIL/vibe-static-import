@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
+import ch.bernmobil.vibe.shared.entity.java.Route;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.UpdateManager;
-import ch.bernmobil.vibe.staticdata.entity.Route;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.RouteFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
 import java.sql.PreparedStatement;

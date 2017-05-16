@@ -1,6 +1,7 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entity.Stop;
+
+import ch.bernmobil.vibe.shared.entity.java.Stop;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;

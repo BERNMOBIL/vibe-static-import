@@ -1,10 +1,10 @@
 package ch.bernmobil.vibe.staticdata.repository;
 
+import ch.bernmobil.vibe.shared.entity.java.UpdateHistory;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.Predicate;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.PreparedStatement;
 import ch.bernmobil.vibe.staticdata.UpdateManager.Status;
-import ch.bernmobil.vibe.staticdata.entity.UpdateHistory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;

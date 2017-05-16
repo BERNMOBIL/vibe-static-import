@@ -1,20 +1,16 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 
+import ch.bernmobil.vibe.shared.entity.java.CalendarDate;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.UpdateManager;
-import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
-import ch.bernmobil.vibe.staticdata.writer.ListUnpackingItemWriter;
 import com.google.gson.JsonObject;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 import javax.sql.DataSource;
 import org.postgresql.util.PGobject;
-import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {

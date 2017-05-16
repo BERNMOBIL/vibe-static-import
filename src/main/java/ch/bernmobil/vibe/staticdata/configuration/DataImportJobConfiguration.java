@@ -1,6 +1,7 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
-import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
+
+import ch.bernmobil.vibe.shared.entity.java.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
@@ -21,8 +22,6 @@ import ch.bernmobil.vibe.staticdata.writer.ZipInputStreamWriter;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 import javax.sql.DataSource;
-
-import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;

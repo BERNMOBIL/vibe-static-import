@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
+import ch.bernmobil.vibe.shared.entity.java.Journey;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.UpdateManager;
-import ch.bernmobil.vibe.staticdata.entity.Journey;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.TripFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
 import java.sql.PreparedStatement;

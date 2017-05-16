@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entity.java.Journey;
+import ch.bernmobil.vibe.staticdata.entitiy.Journey;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;

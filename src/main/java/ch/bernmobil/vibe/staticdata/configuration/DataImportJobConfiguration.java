@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
 
-import ch.bernmobil.vibe.shared.entity.java.CalendarDate;
+import ch.bernmobil.vibe.staticdata.entitiy.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;

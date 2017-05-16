@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entity.java.Schedule;
+import ch.bernmobil.vibe.staticdata.entitiy.Schedule;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;

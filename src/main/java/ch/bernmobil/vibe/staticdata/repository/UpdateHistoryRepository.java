@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.repository;
 
-import ch.bernmobil.vibe.shared.entity.java.UpdateHistory;
+import ch.bernmobil.vibe.staticdata.entitiy.UpdateHistory;
 import ch.bernmobil.vibe.staticdata.QueryBuilder;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.Predicate;
 import ch.bernmobil.vibe.staticdata.QueryBuilder.PreparedStatement;

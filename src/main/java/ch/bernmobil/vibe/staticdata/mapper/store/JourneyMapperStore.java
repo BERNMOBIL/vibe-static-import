@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.mapper.store;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
+import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

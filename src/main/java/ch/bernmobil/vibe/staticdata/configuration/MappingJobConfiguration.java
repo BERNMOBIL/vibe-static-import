@@ -1,5 +1,9 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
+import ch.bernmobil.vibe.shared.mapping.AreaMapping;
+import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
+import ch.bernmobil.vibe.shared.mapping.RouteMapping;
+import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.mapper.AreaMapperHelper;
 import ch.bernmobil.vibe.staticdata.mapper.CalendarDateMapperHelper;
 import ch.bernmobil.vibe.staticdata.mapper.JourneyMapperHelper;
@@ -8,10 +12,6 @@ import ch.bernmobil.vibe.staticdata.mapper.RouteMapperHelper;
 import ch.bernmobil.vibe.staticdata.mapper.StopMapperHelper;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;

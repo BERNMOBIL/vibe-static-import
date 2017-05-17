@@ -1,11 +1,11 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entitiy.CalendarDate;
+import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
+import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
+import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;

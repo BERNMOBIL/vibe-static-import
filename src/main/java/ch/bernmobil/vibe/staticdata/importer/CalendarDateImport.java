@@ -1,9 +1,9 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 
-import ch.bernmobil.vibe.staticdata.entitiy.CalendarDate;
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import com.google.gson.JsonObject;
@@ -33,7 +33,7 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
                 ps.setDate(3, item.getValidUntil());
                 ps.setObject(4, item.getJourney());
                 ps.setObject(5, createPgJson(item.getDays()));
-                ps.setTimestamp(6, UpdateManager.activeUpdateTimestamp);
+                ps.setTimestamp(6, UpdateManager.getActiveUpdateTimestamp());
         }
 
         private PGobject createPgJson(JsonObject days) throws SQLException {
@@ -42,9 +42,6 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
             jsonObject.setValue(days.toString());
             return jsonObject;
         }
-    }
-    public static String getTableName() {
-        return TABLE_NAME;
     }
 
 }

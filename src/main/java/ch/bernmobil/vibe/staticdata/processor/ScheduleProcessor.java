@@ -1,11 +1,11 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entitiy.Schedule;
+import ch.bernmobil.vibe.shared.entitiy.Schedule;
+import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
+import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import java.sql.Time;
 import java.util.UUID;
 import org.apache.log4j.Logger;

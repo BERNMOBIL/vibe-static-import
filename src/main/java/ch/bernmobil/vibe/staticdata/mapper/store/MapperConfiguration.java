@@ -1,12 +1,11 @@
 package ch.bernmobil.vibe.staticdata.mapper.store;
 
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
+import ch.bernmobil.vibe.shared.mapping.AreaMapping;
+import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
+import ch.bernmobil.vibe.shared.mapping.RouteMapping;
+import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class MapperConfiguration {

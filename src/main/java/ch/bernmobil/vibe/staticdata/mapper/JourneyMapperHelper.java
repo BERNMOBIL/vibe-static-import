@@ -1,12 +1,9 @@
 package ch.bernmobil.vibe.staticdata.mapper;
 
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.JourneyMapping;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
-
-import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -34,7 +31,7 @@ public class JourneyMapperHelper extends Mapper<JourneyMapping> {
             ps.setString(1, item.getGtfsTripId());
             ps.setString(2, item.getGtfsServiceId());
             ps.setObject(3, item.getId());
-            ps.setTimestamp(4, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(4, UpdateManager.getActiveUpdateTimestamp());
         }
     }
 }

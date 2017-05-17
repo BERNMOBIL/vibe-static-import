@@ -1,6 +1,10 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
+import ch.bernmobil.vibe.shared.UpdateHistoryRepository;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateManagerRepository;
 import java.net.MalformedURLException;
+import java.time.Duration;
 import javax.sql.DataSource;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
@@ -18,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -92,6 +97,30 @@ public class SpringConfig {
         jobLauncher.setJobRepository(getJobRepository());
         jobLauncher.afterPropertiesSet();
         return jobLauncher;
+    }
+
+    @Bean
+    public UpdateManager updateManager(@Qualifier("MapperRepository") UpdateManagerRepository mapperRepository,
+            @Qualifier("StaticRepository") UpdateManagerRepository staticRepository,
+            UpdateHistoryRepository updateHistoryRepository) {
+        int historySize = environment.getProperty("bernmobil.history.size", Integer.class);
+        Duration timeout = Duration.ofMinutes(environment.getProperty("bernmobil.history.timeout-duration", Long.class));
+        return new UpdateManager(mapperRepository, staticRepository, updateHistoryRepository, historySize, timeout);
+    }
+
+    @Bean(name = "MapperRepository")
+    public UpdateManagerRepository mapperRepository(@Qualifier("MapperDataSource") DataSource mapperDataSource) {
+        return new UpdateManagerRepository(new JdbcTemplate(mapperDataSource));
+    }
+
+    @Bean(name = "StaticRepository")
+    public UpdateManagerRepository staticRepository(@Qualifier("StaticDataSource")DataSource staticDataSource) {
+        return new UpdateManagerRepository(new JdbcTemplate(staticDataSource));
+    }
+
+    @Bean
+    public UpdateHistoryRepository updateHistoryRepository(@Qualifier("StaticDataSource") DataSource dataSource) {
+        return new UpdateHistoryRepository(dataSource);
     }
 
     private DataSourceInitializer dataSourceInitializer(DataSource dataSource) {

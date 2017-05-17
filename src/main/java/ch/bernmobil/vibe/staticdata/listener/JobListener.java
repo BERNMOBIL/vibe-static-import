@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.listener;
 
-import ch.bernmobil.vibe.staticdata.UpdateManager;
-import ch.bernmobil.vibe.staticdata.UpdateManager.Status;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateManager.Status;
 import ch.bernmobil.vibe.staticdata.communication.UpdateNotificationSender;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;

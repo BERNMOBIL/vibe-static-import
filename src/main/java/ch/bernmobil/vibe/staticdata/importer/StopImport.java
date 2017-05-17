@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.staticdata.entitiy.Stop;
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.entitiy.Stop;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import java.sql.PreparedStatement;
@@ -31,7 +31,7 @@ public class StopImport extends Import<GtfsStop, Stop> {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
             ps.setObject(3, item.getArea());
-            ps.setTimestamp(4, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(4, UpdateManager.getActiveUpdateTimestamp());
         }
     }
 

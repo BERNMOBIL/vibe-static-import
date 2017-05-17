@@ -109,4 +109,32 @@ public class BernmobilConfigurationProperties {
             this.fanoutQueue = fanoutQueue;
         }
     }
+
+    @ConfigurationProperties(prefix = "bernmobil.history")
+    public class History {
+        /**
+         * Defines how many different import versions are stored in the database
+         */
+        private int size;
+        /**
+         * Defines how long the realtime service in minutes
+         */
+        private long timeoutDuration;
+
+        public int getSize() {
+            return size;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
+        }
+
+        public long getTimeoutDuration() {
+            return timeoutDuration;
+        }
+
+        public void setTimeoutDuration(long timeoutDuration) {
+            this.timeoutDuration = timeoutDuration;
+        }
+    }
 }

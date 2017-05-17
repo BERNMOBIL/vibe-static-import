@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.staticdata.entitiy.Route;
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.entitiy.Route;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.RouteFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
 import java.sql.PreparedStatement;
@@ -28,7 +28,7 @@ public class RouteImport extends Import<GtfsRoute, Route> {
             ps.setObject(1, item.getId());
             ps.setInt(2, item.getType());
             ps.setString(3, item.getLine());
-            ps.setTimestamp(4, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(4, UpdateManager.getActiveUpdateTimestamp());
         }
     }
 

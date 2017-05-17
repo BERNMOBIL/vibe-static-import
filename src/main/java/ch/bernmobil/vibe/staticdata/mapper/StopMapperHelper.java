@@ -1,9 +1,9 @@
 package ch.bernmobil.vibe.staticdata.mapper;
 
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -29,7 +29,7 @@ public class StopMapperHelper extends Mapper<StopMapping> {
         public void setValues(StopMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
         }
     }
 }

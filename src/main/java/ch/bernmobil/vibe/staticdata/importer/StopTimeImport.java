@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.staticdata.entitiy.Schedule;
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.entitiy.Schedule;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopTimeFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
 import java.sql.PreparedStatement;
@@ -32,11 +32,7 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
             ps.setTime(4, item.getPlannedDeparture());
             ps.setObject(5, item.getStop());
             ps.setObject(6, item.getJourney());
-            ps.setTimestamp(7, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(7, UpdateManager.getActiveUpdateTimestamp());
         }
-    }
-
-    public static String getTableName() {
-        return TABLE_NAME;
     }
 }

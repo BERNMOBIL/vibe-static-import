@@ -23,5 +23,8 @@ bernmobil:
     folder: /tmp/gtfs/
   amqp:
     fanout-queue: ch.bernmobil.vibe.update-queue
+  history:
+    size: 2
+    timeout-duration: 30
 
 

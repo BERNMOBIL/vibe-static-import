@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.staticdata.entitiy.Journey;
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.entitiy.Journey;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.TripFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
 import java.sql.PreparedStatement;
@@ -29,7 +29,7 @@ public class TripImport extends Import<GtfsTrip, Journey> {
             ps.setString(2, item.getHeadsign());
             ps.setObject(3, item.getRoute());
             ps.setObject(4, item.getTerminalStation());
-            ps.setTimestamp(5, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(5, UpdateManager.getActiveUpdateTimestamp());
         }
     }
 

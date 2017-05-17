@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
 
-import ch.bernmobil.vibe.staticdata.entitiy.CalendarDate;
+import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.importer.AreaImport;
 import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
@@ -81,7 +81,7 @@ public class DataImportJobConfiguration {
     @Bean
     public Step routeImportStep() {
         return createStepBuilder("route import",
-                new RouteImport(staticDataSource, destinationFolder), applicationContext.getBean( RouteProcessor.class));
+                new RouteImport(staticDataSource, destinationFolder), applicationContext.getBean(RouteProcessor.class));
     }
 
     @Bean

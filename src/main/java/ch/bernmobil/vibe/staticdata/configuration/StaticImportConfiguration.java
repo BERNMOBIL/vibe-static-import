@@ -1,6 +1,5 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
-import org.jooq.DSLContext;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -39,7 +38,7 @@ public class StaticImportConfiguration {
     }
 
     @Bean
-    public Job importStaticJob(DSLContext dslContext){
+    public Job importStaticJob(){
         return jobBuilderFactory.get("importStaticJob")
                 .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())

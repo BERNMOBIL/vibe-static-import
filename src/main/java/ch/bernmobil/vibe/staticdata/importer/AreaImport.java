@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.staticdata.entitiy.Area;
-import ch.bernmobil.vibe.staticdata.QueryBuilder;
-import ch.bernmobil.vibe.staticdata.UpdateManager;
+import ch.bernmobil.vibe.shared.QueryBuilder;
+import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
 import java.sql.PreparedStatement;
@@ -30,7 +30,7 @@ public class AreaImport extends Import<GtfsStop, Area> {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
             // TODO: inject
-            ps.setTimestamp(3, UpdateManager.activeUpdateTimestamp);
+            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
         }
     }
 

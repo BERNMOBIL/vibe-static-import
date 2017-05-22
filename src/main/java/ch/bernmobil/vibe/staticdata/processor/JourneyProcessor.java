@@ -5,9 +5,9 @@ import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import java.util.Optional;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 public class JourneyProcessor extends Processor<GtfsTrip, Journey> {
     private final MapperStore<String, RouteMapping> mapperStore;
     private final JourneyMapperStore journeyMapperStore;
-    private final MapperStore<String, StopMapping> stopMapperStore;
+    private final StopMapperStore stopMapperStore;
 
     @Autowired
     public JourneyProcessor(MapperStore<String, RouteMapping> mapperStore,
                             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore,
-                            MapperStore<String, StopMapping> stopMapperStore) {
+                            StopMapperStore stopMapperStore) {
         this.mapperStore = mapperStore;
         this.journeyMapperStore = journeyMapperStore;
         this.stopMapperStore = stopMapperStore;
@@ -36,15 +36,10 @@ public class JourneyProcessor extends Processor<GtfsTrip, Journey> {
         String gtfsId = item.getTripId();
         String gtfsServiceId = item.getServiceId();
 
-        Optional<StopMapping> stopMapping = stopMapperStore
-                .getMappings()
-                .stream()
-                .filter(s -> s.getName().equals(headsign))
-                .findFirst();
-
+        StopMapping stopMapping = stopMapperStore.getStopByStopName(headsign);
         UUID terminalStation = null;
-        if(stopMapping.isPresent()) {
-            terminalStation = stopMapping.get().getId();
+        if(stopMapping != null) {
+            terminalStation = stopMapping.getId();
         }
 
         UUID id = idGenerator.getId();

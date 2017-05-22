@@ -1,6 +1,6 @@
-package ch.bernmobil.vibe.staticdata.mapper;
+package ch.bernmobil.vibe.staticdata.importer.mapping;
 
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.writer.LazyItemReader;
 import javax.sql.DataSource;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -10,14 +10,13 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.context.annotation.Bean;
 
-public abstract class Mapper<T> {
-
+public abstract class MapperImport<T> {
     private final DataSource dataSource;
     private final String preparedStatement;
     private final ItemPreparedStatementSetter<T> preparedStatementSetter;
     private final MapperStore<?, T> mapperStore;
 
-    public Mapper(DataSource dataSource,
+    public MapperImport(DataSource dataSource,
             String preparedStatement,
             ItemPreparedStatementSetter<T> preparedStatementSetter,
             MapperStore<?, T> mapperStore) {
@@ -26,7 +25,6 @@ public abstract class Mapper<T> {
         this.preparedStatementSetter = preparedStatementSetter;
         this.mapperStore = mapperStore;
     }
-
 
     @Bean
     @StepScope

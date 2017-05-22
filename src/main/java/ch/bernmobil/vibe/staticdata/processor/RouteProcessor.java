@@ -4,7 +4,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.shared.entitiy.Route;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,9 +22,8 @@ public class RouteProcessor extends Processor<GtfsRoute, Route> {
     @Override
     public Route process(GtfsRoute item) throws Exception {
         int type = Integer.parseInt(item.getRouteType());
-        UUID id = idGenerator.getId();
+        UUID id = idGenerator.next();
         mapperStore.addMapping(item.getRouteId(), new RouteMapping(item.getRouteId(), id));
-        idGenerator.next();
         return new Route(id, type, item.getRouteShortName());
     }
 }

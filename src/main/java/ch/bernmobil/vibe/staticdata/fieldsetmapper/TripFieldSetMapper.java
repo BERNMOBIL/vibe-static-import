@@ -1,16 +1,13 @@
 package ch.bernmobil.vibe.staticdata.fieldsetmapper;
 
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
-import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
 
 public class TripFieldSetMapper implements FieldSetMapper<GtfsTrip> {
 
-    private static Logger logger = Logger.getLogger(TripFieldSetMapper.class);
-
-    @Override
+   @Override
     public GtfsTrip mapFieldSet(FieldSet fieldSet) throws BindException {
         GtfsTrip trip = new GtfsTrip();
 

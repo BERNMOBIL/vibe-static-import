@@ -4,8 +4,8 @@ import ch.bernmobil.vibe.shared.entitiy.Schedule;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import java.sql.Time;
 import java.util.UUID;
 import org.apache.log4j.Logger;
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
     private  final Logger logger = Logger.getLogger(ScheduleProcessor.class);
-    private final MapperStore<String, StopMapping> stopMapper;
+    private final StopMapperStore stopMapper;
     private final JourneyMapperStore journeyMapper;
 
     @Autowired
     public ScheduleProcessor(
-            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
+            @Qualifier("stopMapperStore") StopMapperStore stopMapper,
             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapper) {
         this.stopMapper = stopMapper;
         this.journeyMapper = journeyMapper;
@@ -44,7 +44,6 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
             return null;
         }
 
-
         UUID stopId = stopMapping.getId();
         UUID journeyId = journeyMapping.getId();
 
@@ -58,7 +57,6 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
     }
 
     private String parsePlatform(String stopId)  {
-        String[] splitString = stopId.split("_");
-        return splitString[1];
+        return stopId.split("_")[1];
     }
 }

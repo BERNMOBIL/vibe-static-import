@@ -39,7 +39,7 @@ public class StaticImportConfiguration {
 
     @Bean
     public Job importStaticJob(){
-        return jobBuilderFactory.get("importStaticJob")
+        return jobBuilderFactory.get("Import static data")
                 .listener(jobExecutionListener)
                 .incrementer(new RunIdIncrementer())
                 .flow(dataImportJobConfiguration.fileDownloadStep())

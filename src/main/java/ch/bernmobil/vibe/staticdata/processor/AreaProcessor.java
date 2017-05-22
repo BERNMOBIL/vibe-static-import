@@ -3,7 +3,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AreaProcessor extends Processor<GtfsStop,Area> {
     private final MapperStore<String, AreaMapping> mappingStore;
-
 
     @Autowired
     public AreaProcessor(@Qualifier("areaMapperStore") MapperStore<String, AreaMapping> mappingStore) {

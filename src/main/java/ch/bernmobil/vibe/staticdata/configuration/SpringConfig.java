@@ -4,26 +4,25 @@ import ch.bernmobil.vibe.shared.UpdateHistoryRepository;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.UpdateManagerRepository;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import javax.sql.DataSource;
-import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -51,13 +50,15 @@ public class SpringConfig {
     @Primary
     @Bean
     public DataSource sqliteDataSource() {
-        return createDataSource("org.sqlite.JDBC",
-                environment.getProperty("bernmobil.jobrepository.datasource"));
+        String url = String.format("%s:%s",
+                        environment.getProperty("bernmobil.jobrepository.datasource"),
+                        environment.getProperty("bernmobil.jobrepository.name"));
+        return createDataSource(environment.getProperty("bernmobil.jobrepository.driver-class-name"), url);
     }
 
     @Bean("MapperDataSource")
     public DataSource mapperDataSource() {
-        return createDataSource("org.postgresql.Driver",
+        return createDataSource(environment.getProperty("spring.datasource.driver-class-name"),
                 environment.getProperty("bernmobil.mappingrepository.datasource.url"),
                 environment.getProperty("bernmobil.mappingrepository.datasource.username"),
                 environment.getProperty("bernmobil.mappingrepository.datasource.password"));
@@ -65,36 +66,24 @@ public class SpringConfig {
 
     @Bean("StaticDataSource")
     public DataSource StaticDataSource() {
-        return createDataSource("org.postgresql.Driver",
+        return createDataSource(environment.getProperty("spring.datasource.driver-class-name"),
                 environment.getProperty("spring.datasource.url"),
                 environment.getProperty("spring.datasource.username"),
                 environment.getProperty("spring.datasource.password"));
     }
 
-    @Bean
-    public BatchConfigurer configurer(DataSource dataSource){
-        return new DefaultBatchConfigurer(dataSource);
-    }
-
-    @Bean("PostgresInitializer")
-    public DataSourceInitializer postgresInitializer(@Qualifier("StaticDataSource") DataSource dataSource) {
-        return dataSourceInitializer(dataSource);
-    }
-
-    @Bean("MappingDatabaseInitializer")
-    public DataSourceInitializer mappingSourceInitializer(@Qualifier("MapperDataSource") DataSource dataSource){
-        return dataSourceInitializer(dataSource);
-    }
-
     @Bean("JobRepositoryInitializer")
     public DataSourceInitializer jobRepositoryInitializer(DataSource dataSource) throws MalformedURLException {
-        return dataSourceInitializer(dataSource, dropRepositoryTables, dataRepositorySchema);
+        if(Files.exists(Paths.get(environment.getProperty("bernmobil.jobrepository.name")))) {
+            return dataSourceInitializer(dataSource);
+        }
+        return dataSourceInitializer(dataSource, dataRepositorySchema);
     }
 
     @Bean("jobLauncher")
-    public JobLauncher getJobLauncher() throws Exception {
+    public JobLauncher jobLauncher(PlatformTransactionManager transactionManager) throws Exception {
         SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-        jobLauncher.setJobRepository(getJobRepository());
+        jobLauncher.setJobRepository(getJobRepository(transactionManager));
         jobLauncher.afterPropertiesSet();
         return jobLauncher;
     }
@@ -135,34 +124,31 @@ public class SpringConfig {
         DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
         initializer.setDatabasePopulator(databasePopulator);
-
         return initializer;
     }
 
-    private JobRepository getJobRepository() throws Exception {
+    private JobRepository getJobRepository(PlatformTransactionManager transactionManager) throws Exception {
         JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
         factory.setDataSource(sqliteDataSource());
-        factory.setTransactionManager(getTransactionManager());
+        factory.setTransactionManager(transactionManager);
         factory.afterPropertiesSet();
         return factory.getObject();
     }
 
-    private PlatformTransactionManager getTransactionManager() {
-        return new ResourcelessTransactionManager();
+    private DataSource createDataSource(String driver, String url, String username, String password) {
+        DataSourceBuilder builder = DataSourceBuilder.create();
+        builder.driverClassName(driver);
+        builder.url(url);
+        builder.username(username);
+        builder.password(password);
+        return builder.build();
     }
 
-    private DriverManagerDataSource createDataSource(String driver, String url, String username, String password) {
-        DriverManagerDataSource dataSource = createDataSource(driver, url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
-
-    private DriverManagerDataSource createDataSource(String driver, String url) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
-        return dataSource;
+    private DataSource createDataSource(String driver, String url) {
+        DataSourceBuilder builder = DataSourceBuilder.create();
+        builder.driverClassName(driver);
+        builder.url(url);
+        return builder.build();
     }
 
     @Autowired

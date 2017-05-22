@@ -1,30 +1,27 @@
-package ch.bernmobil.vibe.staticdata.mapper;
+package ch.bernmobil.vibe.staticdata.importer.mapping;
 
 import ch.bernmobil.vibe.shared.QueryBuilder;
 import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.contract.CalendarDateMapperContract;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class CalendarDateMapperHelper extends Mapper<CalendarDateMapping> {
+public class CalendarDateMapperImport extends MapperImport<CalendarDateMapping> {
 
-    private final static String TABLE_NAME = "calendar_date_mapper";
-    private final static String FIELDS[] = {"gtfs_id", "id", "update"};
     private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement()
-            .Insert(TABLE_NAME, FIELDS).getQuery();
+            .Insert(CalendarDateMapperContract.TABLE_NAME, CalendarDateMapperContract.COLUMNS).getQuery();
 
-    public CalendarDateMapperHelper(DataSource dataSource,
+    public CalendarDateMapperImport(DataSource dataSource,
             @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> mapperStore) {
         super(dataSource, INSERT_QUERY, new CalendarDatePreparedStatementSetter(), mapperStore);
     }
 
-    public static class CalendarDatePreparedStatementSetter implements
-            ItemPreparedStatementSetter<CalendarDateMapping> {
-
+    public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDateMapping> {
         @Override
         public void setValues(CalendarDateMapping item, PreparedStatement ps) throws SQLException {
             ps.setLong(1, item.getGtfsId());

@@ -3,8 +3,8 @@ package ch.bernmobil.vibe.staticdata.processor;
 import static org.mockito.Mockito.mock;
 
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

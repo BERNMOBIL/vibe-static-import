@@ -4,8 +4,8 @@ import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CalendarDateProcessor extends Processor<GtfsCalendarDate, List<CalendarDate>> {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
     private final MapperStore<String, CalendarDateMapping> calendarDateMapper;
     private final JourneyMapperStore journeyMapperStore;
@@ -40,7 +40,7 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, List<Cale
         Date validUntil = new Date(dateFormat.parse(item.getDate()).getTime());
 
         DayOfWeek day = validFrom.toLocalDate().getDayOfWeek();
-        JsonObject json = saveDaysToJson(day);
+        JsonObject days = saveDaysToJson(day);
 
         List<JourneyMapping> journeyMappings = journeyMapperStore.getMappingsByServiceId(item.getServiceId());
         if(journeyMappings.isEmpty()) {
@@ -52,11 +52,12 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, List<Cale
         for(JourneyMapping journeyMapping : journeyMappings) {
             UUID journeyId = journeyMapping.getId();
             Long gtfsServiceId = Long.parseLong(item.getServiceId());
-            String mappingKey = item.getServiceId() + item.getDate();
+            //TODO: document why using a compound key
+            String mappingKey = String.format("%s%s", item.getServiceId(), item.getDate());
             UUID id = idGenerator.getId();
             calendarDateMapper.addMapping(mappingKey, new CalendarDateMapping(gtfsServiceId, id));
             idGenerator.next();
-            calendarDates.add(new CalendarDate(id, validFrom, validUntil, journeyId, json));
+            calendarDates.add(new CalendarDate(id, validFrom, validUntil, journeyId, days));
         }
 
         return calendarDates;

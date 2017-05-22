@@ -6,10 +6,15 @@ spring:
   batch:
     job:
       enabled: true
-
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
 bernmobil:
   mappingrepository:
     datasource:
       url: jdbc:postgresql://localhost:5432/mappings
       username: vibe
       password: vibe
+  history:
+    timeout-duration: 1

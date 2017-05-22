@@ -4,20 +4,21 @@ import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.mapper.AreaMapperHelper;
-import ch.bernmobil.vibe.staticdata.mapper.CalendarDateMapperHelper;
-import ch.bernmobil.vibe.staticdata.mapper.JourneyMapperHelper;
-import ch.bernmobil.vibe.staticdata.mapper.Mapper;
-import ch.bernmobil.vibe.staticdata.mapper.RouteMapperHelper;
-import ch.bernmobil.vibe.staticdata.mapper.StopMapperHelper;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.AreaMapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.CalendarDateMapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.JourneyMapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.MapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.RouteMapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.StopMapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,8 @@ import org.springframework.context.annotation.Configuration;
 public class MappingJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource mapperDataSource;
-    private static final int CHUNK_SIZE = 100;
+    @Value("${bernmobil.batch.chunk-size}")
+    private int chunkSize;
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -41,57 +43,48 @@ public class MappingJobConfiguration {
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
     public Step areaMapperStep() {
-        MapperStore<String, AreaMapping> mapperStore =
-                (MapperStore<String, AreaMapping>)applicationContext.getBean("areaMapperStore");
-
-        AreaMapperHelper helper = new AreaMapperHelper(mapperDataSource, mapperStore);
-        return buildMappingStep(helper, "area mapper");
+        MapperStore<String, AreaMapping> mapperStore = getMapperStore("areaMapperStore");
+        AreaMapperImport helper = new AreaMapperImport(mapperDataSource, mapperStore);
+        return buildMappingStep(helper, "Area mapper");
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
     public Step calendarDateMapperStep() {
-        MapperStore<Long, CalendarDateMapping> mapperStore =
-                (MapperStore<Long, CalendarDateMapping>)applicationContext.getBean("calendarDateMapperStore");
-
-        CalendarDateMapperHelper helper = new CalendarDateMapperHelper(mapperDataSource, mapperStore);
-        return buildMappingStep(helper, "calendar date mapper");
+        MapperStore<Long, CalendarDateMapping> mapperStore = getMapperStore("calendarDateMapperStore");
+        CalendarDateMapperImport helper = new CalendarDateMapperImport(mapperDataSource, mapperStore);
+        return buildMappingStep(helper, "Calendar date mapper");
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
     public Step journeyMapperStep() {
         JourneyMapperStore mapperStore = (JourneyMapperStore)applicationContext.getBean("journeyMapperStore");
-
-        JourneyMapperHelper helper = new JourneyMapperHelper(mapperDataSource, mapperStore);
-        return buildMappingStep(helper, "journey mapper");
+        JourneyMapperImport helper = new JourneyMapperImport(mapperDataSource, mapperStore);
+        return buildMappingStep(helper, "Journey mapper");
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
     public Step routeMapperStep() {
-        MapperStore<String, RouteMapping> mapperStore =
-                (MapperStore<String, RouteMapping>)applicationContext.getBean("routeMapperStore");
-
-        RouteMapperHelper helper = new RouteMapperHelper(mapperDataSource, mapperStore);
-        return buildMappingStep(helper, "route mapper");
+        MapperStore<String, RouteMapping> mapperStore = getMapperStore("routeMapperStore");
+        RouteMapperImport helper = new RouteMapperImport(mapperDataSource, mapperStore);
+        return buildMappingStep(helper, "Route mapper");
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
     public Step stopMapperStep() {
-        MapperStore<String, StopMapping> mapperStore =
-                (MapperStore<String, StopMapping>)applicationContext.getBean("stopMapperStore");
-
-        StopMapperHelper helper = new StopMapperHelper(mapperDataSource, mapperStore);
-        return buildMappingStep(helper, "stop mapper");
+        MapperStore<String, StopMapping> mapperStore = getMapperStore("stopMapperStore");
+        StopMapperImport helper = new StopMapperImport(mapperDataSource, mapperStore);
+        return buildMappingStep(helper, "Stop mapper");
     }
 
-    private <T> Step buildMappingStep(Mapper<T> mappingHelper, String stepName) {
+    @SuppressWarnings("unchecked")
+    private <I, O> MapperStore<I, O> getMapperStore(String beanName) {
+        return (MapperStore<I, O>)applicationContext.getBean(beanName);
+    }
+
+    private <T> Step buildMappingStep(MapperImport<T> mappingHelper, String stepName) {
         return stepBuilderFactory.get(stepName)
-                .<T, T>chunk(CHUNK_SIZE)
+                .<T, T>chunk(chunkSize)
                 .reader(mappingHelper.reader())
                 .writer(mappingHelper.writer())
                 .build();

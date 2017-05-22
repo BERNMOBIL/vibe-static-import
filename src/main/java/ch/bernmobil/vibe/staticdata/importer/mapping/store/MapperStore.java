@@ -1,11 +1,10 @@
-package ch.bernmobil.vibe.staticdata.mapper.store;
+package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.stereotype.Component;
 
 /**
  * A mapper store to save mappings between two ID systems

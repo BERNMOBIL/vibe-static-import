@@ -15,12 +15,37 @@ public class BernmobilConfigurationProperties {
          */
         private String datasource;
 
+        /**
+         * Classname of the database driver used for the mapping repository
+         */
+        private String driverClassName;
+        /**
+         * Filename of the sqlite file
+         */
+        private String name;
+
         public String getDatasource() {
             return datasource;
         }
 
         public void setDatasource(String datasource) {
             this.datasource = datasource;
+        }
+
+        public String getDriverClassName() {
+            return driverClassName;
+        }
+
+        public void setDriverClassName(String driverClassName) {
+            this.driverClassName = driverClassName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 
@@ -68,6 +93,8 @@ public class BernmobilConfigurationProperties {
          * Password for the mapping datasource
          */
         private String password;
+
+
 
         public String getUrl() {
             return url;
@@ -135,6 +162,23 @@ public class BernmobilConfigurationProperties {
 
         public void setTimeoutDuration(long timeoutDuration) {
             this.timeoutDuration = timeoutDuration;
+        }
+    }
+
+    @ConfigurationProperties(prefix = "bernmobil.batch")
+    public class Batch {
+        /**
+         * Defines the size of chunks used in Spring Batch
+         * A chunk determines the amount of data which is processed at once
+         */
+        private int chunkSize;
+
+        public int getChunkSize() {
+            return chunkSize;
+        }
+
+        public void setChunkSize(int chunkSize) {
+            this.chunkSize = chunkSize;
         }
     }
 }

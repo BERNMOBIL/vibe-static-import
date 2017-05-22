@@ -20,11 +20,8 @@ import org.springframework.stereotype.Service;
 @EnableScheduling
 public class ScheduledImportService {
     private final static Logger logger = Logger.getLogger(ScheduledImportService.class);
-
     private JobLauncher jobLauncher;
-
     private Job staticImportJob;
-
 
     @Scheduled(cron = "0 0 2 1/1 * ?")
     public void run()
@@ -34,13 +31,11 @@ public class ScheduledImportService {
                 .toJobParameters();
 
         logger.info(String.format("Job started [%s, with params {%s}] at %s", staticImportJob.getName(),
-                    param.toString(),
-                    LocalTime.now()));
+                    param.toString(), LocalTime.now()));
 
         JobExecution execution = jobLauncher.run(staticImportJob, param);
 
-        logger.info(
-                String.format("Job finished [%s with status {%s}] at %s", staticImportJob.getName(),
+        logger.info(String.format("Job finished [%s with status {%s}] at %s", staticImportJob.getName(),
                         execution.getExitStatus(), LocalTime.now()));
     }
 

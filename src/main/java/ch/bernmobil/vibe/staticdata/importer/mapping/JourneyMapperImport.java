@@ -1,31 +1,28 @@
-package ch.bernmobil.vibe.staticdata.mapper;
+package ch.bernmobil.vibe.staticdata.importer.mapping;
 
 import ch.bernmobil.vibe.shared.QueryBuilder;
 import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.contract.JourneyMapperContract;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class JourneyMapperHelper extends Mapper<JourneyMapping> {
+public class JourneyMapperImport extends MapperImport<JourneyMapping> {
 
-    private final static String TABLE_NAME = "journey_mapper";
-    private final static String FIELDS[] = {"gtfs_trip_id", "gtfs_service_id", "id", "update"};
     private final static String INSERT_QUERY = new QueryBuilder.PreparedStatement()
-            .Insert(TABLE_NAME, FIELDS).getQuery();
+            .Insert(JourneyMapperContract.TABLE_NAME, JourneyMapperContract.COLUMNS).getQuery();
 
 
-    public JourneyMapperHelper(DataSource dataSource,
+    public JourneyMapperImport(DataSource dataSource,
             @Qualifier("journeyMapperStore") JourneyMapperStore mapperStore) {
         super(dataSource, INSERT_QUERY, new JourneyMapperPreparedStatementSetter(), mapperStore);
     }
 
-    public static class JourneyMapperPreparedStatementSetter implements
-            ItemPreparedStatementSetter<JourneyMapping> {
-
+    public static class JourneyMapperPreparedStatementSetter implements ItemPreparedStatementSetter<JourneyMapping> {
         @Override
         public void setValues(JourneyMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsTripId());

@@ -1,9 +1,8 @@
-package ch.bernmobil.vibe.staticdata.mapper.store;
+package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
-import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,8 +30,8 @@ public class MapperConfiguration {
     }
 
     @Bean("stopMapperStore")
-    public MapperStore<String, StopMapping> stopMapperStore() {
-        return new MapperStore<>();
+    public StopMapperStore stopMapperStore() {
+        return new StopMapperStore();
     }
 
 }

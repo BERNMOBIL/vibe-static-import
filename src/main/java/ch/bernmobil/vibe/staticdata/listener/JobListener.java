@@ -3,11 +3,13 @@ package ch.bernmobil.vibe.staticdata.listener;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.UpdateManager.Status;
 import ch.bernmobil.vibe.staticdata.communication.UpdateNotificationSender;
+import java.sql.Timestamp;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,11 +26,27 @@ public class JobListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
+        int beforeCount = updateManager.getRowCount();
         if(updateManager.hasUpdateCollision()) {
-            logger.info("Update-Collision detected: Update aborted");
+            logger.warn("Update-Collision detected: Update aborted");
             jobExecution.stop();
         } else {
-            updateManager.startUpdate();
+            Timestamp now;
+            try {
+                now = updateManager.prepareUpdate();
+            } catch (DuplicateKeyException e) {
+                logger.error(e);
+                jobExecution.stop();
+                return;
+            }
+            int afterCount = updateManager.getRowCount();
+            if(afterCount != beforeCount + 1) {
+                jobExecution.stop();
+                updateManager.removeUpdateByTimestamp(now);
+                logger.warn("Another job is running while this job started");
+            } else {
+                updateManager.startUpdate(now);
+            }
         }
     }
 

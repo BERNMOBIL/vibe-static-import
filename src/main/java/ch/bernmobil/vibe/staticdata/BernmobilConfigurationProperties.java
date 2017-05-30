@@ -173,12 +173,26 @@ public class BernmobilConfigurationProperties {
          */
         private int chunkSize;
 
+        /**
+         * A cron based expression to schedule the execution of the import job.
+         * The expression "0 0 2 1/1 * ?" starts the job every night at 2 AM.
+         */
+        private String schedule;
+
         public int getChunkSize() {
             return chunkSize;
         }
 
         public void setChunkSize(int chunkSize) {
             this.chunkSize = chunkSize;
+        }
+
+        public String getSchedule() {
+            return schedule;
+        }
+
+        public void setSchedule(String schedule) {
+            this.schedule = schedule;
         }
     }
 }

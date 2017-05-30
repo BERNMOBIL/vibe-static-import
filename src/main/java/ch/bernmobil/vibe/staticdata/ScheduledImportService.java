@@ -23,7 +23,7 @@ public class ScheduledImportService {
     private JobLauncher jobLauncher;
     private Job staticImportJob;
 
-    @Scheduled(cron = "0 0 2 1/1 * ?")
+    @Scheduled(cron = "${bernmobil.batch.schedule}")
     public void run()
             throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         JobParameters param = new JobParametersBuilder()

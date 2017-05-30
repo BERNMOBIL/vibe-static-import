@@ -32,5 +32,6 @@ bernmobil:
     timeout-duration: 30
   batch:
     chunk-size: 100
+    schedule: 0 0 2 1/1 * ?
 
 

@@ -18,20 +18,19 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
     private static final int BUFFER = 1024;
     private static final int OFFSET = 0;
 
-    private final String folder;
+    private final File folder;
 
     public ZipInputStreamWriter(String folder) {
-        this.folder = folder;
+        this.folder = new File(folder);
     }
 
     @Override
     public void write(List<? extends ZipInputStream> items) throws Exception {
-        File gtfsFolder = new File(folder);
-        if(!gtfsFolder.exists() && !gtfsFolder.mkdir()) {
-            logger.warn(String.format("Folder for GTFS data could not be created at %s", gtfsFolder.getAbsolutePath()));
+        if(!folder.exists() && !folder.mkdir()) {
+            logger.warn(String.format("Folder for GTFS data could not be created at %s", folder.getAbsolutePath()));
             return;
         }
-        logger.debug(String.format("Created folder for GTFS data: %s", gtfsFolder.getAbsolutePath()));
+        logger.debug(String.format("Created folder for GTFS data: %s", folder.getAbsolutePath()));
         for(ZipInputStream stream: items) {
             write(stream);
             stream.close();
@@ -45,7 +44,7 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
             while ((entry = zis.getNextEntry()) != null) {
                 String filename = entry.getName();
                 logger.debug(String.format("Writing file: %s", filename));
-                dest = new BufferedOutputStream(new FileOutputStream(folder + filename), BUFFER);
+                dest = new BufferedOutputStream(new FileOutputStream(folder + "/" + filename), BUFFER);
                 copyStream(zis, dest);
                 zis.closeEntry();
             }

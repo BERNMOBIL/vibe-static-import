@@ -102,18 +102,18 @@ public class SpringConfig {
     }
 
     @Bean(name = "MapperRepository")
-    public UpdateManagerRepository mapperRepository(@Qualifier("MapperDataSource") DataSource mapperDataSource) {
-        return new UpdateManagerRepository(new JdbcTemplate(mapperDataSource));
+    public UpdateManagerRepository mapperRepository(@Qualifier("MapperDslContext") DSLContext dslContext) {
+        return new UpdateManagerRepository(dslContext);
     }
 
     @Bean(name = "StaticRepository")
-    public UpdateManagerRepository staticRepository(@Qualifier("StaticDataSource")DataSource staticDataSource) {
-        return new UpdateManagerRepository(new JdbcTemplate(staticDataSource));
+    public UpdateManagerRepository staticRepository(@Qualifier("StaticDslContext")DSLContext dslContext) {
+        return new UpdateManagerRepository(dslContext);
     }
 
     @Bean
-    public UpdateHistoryRepository updateHistoryRepository(@Qualifier("StaticDataSource") DataSource dataSource) {
-        return new UpdateHistoryRepository(dataSource);
+    public UpdateHistoryRepository updateHistoryRepository(@Qualifier("StaticDslContext") DSLContext dslContext) {
+        return new UpdateHistoryRepository(dslContext);
     }
 
     @Bean(name = "StaticDslContext")

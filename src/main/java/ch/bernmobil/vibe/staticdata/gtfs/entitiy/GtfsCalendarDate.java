@@ -1,4 +1,4 @@
-package ch.bernmobil.vibe.staticdata.gtfsmodel;
+package ch.bernmobil.vibe.staticdata.gtfs.entitiy;
 
 public class GtfsCalendarDate {
     private String serviceId;

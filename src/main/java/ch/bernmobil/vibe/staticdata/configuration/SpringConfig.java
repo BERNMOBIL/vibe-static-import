@@ -8,6 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
 import javax.sql.DataSource;
+
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
@@ -56,7 +60,7 @@ public class SpringConfig {
         return createDataSource(environment.getProperty("bernmobil.jobrepository.driver-class-name"), url);
     }
 
-    @Bean("MapperDataSource")
+    @Bean(name = "MapperDataSource")
     public DataSource mapperDataSource() {
         return createDataSource(environment.getProperty("spring.datasource.driver-class-name"),
                 environment.getProperty("bernmobil.mappingrepository.datasource.url"),
@@ -64,7 +68,7 @@ public class SpringConfig {
                 environment.getProperty("bernmobil.mappingrepository.datasource.password"));
     }
 
-    @Bean("StaticDataSource")
+    @Bean(name = "StaticDataSource")
     public DataSource StaticDataSource() {
         return createDataSource(environment.getProperty("spring.datasource.driver-class-name"),
                 environment.getProperty("spring.datasource.url"),
@@ -72,7 +76,7 @@ public class SpringConfig {
                 environment.getProperty("spring.datasource.password"));
     }
 
-    @Bean("JobRepositoryInitializer")
+    @Bean(name = "JobRepositoryInitializer")
     public DataSourceInitializer jobRepositoryInitializer(DataSource dataSource) throws MalformedURLException {
         if(Files.exists(Paths.get(environment.getProperty("bernmobil.jobrepository.name")))) {
             return dataSourceInitializer(dataSource);
@@ -110,6 +114,23 @@ public class SpringConfig {
     @Bean
     public UpdateHistoryRepository updateHistoryRepository(@Qualifier("StaticDataSource") DataSource dataSource) {
         return new UpdateHistoryRepository(dataSource);
+    }
+
+    @Bean(name = "StaticDslContext")
+    public DSLContext staticDslContext(@Qualifier("StaticDataSource") DataSource dataSource) {
+        return getDslContext(dataSource);
+    }
+
+
+    @Bean(name = "MapperDslContext")
+    public DSLContext mapperDslContext(@Qualifier("MapperDataSource") DataSource dataSource) {
+        return getDslContext(dataSource);
+    }
+
+    private DSLContext getDslContext(DataSource dataSource) {
+        String dialectString = environment.getProperty("spring.jooq.sql-dialect").toUpperCase();
+        SQLDialect dialect = SQLDialect.valueOf(dialectString);
+        return DSL.using(dataSource, dialect);
     }
 
     private DataSourceInitializer dataSourceInitializer(DataSource dataSource) {

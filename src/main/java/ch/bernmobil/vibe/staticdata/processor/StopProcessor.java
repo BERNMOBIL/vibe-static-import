@@ -4,7 +4,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.shared.entitiy.Stop;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import java.util.UUID;

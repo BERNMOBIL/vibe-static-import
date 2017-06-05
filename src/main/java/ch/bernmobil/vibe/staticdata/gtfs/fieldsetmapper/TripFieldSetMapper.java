@@ -1,6 +1,6 @@
-package ch.bernmobil.vibe.staticdata.fieldsetmapper;
+package ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper;
 
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;

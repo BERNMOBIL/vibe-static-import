@@ -5,7 +5,7 @@ spring:
     password: ${RDS_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jooq:
-    sql-dialect: postgres_9_5
+    sql-dialect: Postgres
   rabbitmq:
     host: ${RABBITMQ_HOSTNAME}
     username: ${RABBITMQ_USERNAME}

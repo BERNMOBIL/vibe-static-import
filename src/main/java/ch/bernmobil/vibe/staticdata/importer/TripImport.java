@@ -1,28 +1,68 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.QueryBuilder;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.contract.JourneyContract;
 import ch.bernmobil.vibe.shared.entitiy.Journey;
-import ch.bernmobil.vibe.staticdata.fieldsetmapper.TripFieldSetMapper;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsTrip;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import javax.sql.DataSource;
+import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsTripContract;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
+import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.TripFieldSetMapper;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Insert;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
-public class TripImport extends Import<GtfsTrip, Journey> {
-    private static final String[] FIELD_NAMES = {"route_id", "service_id", "trip_id", "trip_headsign", "trip_short_name", "direction_id", "block_id", "shape_id"};
-    private static final String PATH = "trips.txt";
-    private static final String INSERT_QUERY = new QueryBuilder.PreparedStatement()
-            .Insert(JourneyContract.TABLE_NAME, JourneyContract.COLUMNS).getQuery();
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
-    public TripImport(DataSource dataSource, String folder) {
-        super(dataSource, FIELD_NAMES, folder + PATH,
-                new TripFieldSetMapper(), INSERT_QUERY, new JourneyPreparedStatementSetter());
+import static org.jooq.impl.DSL.table;
+
+/**
+ * Class to configure the import of a {@link GtfsTrip}, representing GTFS Calendar Dates, and saving a {@link Journey}.
+ */
+public class TripImport extends Import<GtfsTrip, Journey> {
+    private final DSLContext dslContext;
+
+    /**
+     * Constructing an import configuration instance using a {@link DataSource} and a folder with the latest GTFS data.
+     * @param dataSource DataSource object which holds the connection to the static data source.
+     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
+     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     */
+    public TripImport(DataSource dataSource, DSLContext dslContext, String folder) {
+        super(dataSource, GtfsTripContract.FIELD_NAMES, folder + GtfsTripContract.FILENAME,
+                new TripFieldSetMapper(), new JourneyPreparedStatementSetter());
+        this.dslContext = dslContext;
     }
 
+    /**
+     * Builds a query for inserting {@link Journey} objects into the database. Metadata from {@link JourneyContract} is used
+     * to set table name and field names, as well as the required "?" for the {@link PreparedStatement} are added here.
+     * @return A JOOQ instance of an insert query.
+     */
+    @Override
+    Insert<Record> insertQuery() {
+        Collection<Field<?>> fields = Arrays.stream(JourneyContract.COLUMNS).map(DSL::field).collect(Collectors.toList());
+        return dslContext.insertInto(table(JourneyContract.TABLE_NAME), fields)
+                .values(Collections.nCopies(JourneyContract.COLUMNS.length, "?"));
+    }
+
+    /**
+     * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
+     */
     public static class JourneyPreparedStatementSetter implements ItemPreparedStatementSetter<Journey> {
+        /**
+         * Set the values of the prepared statement
+         * @param item Area which will be safed
+         * @param ps {@link PreparedStatement} into these values will be written
+         * @throws SQLException Exception will be thrown if the database returns an error
+         */
         @Override
         public void setValues(Journey item, PreparedStatement ps) throws SQLException {
             ps.setObject(1, item.getId());

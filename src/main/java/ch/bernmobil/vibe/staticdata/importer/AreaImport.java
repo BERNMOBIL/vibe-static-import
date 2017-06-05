@@ -1,32 +1,71 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.QueryBuilder;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.contract.AreaContract;
 import ch.bernmobil.vibe.shared.entitiy.Area;
-import ch.bernmobil.vibe.staticdata.fieldsetmapper.StopFieldSetMapper;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsStopContract;
+import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.StopFieldSetMapper;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
+
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Insert;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
 
+/**
+ * Class to configure the import from a {@link GtfsStop}, representing GTFS Stops, and saving of an {@link Area}.
+ */
 public class AreaImport extends Import<GtfsStop, Area> {
-    //TODO: contract class for csv field names
-    private static final String[] FIELD_NAMES = {"stop_id", "stop_code", "stop_name", "stop_desc", "stop_lat", "stop_lon", "zone_id", "stop_url", "location_type", "parent_station"};
-    private static final String PATH = "stops.txt";
-    private static final String INSERT_QUERY =
-            new QueryBuilder.PreparedStatement().Insert(AreaContract.TABLE_NAME, AreaContract.COLUMNS).getQuery();
+    private final DSLContext dslContext;
 
-
-    public AreaImport(DataSource dataSource, String folder) {
-        super(dataSource, FIELD_NAMES, folder + PATH,
-                new StopFieldSetMapper(), INSERT_QUERY, new AreaPreparedStatementSetter());
+    /**
+     * Constructing an import configuration instance using a {@link DataSource} and a folder containing the latest GTFS data
+     * are present.
+     * @param dataSource DataSource object which holds the connection to the static data source.
+     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
+     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     */
+    public AreaImport(DataSource dataSource, DSLContext dslContext, String folder) {
+        super(dataSource, GtfsStopContract.FIELD_NAMES, folder + GtfsStopContract.FILENAME,
+                new StopFieldSetMapper(), new AreaPreparedStatementSetter());
+        this.dslContext = dslContext;
     }
 
+    /**
+     * Builds a query for inserting {@link Area} objects into the database. Metadata from {@link AreaContract} is used
+     * to set table name and field names, as well as the required "?" for the {@link PreparedStatement} are added here.
+     * @return A JOOQ instance of an insert query.
+     */
+    @Override
+    Insert<Record> insertQuery() {
+        Collection<Field<?>> fields = Arrays.stream(AreaContract.COLUMNS).map(DSL::field).collect(Collectors.toList());
+        return dslContext
+                .insertInto(table(AreaContract.TABLE_NAME), fields).values(Collections.nCopies(AreaContract.COLUMNS.length, "?"));
+    }
+
+    /**
+     * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
+     */
     public static class AreaPreparedStatementSetter implements ItemPreparedStatementSetter<Area> {
 
+        /**
+         * Set the values of the prepared statement
+         * @param item Area which will be safed
+         * @param ps {@link PreparedStatement} into these values will be written
+         * @throws SQLException Exception will be thrown if the database returns an error
+         */
         @Override
         public void setValues(Area item, PreparedStatement ps) throws SQLException {
             ps.setObject(1, item.getId());

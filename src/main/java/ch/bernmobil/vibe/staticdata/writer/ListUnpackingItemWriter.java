@@ -17,7 +17,7 @@ public class ListUnpackingItemWriter<T> implements ItemWriter<List<T>> {
     @Override
     public void write(final List<? extends List<T>> lists) throws Exception {
         List<T> flatList = lists
-                .parallelStream()
+                .stream()
                 .flatMap(List::stream)
                 .collect(toList());
         delegate.write(flatList);

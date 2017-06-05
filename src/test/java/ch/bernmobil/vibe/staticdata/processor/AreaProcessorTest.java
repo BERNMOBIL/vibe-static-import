@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import java.util.UUID;

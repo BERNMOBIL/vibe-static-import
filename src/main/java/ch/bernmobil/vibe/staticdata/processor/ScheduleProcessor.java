@@ -3,7 +3,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.shared.entitiy.Schedule;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import java.sql.Time;

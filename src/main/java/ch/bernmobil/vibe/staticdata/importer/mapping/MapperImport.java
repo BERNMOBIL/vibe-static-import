@@ -10,6 +10,10 @@ import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.context.annotation.Bean;
 
+/**
+ *
+ * @param <T>
+ */
 public abstract class MapperImport<T> {
     private final DataSource dataSource;
     private final String preparedStatement;

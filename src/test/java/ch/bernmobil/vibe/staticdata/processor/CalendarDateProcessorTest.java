@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;

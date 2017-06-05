@@ -18,6 +18,8 @@ import ch.bernmobil.vibe.staticdata.processor.StopProcessor;
 import ch.bernmobil.vibe.staticdata.writer.ZipInputStreamWriter;
 import java.util.zip.ZipInputStream;
 import javax.sql.DataSource;
+
+import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -44,15 +46,18 @@ public class DataImportJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource staticDataSource;
     private final ApplicationContext applicationContext;
+    private final DSLContext dslContext;
 
     @Autowired
     public DataImportJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
             @Qualifier("StaticDataSource") DataSource staticDataSource,
-            ApplicationContext applicationContext) {
+            ApplicationContext applicationContext,
+            @Qualifier("StaticDslContext") DSLContext dslContext) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.staticDataSource = staticDataSource;
         this.applicationContext = applicationContext;
+        this.dslContext = dslContext;
     }
 
     @Bean
@@ -67,27 +72,27 @@ public class DataImportJobConfiguration {
     @Bean
     public Step areaImportStep() {
         return createStepBuilder("Area import",
-                new AreaImport(staticDataSource, destinationFolder),
+                new AreaImport(staticDataSource, dslContext, destinationFolder),
                 applicationContext.getBean(AreaProcessor.class));
     }
 
     @Bean
     public Step stopImportStep() {
         return createStepBuilder("Stop import",
-                new StopImport(staticDataSource, destinationFolder),
+                new StopImport(staticDataSource, dslContext, destinationFolder),
                 applicationContext.getBean( StopProcessor.class));
     }
 
     @Bean
     public Step routeImportStep() {
         return createStepBuilder("Route import",
-                new RouteImport(staticDataSource, destinationFolder),
+                new RouteImport(staticDataSource, dslContext, destinationFolder),
                 applicationContext.getBean(RouteProcessor.class));
     }
 
     @Bean
     public Step calendarDateImportStep() {
-        CalendarDateImport importer = new CalendarDateImport(staticDataSource, destinationFolder);
+        CalendarDateImport importer = new CalendarDateImport(staticDataSource, dslContext, destinationFolder);
         return createStepBuilder("Calendar-date import",
                 importer.reader(),
                 importer.listItemWriter(),
@@ -97,14 +102,14 @@ public class DataImportJobConfiguration {
     @Bean
     public Step journeyImportStep() {
         return createStepBuilder("Journey import",
-                new TripImport(staticDataSource, destinationFolder),
+                new TripImport(staticDataSource, dslContext, destinationFolder),
                 applicationContext.getBean(JourneyProcessor.class));
     }
 
     @Bean
     public Step scheduleImportStep() {
         return createStepBuilder("Schedule import",
-                new StopTimeImport(staticDataSource, destinationFolder),
+                new StopTimeImport(staticDataSource, dslContext, destinationFolder),
                 applicationContext.getBean(ScheduleProcessor.class));
     }
 

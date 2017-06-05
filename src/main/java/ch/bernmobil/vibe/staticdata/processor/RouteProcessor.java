@@ -3,7 +3,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 
 import ch.bernmobil.vibe.shared.entitiy.Route;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
-import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
+import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsRoute;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

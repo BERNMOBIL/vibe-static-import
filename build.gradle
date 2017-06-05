@@ -42,7 +42,7 @@ ext {
     springCloudVersion = 'Dalston.RELEASE'
 }
 
-task createDocker(type: Docker) {
+task createDocker(type: Docker, dependsOn: build) {
     push = false
     applicationName = rootProject.name
     dockerfile = file('src/main/docker/Dockerfile')

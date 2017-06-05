@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -41,16 +43,10 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
         BufferedOutputStream dest = null;
         try {
             while ((entry = zis.getNextEntry()) != null) {
-                int count;
-                byte data[] = new byte[BUFFER];
                 String filename = entry.getName();
                 logger.debug(String.format("Writing file: %s", filename));
                 dest = new BufferedOutputStream(new FileOutputStream(folder + filename), BUFFER);
-                while ((count = zis.read(data, OFFSET, BUFFER)) != -1) {
-                    dest.write(data, OFFSET, count);
-                }
-                dest.flush();
-                dest.close();
+                copyStream(zis, dest);
                 zis.closeEntry();
             }
         } finally {
@@ -59,5 +55,14 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {
             }
             zis.close();
         }
+    }
+
+    private void copyStream(InputStream zis, OutputStream dest) throws IOException {
+        byte[] data = new byte[BUFFER];
+        int count;
+        while ((count = zis.read(data, OFFSET, BUFFER)) != -1) {
+            dest.write(data, OFFSET, count);
+        }
+        dest.close();
     }
 }

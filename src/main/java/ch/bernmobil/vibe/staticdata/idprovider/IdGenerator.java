@@ -20,5 +20,6 @@ public interface IdGenerator<T> {
      * as it can be retrieved again calling getId().
      * @return Returns the new generated ID
      */
+    //TODO: is return type is necessary
     T next();
 }

@@ -2,6 +2,8 @@ package ch.bernmobil.vibe.staticdata.importer;
 
 import javax.sql.DataSource;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -12,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
 
 public abstract class Import<TIn, TOut> {
-
     private final DataSource dataSource;
     private final String[] fieldNames;
     private final String filePath;
@@ -37,22 +38,22 @@ public abstract class Import<TIn, TOut> {
 
     @Bean
     @StepScope
-    public FlatFileItemReader<TIn> reader(){
+    public ItemReader<TIn> reader(){
         FlatFileItemReader<TIn> reader = new FlatFileItemReader<>();
         reader.setResource(new FileSystemResource(filePath));
         reader.setLinesToSkip(1);
-        reader.setLineMapper(new DefaultLineMapper<TIn>() {{
-            setLineTokenizer(new DelimitedLineTokenizer() {{
-                setNames(fieldNames);
-            }});
-            setFieldSetMapper(fieldSetMapper);
-        }});
+        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+        tokenizer.setNames(fieldNames);
+        DefaultLineMapper<TIn> lineMapper = new DefaultLineMapper<>();
+        lineMapper.setLineTokenizer(tokenizer);
+        lineMapper.setFieldSetMapper(fieldSetMapper);
+        reader.setLineMapper(lineMapper);
         return reader;
     }
 
     @Bean
     @StepScope
-    public JdbcBatchItemWriter<TOut> writer() {
+    public ItemWriter<TOut> writer() {
         JdbcBatchItemWriter<TOut> writer = new JdbcBatchItemWriter<>();
         writer.setSql(preparedStatementString);
         writer.setItemPreparedStatementSetter(itemPreparedStatementSetter);

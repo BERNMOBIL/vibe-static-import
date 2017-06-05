@@ -1,15 +1,15 @@
 package ch.bernmobil.vibe.staticdata.writer;
 
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
-import org.springframework.batch.item.support.ListItemReader;
-
 import java.util.List;
 import java.util.function.Supplier;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStream;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.support.ListItemReader;
 
-public class LazyItemReader<T> implements ItemReader<T> {
+//TODO: check if ItemStream could replace null check
+public class LazyItemReader<T> implements ItemReader<T>, ItemStream{
     private Supplier<List<T>> mappingSupplier;
     private ListItemReader<T> mappingReader;
 
@@ -18,10 +18,23 @@ public class LazyItemReader<T> implements ItemReader<T> {
     }
 
     @Override
-    public T read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-        if(mappingReader == null) {
-            mappingReader = new ListItemReader<>(mappingSupplier.get());
-        }
+    public T read() throws Exception {
         return mappingReader.read();
+    }
+
+    @Override
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
+        mappingReader = new ListItemReader<>(mappingSupplier.get());
+    }
+
+    //TODO: document
+    @Override
+    public void update(ExecutionContext executionContext) throws ItemStreamException {
+
+    }
+
+    @Override
+    public void close() throws ItemStreamException {
+
     }
 }

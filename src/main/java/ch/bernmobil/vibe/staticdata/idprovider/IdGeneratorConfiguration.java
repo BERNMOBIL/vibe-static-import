@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class IdGeneratorConfiguration {
+
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    // Because each instance of an ID Generator should be independent
-    public SequentialIdGenerator sequentialIdGenerator() {
-        return new SequentialIdGenerator();
+    public UuidGenerator uuidGenerator() {
+        return new UuidGenerator();
     }
 }

@@ -1,13 +1,11 @@
 package ch.bernmobil.vibe.staticdata.fieldsetmapper;
 
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStopTime;
-import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
 
 public class StopTimeFieldSetMapper implements FieldSetMapper<GtfsStopTime> {
-    private Logger logger = Logger.getLogger(StopTimeFieldSetMapper.class);
 
     @Override
     public GtfsStopTime mapFieldSet(FieldSet fieldSet) throws BindException {

@@ -1,55 +1,66 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entity.CalendarDate;
+import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
+import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
+import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsCalendarDate;
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
-import ch.bernmobil.vibe.staticdata.mapper.store.JourneyMapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.CalendarDateMapping;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import org.springframework.batch.item.ItemProcessor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CalendarDateProcessor implements ItemProcessor<GtfsCalendarDate, CalendarDate> {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+public class CalendarDateProcessor extends Processor<GtfsCalendarDate, List<CalendarDate>> {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-    private final SequentialIdGenerator idGenerator;
-    private final MapperStore<Long, CalendarDateMapping> calendarDateMapper;
+    private final MapperStore<String, CalendarDateMapping> calendarDateMapper;
     private final JourneyMapperStore journeyMapperStore;
 
     @Autowired
-    public CalendarDateProcessor(SequentialIdGenerator idGenerator,
-            @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> calendarDateMapper,
+    public CalendarDateProcessor(
+            @Qualifier("calendarDateMapperStore") MapperStore<String, CalendarDateMapping> calendarDateMapper,
             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore) {
-        this.idGenerator = idGenerator;
         this.calendarDateMapper = calendarDateMapper;
         this.journeyMapperStore = journeyMapperStore;
     }
 
     @Override
-    public CalendarDate process(GtfsCalendarDate item) throws Exception {
-
+    public List<CalendarDate> process(GtfsCalendarDate item) throws Exception {
         Date validFrom = new Date(dateFormat.parse(item.getDate()).getTime());
         Date validUntil = new Date(dateFormat.parse(item.getDate()).getTime());
 
         DayOfWeek day = validFrom.toLocalDate().getDayOfWeek();
-        JsonObject json = saveDaysToJson(day);
+        JsonObject days = saveDaysToJson(day);
 
-        long journeyId = journeyMapperStore.getMappingByServiceId(item.getServiceId()).getId();
+        List<JourneyMapping> journeyMappings = journeyMapperStore.getMappingsByServiceId(item.getServiceId());
+        if(journeyMappings.isEmpty()) {
+            return null;
+        }
 
-        long gtfsServiceId = Long.parseLong(item.getServiceId());
-        long id = idGenerator.getId();
-        calendarDateMapper.addMapping(gtfsServiceId, new CalendarDateMapping(gtfsServiceId, id));
-        idGenerator.next();
-        return new CalendarDate(id, validFrom, validUntil, journeyId, json);
+        List<CalendarDate> calendarDates = new ArrayList<>();
+
+        for(JourneyMapping journeyMapping : journeyMappings) {
+            UUID journeyId = journeyMapping.getId();
+            Long gtfsServiceId = Long.parseLong(item.getServiceId());
+            //TODO: document why using a compound key
+            String mappingKey = String.format("%s%s", item.getServiceId(), item.getDate());
+            UUID id = idGenerator.getId();
+            calendarDateMapper.addMapping(mappingKey, new CalendarDateMapping(gtfsServiceId, id));
+            idGenerator.next();
+            calendarDates.add(new CalendarDate(id, validFrom, validUntil, journeyId, days));
+        }
+
+        return calendarDates;
     }
     
     private JsonObject saveDaysToJson(DayOfWeek day) {

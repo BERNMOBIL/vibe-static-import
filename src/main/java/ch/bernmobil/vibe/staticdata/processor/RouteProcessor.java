@@ -1,33 +1,29 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entity.Route;
+
+import ch.bernmobil.vibe.shared.entitiy.Route;
+import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.RouteMapping;
-import org.springframework.batch.item.ItemProcessor;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RouteProcessor implements ItemProcessor<GtfsRoute, Route> {
-    private final SequentialIdGenerator idGenerator;
+public class RouteProcessor extends Processor<GtfsRoute, Route> {
     private final MapperStore<String, RouteMapping> mapperStore;
 
     @Autowired
-    public RouteProcessor(SequentialIdGenerator idGenerator,
-            @Qualifier("routeMapperStore") MapperStore<String, RouteMapping> mapperStore) {
-        this.idGenerator = idGenerator;
+    public RouteProcessor(@Qualifier("routeMapperStore") MapperStore<String, RouteMapping> mapperStore) {
         this.mapperStore = mapperStore;
     }
 
     @Override
     public Route process(GtfsRoute item) throws Exception {
         int type = Integer.parseInt(item.getRouteType());
-        long id = idGenerator.getId();
+        UUID id = idGenerator.next();
         mapperStore.addMapping(item.getRouteId(), new RouteMapping(item.getRouteId(), id));
-        idGenerator.next();
         return new Route(id, type, item.getRouteShortName());
     }
 }

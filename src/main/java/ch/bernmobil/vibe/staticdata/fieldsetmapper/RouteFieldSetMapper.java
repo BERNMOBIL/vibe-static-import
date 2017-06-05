@@ -1,18 +1,15 @@
 package ch.bernmobil.vibe.staticdata.fieldsetmapper;
 
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsRoute;
-import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
 
 public class RouteFieldSetMapper implements FieldSetMapper<GtfsRoute> {
-    private final static Logger logger = Logger.getLogger(RouteFieldSetMapper.class);
 
     @Override
     public GtfsRoute mapFieldSet(FieldSet fieldSet) throws BindException {
         GtfsRoute route = new GtfsRoute();
-
         route.setRouteId(fieldSet.readString("route_id"));
         route.setAgencyId(fieldSet.readString("agency_id"));
         route.setRouteShortName(fieldSet.readString("route_short_name"));

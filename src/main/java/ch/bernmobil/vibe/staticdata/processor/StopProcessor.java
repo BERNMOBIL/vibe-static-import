@@ -1,27 +1,25 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.staticdata.entity.Stop;
+
+import ch.bernmobil.vibe.shared.entitiy.Stop;
+import ch.bernmobil.vibe.shared.mapping.AreaMapping;
+import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
-import ch.bernmobil.vibe.staticdata.mapper.sync.StopMapping;
-import org.springframework.batch.item.ItemProcessor;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StopProcessor implements ItemProcessor<GtfsStop, Stop>{
-    private final SequentialIdGenerator idGenerator;
+public class StopProcessor extends Processor<GtfsStop, Stop>{
     private final MapperStore<String, StopMapping> stopMapper;
     private final MapperStore<String, AreaMapping> areaMapper;
 
     @Autowired
-    public StopProcessor(SequentialIdGenerator idGenerator,
-            @Qualifier("stopMapperStore") MapperStore<String, StopMapping> stopMapper,
+    public StopProcessor(@Qualifier("stopMapperStore") StopMapperStore stopMapper,
             @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> areaMapper) {
-        this.idGenerator = idGenerator;
         this.stopMapper = stopMapper;
         this.areaMapper = areaMapper;
     }
@@ -30,12 +28,12 @@ public class StopProcessor implements ItemProcessor<GtfsStop, Stop>{
     public Stop process(GtfsStop item) throws Exception {
         String parentStation = item.getParentStation();
         if(!parentStation.isEmpty()) {
-            long id = idGenerator.getId();
+            UUID id = idGenerator.next();
             String stopId = item.getStopId();
-            stopMapper.addMapping(stopId, new StopMapping(stopId, id));
-            long areaId = areaMapper.getMapping(item.getParentStation()).getId();
-            idGenerator.next();
-            stopMapper.addMapping(stopId, new StopMapping(stopId, id));
+            stopMapper.addMapping(stopId, new StopMapping(stopId, item.getStopName(), id));
+
+            UUID areaId = areaMapper.getMapping(item.getParentStation()).getId();
+
             return new Stop(id, item.getStopName(), areaId);
         }
         return null;

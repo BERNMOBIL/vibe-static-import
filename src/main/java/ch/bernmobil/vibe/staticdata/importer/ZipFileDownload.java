@@ -30,7 +30,7 @@ public class ZipFileDownload implements ItemReader<ZipInputStream> {
         firstRun = false;
     }
 
-
+    //TODO: document why return null
     @Override
     public ZipInputStream read() throws Exception {
         if(!firstRun) {

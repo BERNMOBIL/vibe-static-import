@@ -10,11 +10,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import ch.bernmobil.vibe.staticdata.entity.Area;
+import ch.bernmobil.vibe.shared.entitiy.Area;
+import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.staticdata.gtfsmodel.GtfsStop;
-import ch.bernmobil.vibe.staticdata.idprovider.SequentialIdGenerator;
-import ch.bernmobil.vibe.staticdata.mapper.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.mapper.sync.AreaMapping;
+import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
+import java.util.UUID;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("testConfiguration")
 public class AreaProcessorTest {
     private MapperStore<String, AreaMapping> store;
-    private SequentialIdGenerator idGenerator;
+    private UuidGenerator idGenerator;
 
     @Test
     public void stopWithParentStation() throws Exception {
-        long areaId = 1;
+        UUID areaId = UUID.fromString("92e1a0ef-91ef-4850-baa6-4cb6e243bf95");
         when(idGenerator.getId()).thenReturn(areaId);
 
-        AreaProcessor processor = new AreaProcessor(idGenerator, store);
+        AreaProcessor processor = new AreaProcessor(store);
+        processor.setIdGenerator(idGenerator);
 
         String stopId = "123";
         GtfsStop stop = buildGtfsStop("stop", stopId, "");
@@ -51,10 +53,11 @@ public class AreaProcessorTest {
 
     @Test
     public void stopWithoutParentStation() throws Exception {
-        long areaId = 1L;
+        UUID areaId = UUID.fromString("92e1a0ef-91ef-4850-baa6-4cb6e243bf95");
         when(idGenerator.getId()).thenReturn(areaId);
 
-        AreaProcessor processor = new AreaProcessor(idGenerator, store);
+        AreaProcessor processor = new AreaProcessor(store);
+        processor.setIdGenerator(idGenerator);
 
         String stopId = "123";
         GtfsStop stop = buildGtfsStop("stop", stopId, "111");
@@ -83,7 +86,7 @@ public class AreaProcessorTest {
     }
 
     @Autowired
-    public void setIdGenerator(SequentialIdGenerator idGenerator) {
+    public void setIdGenerator(UuidGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
 }

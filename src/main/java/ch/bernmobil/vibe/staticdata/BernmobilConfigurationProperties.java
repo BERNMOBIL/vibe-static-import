@@ -174,8 +174,8 @@ public class BernmobilConfigurationProperties {
         private int chunkSize;
 
         /**
-         * A CRON like string so schedule the import of static data.
-         * Example: "0 0 2 1/1 * ?" will run the schedule every night at 2 AM.
+         * A cron based expression to schedule the execution of the import job.
+         * The expression "0 0 2 1/1 * ?" starts the job every night at 2 AM.
          */
         private String schedule;
 

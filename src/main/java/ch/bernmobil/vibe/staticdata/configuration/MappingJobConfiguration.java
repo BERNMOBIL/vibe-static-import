@@ -13,6 +13,8 @@ import ch.bernmobil.vibe.staticdata.importer.mapping.StopMapperImport;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import javax.sql.DataSource;
+
+import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -28,52 +30,55 @@ import org.springframework.context.annotation.Configuration;
 public class MappingJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource mapperDataSource;
+    private final ApplicationContext applicationContext;
+    private final DSLContext dslContext;
     @Value("${bernmobil.batch.chunk-size}")
     private int chunkSize;
-    private final ApplicationContext applicationContext;
 
     @Autowired
     public MappingJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
             @Qualifier("MapperDataSource") DataSource mapperDataSource,
-            ApplicationContext applicationContext) {
+            ApplicationContext applicationContext,
+            @Qualifier("MapperDslContext") DSLContext dslContext) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.mapperDataSource = mapperDataSource;
         this.applicationContext = applicationContext;
+        this.dslContext = dslContext;
     }
 
     @Bean
     public Step areaMapperStep() {
         MapperStore<String, AreaMapping> mapperStore = getMapperStore("areaMapperStore");
-        AreaMapperImport helper = new AreaMapperImport(mapperDataSource, mapperStore);
+        AreaMapperImport helper = new AreaMapperImport(mapperDataSource, mapperStore, dslContext);
         return buildMappingStep(helper, "Area mapper");
     }
 
     @Bean
     public Step calendarDateMapperStep() {
         MapperStore<Long, CalendarDateMapping> mapperStore = getMapperStore("calendarDateMapperStore");
-        CalendarDateMapperImport helper = new CalendarDateMapperImport(mapperDataSource, mapperStore);
+        CalendarDateMapperImport helper = new CalendarDateMapperImport(mapperDataSource, mapperStore, dslContext);
         return buildMappingStep(helper, "Calendar date mapper");
     }
 
     @Bean
     public Step journeyMapperStep() {
         JourneyMapperStore mapperStore = (JourneyMapperStore)applicationContext.getBean("journeyMapperStore");
-        JourneyMapperImport helper = new JourneyMapperImport(mapperDataSource, mapperStore);
+        JourneyMapperImport helper = new JourneyMapperImport(mapperDataSource, mapperStore, dslContext);
         return buildMappingStep(helper, "Journey mapper");
     }
 
     @Bean
     public Step routeMapperStep() {
         MapperStore<String, RouteMapping> mapperStore = getMapperStore("routeMapperStore");
-        RouteMapperImport helper = new RouteMapperImport(mapperDataSource, mapperStore);
+        RouteMapperImport helper = new RouteMapperImport(mapperDataSource, mapperStore, dslContext);
         return buildMappingStep(helper, "Route mapper");
     }
 
     @Bean
     public Step stopMapperStep() {
         MapperStore<String, StopMapping> mapperStore = getMapperStore("stopMapperStore");
-        StopMapperImport helper = new StopMapperImport(mapperDataSource, mapperStore);
+        StopMapperImport helper = new StopMapperImport(mapperDataSource, mapperStore, dslContext);
         return buildMappingStep(helper, "Stop mapper");
     }
 

@@ -1,24 +1,14 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 
-import ch.bernmobil.vibe.shared.QueryBuilder;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.contract.CalendarDateContract;
 import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsCalendarDateContract;
-import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.writer.ListUnpackingItemWriter;
 import com.google.gson.JsonObject;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.sql.DataSource;
-
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Insert;
@@ -28,16 +18,21 @@ import org.postgresql.util.PGobject;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
-import static org.jooq.impl.DSL.field;
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.jooq.impl.DSL.table;
 
 /**
  * Class to configure the import of a {@link GtfsCalendarDate}, representing GTFS Calendar Dates, and saving a {@link CalendarDate}.
  */
 public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
-    private static final String INSERT_QUERY = new QueryBuilder.PreparedStatement().Insert(
-            CalendarDateContract.TABLE_NAME,
-            CalendarDateContract.COLUMNS).getQuery();
     private final DSLContext dslContext;
 
     /**

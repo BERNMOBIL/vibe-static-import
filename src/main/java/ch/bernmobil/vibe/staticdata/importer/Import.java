@@ -34,7 +34,7 @@ public abstract class Import<TIn, TOut> {
     private final ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter;
 
     /**
-     * Constructor demanding all common objects from an import configuration.
+     * Constructor which demands all common objects from an import configuration.
      * @param dataSource A fully configured datasource to which the converted entities can be written.
      * @param fieldNames An array containing all columns of the CSV file. Basicly just a copy of the first line in the
      *                   corresponding CSV file in a Java array. If there are fewer or more columns in the CSV an exception

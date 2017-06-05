@@ -32,7 +32,7 @@ public class AreaProcessorTest {
     private UuidGenerator idGenerator;
 
     @Test
-    public void stopWithParentStation() throws Exception {
+    public void stopWithParentStation() throws Exception{
         UUID areaId = UUID.fromString("92e1a0ef-91ef-4850-baa6-4cb6e243bf95");
         when(idGenerator.getId()).thenReturn(areaId);
 

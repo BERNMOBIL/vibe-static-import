@@ -45,7 +45,7 @@ public class JobListener implements JobExecutionListener {
                 updateManager.removeUpdateByTimestamp(now);
                 logger.warn("Another job is running while this job started");
             } else {
-                updateManager.startUpdate(now);
+                UpdateManager.startUpdate(now);
             }
         }
     }

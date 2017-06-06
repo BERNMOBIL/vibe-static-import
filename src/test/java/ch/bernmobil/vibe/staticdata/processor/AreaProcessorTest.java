@@ -16,6 +16,8 @@ import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import java.util.UUID;
+
+import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class AreaProcessorTest {
         processor.setIdGenerator(idGenerator);
 
         String stopId = "123";
-        GtfsStop stop = buildGtfsStop("stop", stopId, "");
+        GtfsStop stop = GtfsEntitiyBuilder.buildStop("stop", stopId, "");
 
         Area a = processor.process(stop);
 
@@ -60,7 +62,7 @@ public class AreaProcessorTest {
         processor.setIdGenerator(idGenerator);
 
         String stopId = "123";
-        GtfsStop stop = buildGtfsStop("stop", stopId, "111");
+        GtfsStop stop = GtfsEntitiyBuilder.buildStop("stop", stopId, "111");
 
         Area a = processor.process(stop);
 
@@ -71,18 +73,9 @@ public class AreaProcessorTest {
 
     }
 
-    private GtfsStop buildGtfsStop(String stopName, String stopId, String parentStation){
-        GtfsStop stop = new GtfsStop();
-        stop.setStopName(stopName);
-        stop.setStopId(stopId);
-        stop.setParentStation(parentStation);
-        return stop;
-    }
-
     @Autowired
-    public void setStore(
-            MapperStore<String, AreaMapping> store) {
-        this.store = store;
+    public void setStore(MapperStore<String, AreaMapping> mapperStore) {
+        this.store = mapperStore;
     }
 
     @Autowired

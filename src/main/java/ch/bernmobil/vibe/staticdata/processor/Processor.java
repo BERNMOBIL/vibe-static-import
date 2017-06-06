@@ -6,12 +6,32 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Class which holds an {@link IdGenerator} which is used by all instances inheriting from this class.
+ * @param <I> The type of which is converted by the processor.
+ * @param <O> The type in which the processor is converted.
+ */
 @Component
-public abstract class Processor<TIn, TOut> implements ItemProcessor<TIn, TOut> {
+public abstract class Processor<I, O> implements ItemProcessor<I, O> {
+    /**
+     * The {@link IdGenerator} which is used by all instances of {@link Processor}. This generator must return unique
+     * ids for every call.
+     */
     protected IdGenerator<UUID> idGenerator;
 
+    /**
+     * Process the provided item, returning a potentially modified or new item for continued
+     * processing.  If the returned result is null, it is assumed that processing of the item
+     * should not continue.
+     * @see org.springframework.batch.item.ItemProcessor
+     *
+     * @param item to be processed
+     * @return potentially modified or new item for continued processing, null if processing of the
+     *  provided item should not continue.
+     * @throws Exception if there is any error during processing {@link I}.
+     */
     @Override
-    public abstract TOut process(TIn item) throws Exception;
+    public abstract O process(I item) throws Exception;
 
     @Autowired
     public void setIdGenerator(IdGenerator<UUID> idGenerator){

@@ -1,11 +1,10 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.shared.entitiy.Stop;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
@@ -34,7 +33,7 @@ import static org.mockito.Mockito.never;
 public class StopProcessorTest {
     private StopMapperStore stopMapper;
     private MapperStore<String, AreaMapping> areaMapper;
-    private IdGenerator<UUID> idGenerator;
+    private UuidGenerator idGenerator;
 
     @Test
     public void stopWithoutParentStation() throws Exception {
@@ -89,7 +88,7 @@ public class StopProcessorTest {
     }
 
     @Autowired
-    public void setIdGenerator(IdGenerator<UUID> idGenerator) {
+    public void setIdGenerator(UuidGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
 }

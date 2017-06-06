@@ -5,7 +5,7 @@ import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
@@ -35,7 +35,7 @@ public class JourneyProcessorTest {
     private MapperStore<String, RouteMapping> routeMapperStore;
     private JourneyMapperStore journeyMapperStore;
     private StopMapperStore stopMapperStore;
-    private IdGenerator<UUID> idGenerator;
+    private UuidGenerator idGenerator;
 
     @Test
     public void process() throws Exception {
@@ -110,7 +110,7 @@ public class JourneyProcessorTest {
     }
 
     @Autowired
-    public void setIdGenerator(IdGenerator<UUID> idGenerator) {
+    public void setIdGenerator(UuidGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
 

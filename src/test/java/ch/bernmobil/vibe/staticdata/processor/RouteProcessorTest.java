@@ -3,7 +3,7 @@ package ch.bernmobil.vibe.staticdata.processor;
 import ch.bernmobil.vibe.shared.entitiy.Route;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsRoute;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("testConfiguration")
 public class RouteProcessorTest {
     private MapperStore<String, RouteMapping> routeMapperStore;
-    private IdGenerator<UUID> idGenerator;
+    private UuidGenerator idGenerator;
 
     @Test
     public void process() throws Exception {
@@ -61,7 +61,7 @@ public class RouteProcessorTest {
     }
 
     @Autowired
-    public void setIdGenerator(IdGenerator<UUID> idGenerator) {
+    public void setIdGenerator(UuidGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
 }

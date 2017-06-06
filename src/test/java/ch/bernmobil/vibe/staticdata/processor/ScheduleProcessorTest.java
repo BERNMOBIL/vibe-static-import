@@ -4,7 +4,7 @@ import ch.bernmobil.vibe.shared.entitiy.Schedule;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
-import ch.bernmobil.vibe.staticdata.idprovider.IdGenerator;
+import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 public class ScheduleProcessorTest {
     private StopMapperStore stopMapper;
     private JourneyMapperStore journeyMapper;
-    private IdGenerator<UUID> idGenerator;
+    private UuidGenerator idGenerator;
 
     @Test
     public void process() throws Exception {
@@ -131,7 +131,7 @@ public class ScheduleProcessorTest {
     }
 
     @Autowired
-    public void setIdGenerator(IdGenerator<UUID> idGenerator) {
+    public void setIdGenerator(UuidGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
 }

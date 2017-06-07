@@ -6,18 +6,20 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Provides a generation strategy for {@link UUID}. Using this generator can omit writing
  * to the database and retrieving the id later. The behaviour of the implementing class should never
- * return the same number twice when calling next(). Using {@link AtomicReference} this generator is non-blocking
- * and atomic.
+ * return the same number twice when calling next().
+ *
+ * @author Oliviero Chiodo
+ * @author Matteo Patisso
  */
 public class UuidGenerator {
-    private final AtomicReference<UUID> currentUuid = new AtomicReference<>(UUID.randomUUID());
+    private UUID currentUuid = UUID.randomUUID();
 
     /**
      * This method returns the currently saved {@link UUID}. It will return the same value until {@link #next()} is called.
      * @return Currently saved {@link UUID}.
      */
     public UUID getId() {
-        return currentUuid.get();
+        return currentUuid;
     }
 
     /**
@@ -27,6 +29,7 @@ public class UuidGenerator {
      * @return Returns the new generated {@link UUID}
      */
     public UUID next() {
-        return currentUuid.accumulateAndGet(UUID.randomUUID(), (oldId, newId) -> newId);
+        currentUuid = UUID.randomUUID();
+        return currentUuid;
     }
 }

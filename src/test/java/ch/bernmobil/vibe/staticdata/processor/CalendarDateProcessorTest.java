@@ -8,7 +8,7 @@ import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
-import ch.bernmobil.vibe.staticdata.testenvironment.testdata.JourneyMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.JourneyMappingTestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

@@ -1,6 +1,7 @@
-package ch.bernmobil.vibe.staticdata.testenvironment.testdata;
+package ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping;
 
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 
 import java.util.UUID;
 import java.util.stream.Collectors;

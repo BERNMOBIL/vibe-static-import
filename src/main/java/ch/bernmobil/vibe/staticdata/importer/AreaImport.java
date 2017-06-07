@@ -69,7 +69,6 @@ public class AreaImport extends Import<GtfsStop, Area> {
         public void setValues(Area item, PreparedStatement ps) throws SQLException {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
-            // TODO: inject
             ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
         }
     }

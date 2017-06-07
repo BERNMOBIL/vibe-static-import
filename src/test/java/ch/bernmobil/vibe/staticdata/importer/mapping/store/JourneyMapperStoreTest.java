@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
-import ch.bernmobil.vibe.staticdata.testenvironment.testdata.JourneyMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.JourneyMappingTestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import org.junit.Test;
 

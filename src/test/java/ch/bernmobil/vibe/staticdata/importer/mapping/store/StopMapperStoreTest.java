@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.testenvironment.testdata.StopMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.StopMappingTestData;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

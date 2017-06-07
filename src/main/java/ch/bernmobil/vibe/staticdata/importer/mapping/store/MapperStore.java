@@ -30,8 +30,8 @@ public class MapperStore<I, O> {
     }
 
     /**
-     * Get all mapping objects as an {@link java.util.Collections.UnmodifiableList} of {@link O}
-     * @return {@link java.util.Collections.UnmodifiableList} of all stored {@link O}
+     * Get all mapping objects as an UnmodifiableList of {@link O}
+     * @return UnmodifiableList of all stored {@link O}
      */
     public List<O> getMappings() {
         return Collections.unmodifiableList(new ArrayList<>(mappingMap.values()));

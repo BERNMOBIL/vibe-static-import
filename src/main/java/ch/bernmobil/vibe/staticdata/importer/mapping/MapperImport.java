@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.writer.LazyItemReader;
+import ch.bernmobil.vibe.staticdata.writer.LazyListItemReader;
 import org.jooq.Insert;
 import org.jooq.Record;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -50,14 +50,14 @@ public abstract class MapperImport<T> {
 
     /**
      * A reader for the step which saves all mappings in {@link #mapperStore} into the database. Since the the
-     * {@link MapperStore} are filled while processing the GTFS entities, a {@link LazyItemReader} is required to make
+     * {@link MapperStore} are filled while processing the GTFS entities, a {@link LazyListItemReader} is required to make
      * sure, all the mappings are passed to the reader.
-     * @return A {@link LazyItemReader} which holds a reference to the mappings in the {@link #mapperStore}.
+     * @return A {@link LazyListItemReader} which holds a reference to the mappings in the {@link #mapperStore}.
      */
     @Bean
     @StepScope
     public ItemReader<T> reader() {
-        return new LazyItemReader<>(mapperStore::getMappings);
+        return new LazyListItemReader<>(mapperStore::getMappings);
     }
 
     /**

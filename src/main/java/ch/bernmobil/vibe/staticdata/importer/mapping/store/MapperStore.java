@@ -7,22 +7,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A mapper store to save mappings between two ID systems
- * @param <I> Id which should be act as search index
- * @param <O> An object containing the mapping information
+ * A mapper store to save mappings between two ID systems.
+ * @param <I> An object which acts as search index
+ * @param <O> An object containing mapping information which also may include {@link I}
  */
 
 public class MapperStore<I, O> {
     protected final Map<I, O> mappingMap = new HashMap<>();
 
+    /**
+     * Add a mapping object to the store.
+     * @param id which leads to the mapping.
+     * @param mapping as value for the id.
+     */
     public void addMapping(I id, O mapping) {
         mappingMap.put(id, mapping);
     }
 
+    /**
+     * Get a mapping to a given id of type {@link I}.
+     * @param id of which the mapping is searched.
+     * @return mapping corresponding to the given id.
+     */
     public O getMapping(I id) {
         return mappingMap.get(id);
     }
 
+    /**
+     * Get all mapping objects as an {@link java.util.Collections.UnmodifiableList} of {@link O}
+     * @return {@link java.util.Collections.UnmodifiableList} of all stored {@link O}
+     */
     public List<O> getMappings() {
         return Collections.unmodifiableList(new ArrayList<>(mappingMap.values()));
     }

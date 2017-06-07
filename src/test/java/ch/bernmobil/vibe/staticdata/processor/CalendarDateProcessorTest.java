@@ -17,7 +17,8 @@ import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
-import ch.bernmobil.vibe.staticdata.testenvironment.JourneyMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.JourneyMappingTestData;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.sql.Date;
@@ -42,7 +43,7 @@ public class CalendarDateProcessorTest {
 
     @Test
     public void processCalendarDate() throws Exception {
-        JourneyMappingTestData testData = new JourneyMappingTestData();
+        TestData<JourneyMapping> testData = new JourneyMappingTestData();
         List<JourneyMapping> journeyMappingList = testData.getDataSource()
                 .stream().limit(1).collect(Collectors.toList());
 
@@ -97,7 +98,7 @@ public class CalendarDateProcessorTest {
 
     @Test
     public void processCalendarDateMultipleJourneyMapping() throws Exception {
-        JourneyMappingTestData testData = new JourneyMappingTestData();
+        TestData<JourneyMapping> testData = new JourneyMappingTestData();
         List<JourneyMapping> journeyMappingList = testData.getDataSource()
                 .stream().limit(2).collect(Collectors.toList());
 

@@ -1,15 +1,12 @@
-package ch.bernmobil.vibe.staticdata.testenvironment;
+package ch.bernmobil.vibe.staticdata.testenvironment.testdata;
 
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class JourneyMappingTestData {
-    private List<JourneyMapping> dataSource;
-
+public class JourneyMappingTestData extends TestData<JourneyMapping> {
     public JourneyMappingTestData() {
         dataSource = IntStream.range(0, idList.length)
                 .mapToObj(this::create)
@@ -37,16 +34,8 @@ public class JourneyMappingTestData {
             "04-trip"
     };
 
-    private JourneyMapping create(int index) {
+    @Override
+    protected JourneyMapping create(int index) {
         return new JourneyMapping(tripIdList[index], serviceIdList[index], idList[index]);
     }
-
-    public JourneyMapping get(int index) {
-        return dataSource.get(index);
-    }
-
-    public List<JourneyMapping> getDataSource() {
-        return dataSource;
-    }
-
 }

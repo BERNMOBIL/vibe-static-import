@@ -8,7 +8,7 @@ import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
-import ch.bernmobil.vibe.staticdata.testenvironment.StopMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.StopMappingTestData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

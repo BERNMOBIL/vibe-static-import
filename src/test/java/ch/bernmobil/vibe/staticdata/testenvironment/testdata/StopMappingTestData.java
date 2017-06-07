@@ -1,15 +1,12 @@
-package ch.bernmobil.vibe.staticdata.testenvironment;
+package ch.bernmobil.vibe.staticdata.testenvironment.testdata;
 
-import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class StopMappingTestData {
-    private List<StopMapping> dataSource;
+public class StopMappingTestData extends TestData<StopMapping> {
 
     public StopMappingTestData() {
         dataSource = IntStream.range(0, idList.length)
@@ -38,16 +35,9 @@ public class StopMappingTestData {
             "Biel/Bienne"
     };
 
-    private StopMapping create(int index) {
+    @Override
+    protected StopMapping create(int index) {
         return new StopMapping(stopIdList[index], stopNameList[index], idList[index]);
-    }
-
-    public StopMapping get(int index) {
-        return dataSource.get(index);
-    }
-
-    public List<StopMapping> getDataSource() {
-        return dataSource;
     }
 
 }

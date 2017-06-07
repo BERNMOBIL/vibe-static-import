@@ -8,8 +8,9 @@ import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
-import ch.bernmobil.vibe.staticdata.testenvironment.JourneyMappingTestData;
-import ch.bernmobil.vibe.staticdata.testenvironment.StopMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.JourneyMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.StopMappingTestData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class ScheduleProcessorTest {
 
     @Test
     public void process() throws Exception {
-        JourneyMappingTestData journeyData = new JourneyMappingTestData();
+        TestData<JourneyMapping> journeyData = new JourneyMappingTestData();
         StopMappingTestData stopData = new StopMappingTestData();
 
         JourneyMapping journeyMapping = journeyData.get(0);
@@ -68,7 +69,7 @@ public class ScheduleProcessorTest {
 
     @Test
     public void processNoStopMapping() throws Exception {
-        JourneyMappingTestData journeyData = new JourneyMappingTestData();
+        TestData<JourneyMapping> journeyData = new JourneyMappingTestData();
         StopMappingTestData stopData = new StopMappingTestData();
 
         JourneyMapping journeyMapping = journeyData.get(0);
@@ -95,7 +96,7 @@ public class ScheduleProcessorTest {
 
     @Test
     public void processNoJourneyMapping() throws Exception {
-        JourneyMappingTestData journeyData = new JourneyMappingTestData();
+        TestData<JourneyMapping> journeyData = new JourneyMappingTestData();
         StopMappingTestData stopData = new StopMappingTestData();
 
         JourneyMapping journeyMapping = journeyData.get(0);

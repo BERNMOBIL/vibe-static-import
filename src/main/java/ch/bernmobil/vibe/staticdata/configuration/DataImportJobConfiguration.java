@@ -3,6 +3,7 @@ package ch.bernmobil.vibe.staticdata.configuration;
 
 import ch.bernmobil.vibe.staticdata.importer.*;
 import ch.bernmobil.vibe.staticdata.processor.*;
+import ch.bernmobil.vibe.staticdata.reader.OneStreamTimeReader;
 import ch.bernmobil.vibe.staticdata.writer.ZipInputStreamWriter;
 import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
@@ -52,7 +53,7 @@ public class DataImportJobConfiguration {
     public Step fileDownloadStep() {
         return stepBuilderFactory.get("Download GTFS Files")
                 .<ZipInputStream, ZipInputStream>chunk(1)
-                .reader(new ZipFileDownload(staticFileUrl))
+                .reader(new OneStreamTimeReader<>(new ZipFileDownload(staticFileUrl)))
                 .writer(new ZipInputStreamWriter(destinationFolder))
                 .build();
     }

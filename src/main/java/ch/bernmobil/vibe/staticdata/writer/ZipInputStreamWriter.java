@@ -2,10 +2,7 @@ package ch.bernmobil.vibe.staticdata.writer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemStream;
-import org.springframework.batch.item.ItemStreamException;
-import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.*;
 
 import java.io.*;
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.zip.ZipInputStream;
  * @author Oliviero Chiodo
  * @author Matteo Patisso
  */
-public class ZipInputStreamWriter implements ItemWriter<ZipInputStream>, ItemStream {
+public class ZipInputStreamWriter implements ItemStreamWriter<ZipInputStream> {
     private static final Logger logger = Logger.getLogger(ZipInputStreamWriter.class);
     private final File folder;
 
@@ -56,7 +53,6 @@ public class ZipInputStreamWriter implements ItemWriter<ZipInputStream>, ItemStr
                 logger.debug(String.format("Writing file: %s", filename));
                 try(FileOutputStream destination = new FileOutputStream(folder + "/" + filename)) {
                     IOUtils.copy(zis, destination);
-                    zis.close();
                 }
             }
         } finally {

@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.reader;
 
-import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.*;
 
 /**
  * An {@link ItemReader} which guarantees that a given resource is only read once.
@@ -9,15 +9,15 @@ import org.springframework.batch.item.ItemReader;
  * @author Oliviero Chiodo
  * @author Matteo Patisso
  */
-public class OneTimeReader<T> implements ItemReader<T> {
-    private final ItemReader<T> delegate;
+public class OneTimeItemStreamReader<T> implements ItemStreamReader<T> {
+    private final ItemStreamReader<T> delegate;
     private boolean read;
 
     /**
      * Constructor taking another {@link ItemReader} to provide access to the resource.
      * @param delegate {@link ItemReader} which should be used only once.
      */
-    public OneTimeReader(ItemReader<T> delegate) {
+    public OneTimeItemStreamReader(ItemStreamReader<T> delegate) {
         this.delegate = delegate;
     }
 
@@ -35,5 +35,20 @@ public class OneTimeReader<T> implements ItemReader<T> {
         T item = delegate.read();
         read = true;
         return item;
+    }
+
+    @Override
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
+        delegate.open(executionContext);
+    }
+
+    @Override
+    public void update(ExecutionContext executionContext) throws ItemStreamException {
+        delegate.update(executionContext);
+    }
+
+    @Override
+    public void close() throws ItemStreamException {
+        delegate.close();
     }
 }

@@ -1,10 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 import org.apache.log4j.Logger;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemStream;
-import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.*;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -23,7 +20,7 @@ import java.util.zip.ZipInputStream;
  * @author Oliviero Chiodo
  * @author Matteo Patisso
  */
-public class ZipFileDownload implements ItemReader<ZipInputStream>, ItemStream {
+public class ZipFileDownload implements ItemStreamReader<ZipInputStream> {
     private final Logger logger = Logger.getLogger(ZipFileDownload.class);
     private final String fileSource;
     private ZipInputStream zip;
@@ -54,6 +51,7 @@ public class ZipFileDownload implements ItemReader<ZipInputStream>, ItemStream {
      */
     @Override
     public ZipInputStream read() throws Exception {
+        //downloadZip();
         logger.debug(String.format("InputStream from ZIP file created from %s", fileSource));
         return zip;
     }

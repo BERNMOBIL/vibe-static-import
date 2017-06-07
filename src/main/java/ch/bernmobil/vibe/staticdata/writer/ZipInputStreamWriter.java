@@ -67,10 +67,14 @@ public class ZipInputStreamWriter implements ItemStreamWriter<ZipInputStream> {
      */
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        if(!folder.canWrite() || (!folder.exists() && !folder.mkdir())) {
-            throw new ItemStreamException(String.format("Folder for GTFS data could not be created at %s", folder.getAbsolutePath()));
+        if(folder.exists() && folder.canWrite()) {
+            return;
         }
-        logger.debug(String.format("Created folder for GTFS data: %s", folder.getAbsolutePath()));
+        if(folder.mkdir()) {
+            logger.debug(String.format("Created folder for GTFS data: %s", folder.getAbsolutePath()));
+            return;
+        }
+        throw new ItemStreamException(String.format("Folder for GTFS data could not be created at %s", folder.getAbsolutePath()));
     }
 
     /**

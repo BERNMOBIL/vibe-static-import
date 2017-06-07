@@ -1,11 +1,10 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Component;
 
 /**
  * Provides mapping connection between {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip},

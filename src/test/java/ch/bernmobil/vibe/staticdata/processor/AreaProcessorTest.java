@@ -1,22 +1,10 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
-import java.util.UUID;
-
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.UUID;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

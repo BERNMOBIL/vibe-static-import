@@ -9,15 +9,16 @@ import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 /**
  * Class for converting {@link GtfsCalendarDate} into a {@link List} of {@link CalendarDate} (because the N:M relationship

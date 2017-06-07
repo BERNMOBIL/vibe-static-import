@@ -7,12 +7,13 @@ import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
-import java.sql.Time;
-import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.sql.Time;
+import java.util.UUID;
 
 /**
  * Class to convert {@link GtfsStopTime} to {@link Schedule}.

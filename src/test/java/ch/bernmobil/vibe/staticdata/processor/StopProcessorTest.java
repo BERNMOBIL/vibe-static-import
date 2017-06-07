@@ -18,14 +18,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.never;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestConfiguration.class })

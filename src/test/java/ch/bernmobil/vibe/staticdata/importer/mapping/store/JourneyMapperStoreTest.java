@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
-import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.JourneyMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class JourneyMapperStoreTest {
     @Test

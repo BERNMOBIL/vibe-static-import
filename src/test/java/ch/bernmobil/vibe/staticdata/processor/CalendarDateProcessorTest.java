@@ -1,14 +1,5 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNotNull;
-import static org.mockito.Matchers.isNull;
-import static org.mockito.Mockito.*;
-
 import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
@@ -17,21 +8,28 @@ import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
-import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.JourneyMappingTestData;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.sql.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.sql.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestConfiguration.class })

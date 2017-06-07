@@ -1,7 +1,5 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import javax.sql.DataSource;
-
 import org.jooq.Insert;
 import org.jooq.Record;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -15,6 +13,8 @@ import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
+
+import javax.sql.DataSource;
 
 /**
  * This class summarises common fields and methods of every class which defines steps to import GTFS data into the

@@ -1,24 +1,9 @@
 package ch.bernmobil.vibe.staticdata.configuration;
 
 
-import ch.bernmobil.vibe.staticdata.importer.AreaImport;
-import ch.bernmobil.vibe.staticdata.importer.CalendarDateImport;
-import ch.bernmobil.vibe.staticdata.importer.Import;
-import ch.bernmobil.vibe.staticdata.importer.RouteImport;
-import ch.bernmobil.vibe.staticdata.importer.StopImport;
-import ch.bernmobil.vibe.staticdata.importer.StopTimeImport;
-import ch.bernmobil.vibe.staticdata.importer.TripImport;
-import ch.bernmobil.vibe.staticdata.importer.ZipFileDownload;
-import ch.bernmobil.vibe.staticdata.processor.AreaProcessor;
-import ch.bernmobil.vibe.staticdata.processor.CalendarDateProcessor;
-import ch.bernmobil.vibe.staticdata.processor.JourneyProcessor;
-import ch.bernmobil.vibe.staticdata.processor.RouteProcessor;
-import ch.bernmobil.vibe.staticdata.processor.ScheduleProcessor;
-import ch.bernmobil.vibe.staticdata.processor.StopProcessor;
+import ch.bernmobil.vibe.staticdata.importer.*;
+import ch.bernmobil.vibe.staticdata.processor.*;
 import ch.bernmobil.vibe.staticdata.writer.ZipInputStreamWriter;
-import java.util.zip.ZipInputStream;
-import javax.sql.DataSource;
-
 import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -32,6 +17,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+import java.util.zip.ZipInputStream;
 
 @Configuration
 @EnableBatchProcessing

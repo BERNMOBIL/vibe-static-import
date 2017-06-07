@@ -1,16 +1,12 @@
 package ch.bernmobil.vibe.staticdata.writer;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.apache.log4j.Logger;
+import org.springframework.batch.item.ItemWriter;
+
+import java.io.*;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.apache.log4j.Logger;
-import org.springframework.batch.item.ItemWriter;
 
 
 public class ZipInputStreamWriter implements ItemWriter<ZipInputStream> {

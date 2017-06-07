@@ -1,10 +1,11 @@
 package ch.bernmobil.vibe.staticdata.writer;
 
 
-import static java.util.stream.Collectors.toList;
+import org.springframework.batch.item.ItemWriter;
 
 import java.util.List;
-import org.springframework.batch.item.ItemWriter;
+
+import static java.util.stream.Collectors.toList;
 
 public class ListUnpackingItemWriter<T> implements ItemWriter<List<T>> {
 

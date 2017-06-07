@@ -1,19 +1,13 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import static org.mockito.Mockito.mock;
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
-
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.*;
+
+import static org.mockito.Mockito.mock;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Configuration
 @Profile("testConfiguration")

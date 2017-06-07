@@ -2,8 +2,6 @@ package ch.bernmobil.vibe.staticdata.importer.mapping;
 
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.writer.LazyItemReader;
-import javax.sql.DataSource;
-
 import org.jooq.Insert;
 import org.jooq.Record;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -12,6 +10,8 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.context.annotation.Bean;
+
+import javax.sql.DataSource;
 
 /**
  * Class to summarise common behaviour of all mapping import classes. It holds a {@link DataSource} which is used to

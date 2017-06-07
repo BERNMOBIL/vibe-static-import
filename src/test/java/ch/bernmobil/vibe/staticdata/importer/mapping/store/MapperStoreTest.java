@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.Is.isA;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 
 public class MapperStoreTest {

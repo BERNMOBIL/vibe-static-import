@@ -8,10 +8,11 @@ import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 /**
  * Class to convert a {@link GtfsTrip} to a {@link Journey}.

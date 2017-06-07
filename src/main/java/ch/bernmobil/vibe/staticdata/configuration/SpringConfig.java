@@ -3,12 +3,6 @@ package ch.bernmobil.vibe.staticdata.configuration;
 import ch.bernmobil.vibe.shared.UpdateHistoryRepository;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.UpdateManagerRepository;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.Duration;
-import javax.sql.DataSource;
-
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -26,10 +20,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import javax.sql.DataSource;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
 
 @Configuration
 @EnableBatchProcessing

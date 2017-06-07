@@ -7,10 +7,11 @@ import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 /**
  * Converts a {@link GtfsStop} into a {@link Stop}.

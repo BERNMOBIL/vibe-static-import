@@ -4,10 +4,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 public class UuidGeneratorTest {
     @Test

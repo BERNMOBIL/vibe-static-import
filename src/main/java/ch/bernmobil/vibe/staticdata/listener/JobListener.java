@@ -3,7 +3,6 @@ package ch.bernmobil.vibe.staticdata.listener;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.UpdateManager.Status;
 import ch.bernmobil.vibe.staticdata.communication.UpdateNotificationSender;
-import java.sql.Timestamp;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -11,6 +10,8 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
 
 @Component
 public class JobListener implements JobExecutionListener {

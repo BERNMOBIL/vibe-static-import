@@ -1,12 +1,13 @@
 package ch.bernmobil.vibe.staticdata.writer;
 
-import java.util.List;
-import java.util.function.Supplier;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStream;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.support.ListItemReader;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 //TODO: check if ItemStream could replace null check
 public class LazyItemReader<T> implements ItemReader<T>, ItemStream{

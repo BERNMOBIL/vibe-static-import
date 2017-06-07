@@ -4,16 +4,8 @@ import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.contract.AreaContract;
 import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsStopContract;
-import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.StopFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
-import javax.sql.DataSource;
-
+import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.StopFieldSetMapper;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Insert;
@@ -21,7 +13,14 @@ import org.jooq.Record;
 import org.jooq.impl.DSL;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
-import static org.jooq.impl.DSL.field;
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 import static org.jooq.impl.DSL.table;
 
 /**

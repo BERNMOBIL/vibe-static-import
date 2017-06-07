@@ -4,16 +4,9 @@ import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.importer.mapping.AreaMapperImport;
-import ch.bernmobil.vibe.staticdata.importer.mapping.CalendarDateMapperImport;
-import ch.bernmobil.vibe.staticdata.importer.mapping.JourneyMapperImport;
-import ch.bernmobil.vibe.staticdata.importer.mapping.MapperImport;
-import ch.bernmobil.vibe.staticdata.importer.mapping.RouteMapperImport;
-import ch.bernmobil.vibe.staticdata.importer.mapping.StopMapperImport;
+import ch.bernmobil.vibe.staticdata.importer.mapping.*;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
-import javax.sql.DataSource;
-
 import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -24,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing

@@ -1,7 +1,6 @@
 package ch.bernmobil.vibe.staticdata.idprovider;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Provides a generation strategy for {@link UUID}. Using this generator can omit writing

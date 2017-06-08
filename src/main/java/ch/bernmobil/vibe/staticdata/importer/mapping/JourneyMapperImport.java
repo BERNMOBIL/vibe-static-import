@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.JourneyMapperContract;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
@@ -33,11 +33,12 @@ public class JourneyMapperImport extends MapperImport<JourneyMapping> {
      * @param dataSource A {@link DataSource} which holds a connection to the mapping database.
      * @param mapperStore A {@link JourneyMapperStore} which contains all {@link JourneyMapping} to be saved.
      * @param dslContext The context to generate SQL queries using JOOQ.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
     public JourneyMapperImport(DataSource dataSource,
                                @Qualifier("journeyMapperStore") JourneyMapperStore mapperStore,
-                               DSLContext dslContext) {
-        super(dataSource, new JourneyMapperPreparedStatementSetter(), mapperStore);
+                               DSLContext dslContext, UpdateTimestampManager updateTimestampManager) {
+        super(dataSource, new JourneyMapperPreparedStatementSetter(updateTimestampManager), mapperStore);
         this.dslContext = dslContext;
     }
 
@@ -57,6 +58,12 @@ public class JourneyMapperImport extends MapperImport<JourneyMapping> {
      * Class which implements {@link ItemPreparedStatementSetter} for {@link JourneyMapping}
      */
     public static class JourneyMapperPreparedStatementSetter implements ItemPreparedStatementSetter<JourneyMapping> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public JourneyMapperPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Method to fill a {@link PreparedStatement} with values from a {@link JourneyMapping} for saving it into the database.
          * @param item {@link JourneyMapping} which is to be written into the database.
@@ -68,7 +75,7 @@ public class JourneyMapperImport extends MapperImport<JourneyMapping> {
             ps.setString(1, item.getGtfsTripId());
             ps.setString(2, item.getGtfsServiceId());
             ps.setObject(3, item.getId());
-            ps.setTimestamp(4, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(4, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

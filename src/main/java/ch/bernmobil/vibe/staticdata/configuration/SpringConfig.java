@@ -3,6 +3,7 @@ package ch.bernmobil.vibe.staticdata.configuration;
 import ch.bernmobil.vibe.shared.UpdateHistoryRepository;
 import ch.bernmobil.vibe.shared.UpdateManager;
 import ch.bernmobil.vibe.shared.UpdateManagerRepository;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -54,8 +55,8 @@ public class SpringConfig {
     @Bean
     public DataSource sqliteDataSource() {
         String url = String.format("%s:%s",
-                        environment.getProperty("bernmobil.jobrepository.datasource"),
-                        environment.getProperty("bernmobil.jobrepository.name"));
+                environment.getProperty("bernmobil.jobrepository.datasource"),
+                environment.getProperty("bernmobil.jobrepository.name"));
         return createDataSource(environment.getProperty("bernmobil.jobrepository.driver-class-name"), url);
     }
 
@@ -77,7 +78,7 @@ public class SpringConfig {
 
     @Bean(name = "JobRepositoryInitializer")
     public DataSourceInitializer jobRepositoryInitializer(DataSource dataSource) throws MalformedURLException {
-        if(Files.exists(Paths.get(environment.getProperty("bernmobil.jobrepository.name")))) {
+        if (Files.exists(Paths.get(environment.getProperty("bernmobil.jobrepository.name")))) {
             return dataSourceInitializer(dataSource);
         }
         return dataSourceInitializer(dataSource, dataRepositorySchema);
@@ -93,11 +94,12 @@ public class SpringConfig {
 
     @Bean
     public UpdateManager updateManager(@Qualifier("MapperRepository") UpdateManagerRepository mapperRepository,
-            @Qualifier("StaticRepository") UpdateManagerRepository staticRepository,
-            UpdateHistoryRepository updateHistoryRepository) {
+                                       @Qualifier("StaticRepository") UpdateManagerRepository staticRepository,
+                                       UpdateHistoryRepository updateHistoryRepository,
+                                       UpdateTimestampManager updateTimestampManager) {
         int historySize = environment.getProperty("bernmobil.history.size", Integer.class);
         Duration timeout = Duration.ofMinutes(environment.getProperty("bernmobil.history.timeout-duration", Long.class));
-        return new UpdateManager(mapperRepository, staticRepository, updateHistoryRepository, historySize, timeout);
+        return new UpdateManager(mapperRepository, staticRepository, updateHistoryRepository, historySize, timeout, updateTimestampManager);
     }
 
     @Bean(name = "MapperRepository")
@@ -106,7 +108,7 @@ public class SpringConfig {
     }
 
     @Bean(name = "StaticRepository")
-    public UpdateManagerRepository staticRepository(@Qualifier("StaticDslContext")DSLContext dslContext) {
+    public UpdateManagerRepository staticRepository(@Qualifier("StaticDslContext") DSLContext dslContext) {
         return new UpdateManagerRepository(dslContext);
     }
 
@@ -126,6 +128,11 @@ public class SpringConfig {
         return getDslContext(dataSource);
     }
 
+    @Bean
+    public UpdateTimestampManager updateTimestampManager() {
+        return new UpdateTimestampManager();
+    }
+
     private DSLContext getDslContext(DataSource dataSource) {
         String dialectString = environment.getProperty("spring.jooq.sql-dialect").toUpperCase();
         SQLDialect dialect = SQLDialect.valueOf(dialectString);
@@ -138,7 +145,7 @@ public class SpringConfig {
 
     private DataSourceInitializer dataSourceInitializer(DataSource dataSource, Resource... sqlScripts) {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-        for(Resource resource : sqlScripts){
+        for (Resource resource : sqlScripts) {
             databasePopulator.addScript(resource);
         }
         DataSourceInitializer initializer = new DataSourceInitializer();

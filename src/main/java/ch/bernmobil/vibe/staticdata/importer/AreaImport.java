@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.AreaContract;
 import ch.bernmobil.vibe.shared.entitiy.Area;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsStopContract;
@@ -32,13 +32,14 @@ public class AreaImport extends Import<GtfsStop, Area> {
     /**
      * Constructing an import configuration instance using a {@link DataSource} and a folder containing the latest GTFS data
      * are present.
-     * @param dataSource DataSource object which holds the connection to the static data source.
-     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
-     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     * @param dataSource which holds the connection to the static data source.
+     * @param dslContext of the JOOQ Query Builder to generate the insert statement.
+     * @param folder on the filesystem which contains the latest GTFS data.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
-    public AreaImport(DataSource dataSource, DSLContext dslContext, String folder) {
+    public AreaImport(DataSource dataSource, DSLContext dslContext, String folder, UpdateTimestampManager updateTimestampManager) {
         super(dataSource, GtfsStopContract.FIELD_NAMES, folder + GtfsStopContract.FILENAME,
-                new StopFieldSetMapper(), new AreaPreparedStatementSetter());
+                new StopFieldSetMapper(), new AreaPreparedStatementSetter(updateTimestampManager));
         this.dslContext = dslContext;
     }
 
@@ -58,6 +59,11 @@ public class AreaImport extends Import<GtfsStop, Area> {
      * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
      */
     public static class AreaPreparedStatementSetter implements ItemPreparedStatementSetter<Area> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public AreaPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
 
         /**
          * Set the values of the prepared statement
@@ -69,7 +75,7 @@ public class AreaImport extends Import<GtfsStop, Area> {
         public void setValues(Area item, PreparedStatement ps) throws SQLException {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
-            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(3, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.ScheduleContract;
 import ch.bernmobil.vibe.shared.entitiy.Schedule;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsStopTimeContract;
@@ -31,13 +31,14 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
 
     /**
      * Constructing an import configuration instance using a {@link DataSource} and a folder with the latest GTFS data.
-     * @param dataSource DataSource object which holds the connection to the static data source.
-     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
-     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     * @param dataSource which holds the connection to the static data source.
+     * @param dslContext of the JOOQ Query Builder to generate the insert statement.
+     * @param folder on the filesystem which contains the latest GTFS data.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
-    public StopTimeImport(DataSource dataSource, DSLContext dslContext, String folder) {
+    public StopTimeImport(DataSource dataSource, DSLContext dslContext, String folder, UpdateTimestampManager updateTimestampManager) {
         super(dataSource, GtfsStopTimeContract.FIELD_NAMES, folder + GtfsStopTimeContract.FILENAME,
-                new StopTimeFieldSetMapper(), new SchedulePreparedStatementSetter());
+                new StopTimeFieldSetMapper(), new SchedulePreparedStatementSetter(updateTimestampManager));
         this.dslContext = dslContext;
     }
 
@@ -57,6 +58,12 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
      * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
      */
     public static class SchedulePreparedStatementSetter implements ItemPreparedStatementSetter<Schedule> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public SchedulePreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Set the values of the prepared statement
          * @param item Area which will be safed
@@ -71,7 +78,7 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
             ps.setTime(4, item.getPlannedDeparture());
             ps.setObject(5, item.getStop());
             ps.setObject(6, item.getJourney());
-            ps.setTimestamp(7, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(7, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

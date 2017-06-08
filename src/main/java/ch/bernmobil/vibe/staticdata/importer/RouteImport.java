@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.RouteContract;
 import ch.bernmobil.vibe.shared.entitiy.Route;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsRouteContract;
@@ -31,13 +31,14 @@ public class RouteImport extends Import<GtfsRoute, Route> {
 
     /**
      * Constructing an import configuration instance using a {@link DataSource} and a folder with the latest GTFS data.
-     * @param dataSource DataSource object which holds the connection to the static data source.
-     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
-     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     * @param dataSource  which holds the connection to the static data source.
+     * @param dslContext of the JOOQ Query Builder to generate the insert statement.
+     * @param folder on the filesystem which contains the latest GTFS data.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
-    public RouteImport(DataSource dataSource, DSLContext dslContext, String folder) {
+    public RouteImport(DataSource dataSource, DSLContext dslContext, String folder, UpdateTimestampManager updateTimestampManager) {
         super(dataSource, GtfsRouteContract.FIELD_NAMES, folder + GtfsRouteContract.FILENAME,
-                new RouteFieldSetMapper(), new RoutePreparedStatementSetter());
+                new RouteFieldSetMapper(), new RoutePreparedStatementSetter(updateTimestampManager));
         this.dslContext = dslContext;
     }
 
@@ -54,21 +55,27 @@ public class RouteImport extends Import<GtfsRoute, Route> {
     }
 
     /**
-     * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
+     * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query.
      */
     public static class RoutePreparedStatementSetter implements ItemPreparedStatementSetter<Route> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public RoutePreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Set the values of the prepared statement
-         * @param item Area which will be safed
-         * @param ps {@link PreparedStatement} into these values will be written
-         * @throws SQLException Exception will be thrown if the database returns an error
+         * @param item Area which will be saved.
+         * @param ps {@link PreparedStatement} into these values will be written.
+         * @throws SQLException Exception will be thrown if the database returns an error.
          */
         @Override
         public void setValues(Route item, PreparedStatement ps) throws SQLException {
             ps.setObject(1, item.getId());
             ps.setInt(2, item.getType());
             ps.setString(3, item.getLine());
-            ps.setTimestamp(4, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(4, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

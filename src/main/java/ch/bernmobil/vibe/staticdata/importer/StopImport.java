@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.StopContract;
 import ch.bernmobil.vibe.shared.entitiy.Stop;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsStopContract;
@@ -32,13 +32,14 @@ public class StopImport extends Import<GtfsStop, Stop> {
 
     /**
      * Constructing an import configuration instance using a {@link DataSource} and a folder with the latest GTFS data.
-     * @param dataSource DataSource object which holds the connection to the static data source.
-     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
-     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     * @param dataSource which holds the connection to the static data source.
+     * @param dslContext  of the JOOQ Query Builder to generate the insert statement.
+     * @param folder on the filesystem which contains the latest GTFS data.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
-    public StopImport(DataSource dataSource, DSLContext dslContext, String folder) {
+    public StopImport(DataSource dataSource, DSLContext dslContext, String folder, UpdateTimestampManager updateTimestampManager) {
         super(dataSource, GtfsStopContract.FIELD_NAMES, folder + GtfsStopContract.FILENAME,
-                new StopFieldSetMapper(), new StopPreparedStatementSetter());
+                new StopFieldSetMapper(), new StopPreparedStatementSetter(updateTimestampManager));
         this.dslContext = dslContext;
     }
 
@@ -58,6 +59,12 @@ public class StopImport extends Import<GtfsStop, Stop> {
      * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
      */
     public static class StopPreparedStatementSetter implements ItemPreparedStatementSetter<Stop> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public StopPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Set the values of the prepared statement
          * @param item Area which will be safed
@@ -69,7 +76,7 @@ public class StopImport extends Import<GtfsStop, Stop> {
             ps.setObject(1, item.getId());
             ps.setString(2, item.getName());
             ps.setObject(3, item.getArea());
-            ps.setTimestamp(4, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(4, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

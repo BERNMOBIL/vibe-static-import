@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.JourneyContract;
 import ch.bernmobil.vibe.shared.entitiy.Journey;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsTripContract;
@@ -31,13 +31,14 @@ public class TripImport extends Import<GtfsTrip, Journey> {
 
     /**
      * Constructing an import configuration instance using a {@link DataSource} and a folder with the latest GTFS data.
-     * @param dataSource DataSource object which holds the connection to the static data source.
-     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
-     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     * @param dataSource which holds the connection to the static data source.
+     * @param dslContext of the JOOQ Query Builder to generate the insert statement.
+     * @param folder on the filesystem which contains the latest GTFS data.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
-    public TripImport(DataSource dataSource, DSLContext dslContext, String folder) {
+    public TripImport(DataSource dataSource, DSLContext dslContext, String folder, UpdateTimestampManager updateTimestampManager) {
         super(dataSource, GtfsTripContract.FIELD_NAMES, folder + GtfsTripContract.FILENAME,
-                new TripFieldSetMapper(), new JourneyPreparedStatementSetter());
+                new TripFieldSetMapper(), new JourneyPreparedStatementSetter(updateTimestampManager));
         this.dslContext = dslContext;
     }
 
@@ -57,6 +58,12 @@ public class TripImport extends Import<GtfsTrip, Journey> {
      * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
      */
     public static class JourneyPreparedStatementSetter implements ItemPreparedStatementSetter<Journey> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public JourneyPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Set the values of the prepared statement
          * @param item Area which will be safed
@@ -69,7 +76,7 @@ public class TripImport extends Import<GtfsTrip, Journey> {
             ps.setString(2, item.getHeadsign());
             ps.setObject(3, item.getRoute());
             ps.setObject(4, item.getTerminalStation());
-            ps.setTimestamp(5, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(5, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.AreaMapperContract;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
@@ -33,10 +33,13 @@ public class AreaMapperImport extends MapperImport<AreaMapping> {
      * @param dataSource A {@link DataSource} which holds a connection to the mapping database.
      * @param mapperStore A {@link MapperStore} which contains all {@link AreaMapping} to be saved.
      * @param dslContext The context to generate SQL queries using JOOQ.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
     public AreaMapperImport(DataSource dataSource,
-                            @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> mapperStore, DSLContext dslContext) {
-        super(dataSource, new AreaMapperPreparedStatementSetter(), mapperStore);
+                            @Qualifier("areaMapperStore") MapperStore<String, AreaMapping> mapperStore,
+                            DSLContext dslContext,
+                            UpdateTimestampManager updateTimestampManager) {
+        super(dataSource, new AreaMapperPreparedStatementSetter(updateTimestampManager), mapperStore);
         this.dslContext = dslContext;
     }
 
@@ -56,6 +59,12 @@ public class AreaMapperImport extends MapperImport<AreaMapping> {
      * Class which implements {@link ItemPreparedStatementSetter} for {@link AreaMapping}
      */
     public static class AreaMapperPreparedStatementSetter implements ItemPreparedStatementSetter<AreaMapping> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public AreaMapperPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Method to fill a {@link PreparedStatement} with values from a {@link AreaMapping} for saving it into the database.
          * @param item {@link AreaMapping} which is to be written into the database.
@@ -66,7 +75,7 @@ public class AreaMapperImport extends MapperImport<AreaMapping> {
         public void setValues(AreaMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(3, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

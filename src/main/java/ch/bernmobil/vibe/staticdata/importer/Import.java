@@ -46,10 +46,10 @@ public abstract class Import<TIn, TOut> {
      *                                    query with data from an {@link TOut}.
      */
     public Import(DataSource dataSource,
-            String[] fieldNames,
-            String filePath,
-            FieldSetMapper<TIn> fieldSetMapper,
-            ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter)
+                  String[] fieldNames,
+                  String filePath,
+                  FieldSetMapper<TIn> fieldSetMapper,
+                  ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter)
     {
         this.dataSource = dataSource;
         this.fieldNames = fieldNames;

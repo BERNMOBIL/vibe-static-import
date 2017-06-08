@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.CalendarDateMapperContract;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
@@ -33,11 +33,13 @@ public class CalendarDateMapperImport extends MapperImport<CalendarDateMapping> 
      * @param dataSource A {@link DataSource} which holds a connection to the mapping database.
      * @param mapperStore A {@link MapperStore} which contains all {@link CalendarDateMapping} to be saved.
      * @param dslContext The context to generate SQL queries using JOOQ.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
     public CalendarDateMapperImport(DataSource dataSource,
                                     @Qualifier("calendarDateMapperStore") MapperStore<Long, CalendarDateMapping> mapperStore,
-                                    DSLContext dslContext) {
-        super(dataSource, new CalendarDatePreparedStatementSetter(), mapperStore);
+                                    DSLContext dslContext,
+                                    UpdateTimestampManager updateTimestampManager) {
+        super(dataSource, new CalendarDatePreparedStatementSetter(updateTimestampManager), mapperStore);
         this.dslContext = dslContext;
     }
 
@@ -59,6 +61,12 @@ public class CalendarDateMapperImport extends MapperImport<CalendarDateMapping> 
      * Class which implements {@link ItemPreparedStatementSetter} for {@link CalendarDateMapping}
      */
     public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDateMapping> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public CalendarDatePreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Method to fill a {@link PreparedStatement} with values from a {@link CalendarDateMapping} for saving it into the database.
          * @param item {@link CalendarDateMapping} which is to be written into the database.
@@ -69,7 +77,7 @@ public class CalendarDateMapperImport extends MapperImport<CalendarDateMapping> 
         public void setValues(CalendarDateMapping item, PreparedStatement ps) throws SQLException {
             ps.setLong(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(3, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

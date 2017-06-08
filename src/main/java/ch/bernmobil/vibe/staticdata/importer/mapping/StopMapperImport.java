@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.StopMapperContract;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
@@ -33,11 +33,12 @@ public class StopMapperImport extends MapperImport<StopMapping> {
      * @param dataSource A {@link DataSource} which holds a connection to the mapping database.
      * @param mapperStore A {@link MapperStore} which contains all {@link StopMapping} to be saved.
      * @param dslContext The context to generate SQL queries using JOOQ.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
     public StopMapperImport(DataSource dataSource,
                             @Qualifier("stopMapperStore") MapperStore<String, StopMapping> mapperStore,
-                            DSLContext dslContext) {
-        super(dataSource, new StopMapperPreparedStatementSetter(), mapperStore);
+                            DSLContext dslContext, UpdateTimestampManager updateTimestampManager) {
+        super(dataSource, new StopMapperPreparedStatementSetter(updateTimestampManager), mapperStore);
         this.dslContext = dslContext;
     }
 
@@ -57,6 +58,12 @@ public class StopMapperImport extends MapperImport<StopMapping> {
      * Class which implements {@link ItemPreparedStatementSetter} for {@link StopMapping}
      */
     public static class StopMapperPreparedStatementSetter implements ItemPreparedStatementSetter<StopMapping> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public StopMapperPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Method to fill a {@link PreparedStatement} with values from a {@link StopMapping} for saving it into the database.
          * @param item {@link StopMapping} which is to be written into the database.
@@ -67,7 +74,7 @@ public class StopMapperImport extends MapperImport<StopMapping> {
         public void setValues(StopMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(3, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

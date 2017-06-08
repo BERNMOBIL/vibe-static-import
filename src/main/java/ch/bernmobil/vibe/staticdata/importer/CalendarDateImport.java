@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.CalendarDateContract;
 import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsCalendarDateContract;
@@ -37,14 +37,15 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
 
     /**
      * Constructing an import configuration instance using a {@link DataSource} and a folder with the latest GTFS data.
-     * @param dataSource DataSource object which holds the connection to the static data source.
-     * @param dslContext Object of the JOOQ Query Builder to generate the insert statement.
-     * @param folder The folder on the filesystem which contains the latest GTFS data.
+     * @param dataSource which holds the connection to the static data source.
+     * @param dslContext of the JOOQ Query Builder to generate the insert statement.
+     * @param folder on the filesystem which contains the latest GTFS data.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
-    public CalendarDateImport(DataSource dataSource, DSLContext dslContext, String folder ) {
+    public CalendarDateImport(DataSource dataSource, DSLContext dslContext, String folder, UpdateTimestampManager updateTimestampManager) {
         super(dataSource, GtfsCalendarDateContract.FIELD_NAMES, folder + GtfsCalendarDateContract.FILENAME,
                 new CalendarDateFieldSetMapper(),
-                new CalendarDatePreparedStatementSetter());
+                new CalendarDatePreparedStatementSetter(updateTimestampManager));
         this.dslContext = dslContext;
     }
 
@@ -76,6 +77,12 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
      * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
      */
     public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDate> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public CalendarDatePreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Set the values of the prepared statement
          * @param item Area which will be safed
@@ -89,7 +96,7 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
                 ps.setDate(3, item.getValidUntil());
                 ps.setObject(4, item.getJourney());
                 ps.setObject(5, createPgJson(item.getDays()));
-                ps.setTimestamp(6, UpdateManager.getActiveUpdateTimestamp());
+                ps.setTimestamp(6, updateTimestampManager.getActiveUpdateTimestamp());
         }
 
         /**

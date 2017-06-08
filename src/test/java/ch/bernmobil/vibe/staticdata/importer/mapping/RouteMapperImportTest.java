@@ -1,5 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.RouteMappingTestData;
 import org.jooq.DSLContext;
@@ -11,21 +12,19 @@ import org.junit.Test;
 
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import static ch.bernmobil.vibe.staticdata.importer.mapping.RouteMapperImport.*;
+import static ch.bernmobil.vibe.staticdata.importer.mapping.RouteMapperImport.RouteMapperPreparedStatementSetter;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class RouteMapperImportTest {
     @Test
     public void insertQuery() {
         DSLContext dslContext = DSL.using(SQLDialect.POSTGRES);
-        RouteMapperImport mapperImport = new RouteMapperImport(null, null, dslContext);
+        RouteMapperImport mapperImport = new RouteMapperImport(null, null, dslContext, null);
         Insert<Record> insert = mapperImport.insertQuery();
         assertThat(insert.getSQL(), is("insert into route_mapper (gtfs_id, id, update) values (?, ?, ?)"));
     }
@@ -33,13 +32,16 @@ public class RouteMapperImportTest {
     @Test
     public void preparedStatementSetter() throws Exception {
         PreparedStatement ps = mock(PreparedStatement.class);
-        RouteMapperPreparedStatementSetter setter = new RouteMapperPreparedStatementSetter();
+        UpdateTimestampManager manager = new UpdateTimestampManager();
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+        manager.setActiveUpdateTimestamp(timestamp);
+        RouteMapperPreparedStatementSetter setter = new RouteMapperPreparedStatementSetter(manager);
         RouteMappingTestData testData = new RouteMappingTestData();
         RouteMapping mapping = testData.get(0);
         setter.setValues(mapping, ps);
         verify(ps, times(1)).setString(eq(1), eq(mapping.getGtfsId()));
         verify(ps, times(1)).setObject(eq(2), eq(mapping.getId()));
-        verify(ps, times(1)).setTimestamp(eq(3), any(Timestamp.class));
+        verify(ps, times(1)).setTimestamp(eq(3), eq(timestamp));
     }
 
 }

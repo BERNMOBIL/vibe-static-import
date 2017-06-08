@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
-import ch.bernmobil.vibe.shared.UpdateManager;
+import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.RouteMapperContract;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
@@ -33,11 +33,13 @@ public class RouteMapperImport extends MapperImport<RouteMapping> {
      * @param dataSource A {@link DataSource} which holds a connection to the mapping database.
      * @param mapperStore A {@link MapperStore} which contains all {@link RouteMapping} to be saved.
      * @param dslContext The context to generate SQL queries using JOOQ.
+     * @param updateTimestampManager which provides access to the latest timestamp.
      */
     public RouteMapperImport(DataSource dataSource,
                              @Qualifier("routeMapperStore") MapperStore<String, RouteMapping> mapperStore,
-                             DSLContext dslContext) {
-        super(dataSource, new RouteMapperPreparedStatementSetter(), mapperStore);
+                             DSLContext dslContext,
+                             UpdateTimestampManager updateTimestampManager) {
+        super(dataSource, new RouteMapperPreparedStatementSetter(updateTimestampManager), mapperStore);
         this.dslContext = dslContext;
     }
 
@@ -57,6 +59,12 @@ public class RouteMapperImport extends MapperImport<RouteMapping> {
      * Class which implements {@link ItemPreparedStatementSetter} for {@link RouteMapping}
      */
     public static class RouteMapperPreparedStatementSetter implements ItemPreparedStatementSetter<RouteMapping> {
+        private final UpdateTimestampManager updateTimestampManager;
+
+        public RouteMapperPreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
+            this.updateTimestampManager = updateTimestampManager;
+        }
+
         /**
          * Method to fill a {@link PreparedStatement} with values from a {@link RouteMapping} for saving it into the database.
          * @param item {@link RouteMapping} which is to be written into the database.
@@ -67,7 +75,7 @@ public class RouteMapperImport extends MapperImport<RouteMapping> {
         public void setValues(RouteMapping item, PreparedStatement ps) throws SQLException {
             ps.setString(1, item.getGtfsId());
             ps.setObject(2, item.getId());
-            ps.setTimestamp(3, UpdateManager.getActiveUpdateTimestamp());
+            ps.setTimestamp(3, updateTimestampManager.getActiveUpdateTimestamp());
         }
     }
 }

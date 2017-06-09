@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import static ch.bernmobil.vibe.staticdata.importer.mapping.JourneyMapperImport.JourneyMapperPreparedStatementSetter;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 

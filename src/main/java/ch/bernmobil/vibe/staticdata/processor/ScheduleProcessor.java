@@ -1,9 +1,9 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.Schedule;
+import ch.bernmobil.vibe.shared.entity.Schedule;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
@@ -43,7 +43,7 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
     /**
      * Process a {@link GtfsStopTime}, extract all necessary information and save it into a {@link Schedule}. To
      * resolve all dependent entities, a {@link StopMapping} and a {@link JourneyMapping} is required. If
-     * {@link GtfsStopTime#stopId} or {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip#tripId} is null, the
+     * {@link GtfsStopTime#stopId} or {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip#tripId} is null, the
      * {@link Schedule} cannot be created correctly and null will be returned. If these information are present
      * the {@link Schedule#plannedArrival} and {@link Schedule#plannedDeparture} are parsed from the {@link GtfsStopTime}
      * as well as the platform is parsed out of the {@link GtfsStopTime#stopId}.
@@ -80,15 +80,15 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
 
     /**
      * Parse platform information out of {@link GtfsStopTime#stopId}. This GTFS provider encodes the platform into the
-     * {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop#stopId}. A stop area, which is a top-level stop, without
-     * {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop#parentStation}, is referenced by all child stops which
+     * {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop#stopId}. A stop area, which is a top-level stop, without
+     * {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop#parentStation}, is referenced by all child stops which
      * are distinguished by their physical position (e.g platform). This information is part of the
-     * {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop#stopId}. The delimiter of the {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop#stopId}
+     * {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop#stopId}. The delimiter of the {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop#stopId}
      * and the platform is a "_".
      *
      * @see <a href=http://gtfs.geops.ch/doc/>http://gtfs.geops.ch/doc</a>
      * @see <a href=https://developers.google.com/transit/gtfs/reference/gtfs-extensions>https://developers.google.com/transit/gtfs/reference/gtfs-extensions</a>
-     * @param stopId of the {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop} which contains a platform.
+     * @param stopId of the {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop} which contains a platform.
      * @return {@link String} which identifies the platform of the stop.
      */
     private String parsePlatform(String stopId)  {

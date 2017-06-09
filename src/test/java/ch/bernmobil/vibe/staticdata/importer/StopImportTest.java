@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
-import ch.bernmobil.vibe.shared.entitiy.Stop;
+import ch.bernmobil.vibe.shared.entity.Stop;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.StopTestData;
 import org.jooq.DSLContext;
 import org.jooq.Insert;

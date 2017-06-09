@@ -2,9 +2,9 @@ package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.JourneyContract;
-import ch.bernmobil.vibe.shared.entitiy.Journey;
+import ch.bernmobil.vibe.shared.entity.Journey;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsTripContract;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip;
 import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.TripFieldSetMapper;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -66,7 +66,7 @@ public class TripImport extends Import<GtfsTrip, Journey> {
 
         /**
          * Set the values of the prepared statement
-         * @param item Area which will be safed
+         * @param item Area which will be saved
          * @param ps {@link PreparedStatement} into these values will be written
          * @throws SQLException Exception will be thrown if the database returns an error
          */

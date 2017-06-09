@@ -1,10 +1,10 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.Journey;
+import ch.bernmobil.vibe.shared.entity.Journey;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
@@ -44,7 +44,7 @@ public class JourneyProcessor extends Processor<GtfsTrip, Journey> {
     /**
      * Process a {@link GtfsTrip}, extract all necessary information and save it into a {@link Journey}. The terminal
      * stop is determined by comparing the {@link GtfsTrip#tripHeadsign} and
-     * {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop#stopName}. If these do not match, {@link Journey#terminalStation}
+     * {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop#stopName}. If these do not match, {@link Journey#terminalStation}
      * will be null.
      * @param item to be processed
      * @return {@link Journey} with all necessary information from the given {@link GtfsTrip}.

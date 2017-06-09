@@ -2,9 +2,9 @@ package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.RouteContract;
-import ch.bernmobil.vibe.shared.entitiy.Route;
+import ch.bernmobil.vibe.shared.entity.Route;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsRouteContract;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsRoute;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsRoute;
 import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.RouteFieldSetMapper;
 import org.jooq.DSLContext;
 import org.jooq.Field;

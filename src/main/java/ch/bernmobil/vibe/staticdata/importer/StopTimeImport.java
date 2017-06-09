@@ -2,9 +2,9 @@ package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.ScheduleContract;
-import ch.bernmobil.vibe.shared.entitiy.Schedule;
+import ch.bernmobil.vibe.shared.entity.Schedule;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsStopTimeContract;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.StopTimeFieldSetMapper;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -66,7 +66,7 @@ public class StopTimeImport extends Import<GtfsStopTime, Schedule> {
 
         /**
          * Set the values of the prepared statement
-         * @param item Area which will be safed
+         * @param item Area which will be saved
          * @param ps {@link PreparedStatement} into these values will be written
          * @throws SQLException Exception will be thrown if the database returns an error
          */

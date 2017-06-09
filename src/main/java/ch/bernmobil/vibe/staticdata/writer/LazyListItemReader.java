@@ -22,7 +22,7 @@ import java.util.function.Supplier;
  * @author Matteo Patisso
  */
 public class LazyListItemReader<T> implements ItemReader<T>, ItemStream{
-    private Supplier<List<T>> listSupplier;
+    private final Supplier<List<T>> listSupplier;
     private ListItemReader<T> listReader;
 
     /**
@@ -37,7 +37,7 @@ public class LazyListItemReader<T> implements ItemReader<T>, ItemStream{
     /**
      * Read from the encapsulated {@link List} if it is ready.
      * @return {@link T} of the {@link List}
-     * @throws Exception if either the wrapped {@link ListItemReader} throws an execption or a {@link IllegalStateException}
+     * @throws Exception if either the wrapped {@link ListItemReader} throws an exception or a {@link IllegalStateException}
      * if {@link #open(ExecutionContext)} has not been called yet or the {@link ListItemReader} is null.
      */
     @Override
@@ -57,7 +57,7 @@ public class LazyListItemReader<T> implements ItemReader<T>, ItemStream{
     }
 
     /**
-     * This reader never changes its ressources, once its opened, so this method does nothing.
+     * This reader never changes its resources, once its opened, so this method does nothing.
      */
     @Override
     public void update(ExecutionContext executionContext) throws ItemStreamException {
@@ -65,7 +65,7 @@ public class LazyListItemReader<T> implements ItemReader<T>, ItemStream{
     }
 
     /**
-     * No unmanaged resources must be closed, so this method does nothing.
+     * No un-managed resources must be closed, so this method does nothing.
      */
     @Override
     public void close() throws ItemStreamException {

@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.Area;
+import ch.bernmobil.vibe.shared.entity.Area;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +30,7 @@ public class AreaProcessor extends Processor<GtfsStop,Area> {
     /**
      * Process a {@link GtfsStop}, extract all necessary information, and save it into a new {@link Area}
      * but only if {@link GtfsStop#parentStation} is empty, since this distinguishes it
-     * from a {@link ch.bernmobil.vibe.shared.entitiy.Stop}. For every processed entity, a new {@link AreaMapping}
+     * from a {@link ch.bernmobil.vibe.shared.entity.Stop}. For every processed entity, a new {@link AreaMapping}
      * is added into the {@link #mappingStore}.
      * @param item to be processed
      * @return A new {@link Area} out of {@link GtfsStop} if {@link GtfsStop#parentStation} is an empty string. Otherwise

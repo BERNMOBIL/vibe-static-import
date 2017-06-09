@@ -15,14 +15,14 @@ public class CalendarDateMappingTestData extends TestData<CalendarDateMapping> {
                 .collect(Collectors.toList());
     }
 
-    private UUID[] idList = {
+    private final UUID[] idList = {
             UUID.fromString("92e1a0ef-91ef-4850-baa6-4cb6e243bf95"),
             UUID.fromString("a015ff16-dc7d-4ac8-bd41-9fa7664f8f9b"),
             UUID.fromString("1b50cc76-83be-4aa0-bde9-74fc188a8978"),
             UUID.fromString("86deb4f8-aaa3-4734-a772-1ee38f3e0344")
     };
 
-    private long[] gtfsIdlist = {
+    private final long[] gtfsIdList = {
             1,
             2,
             3,
@@ -31,6 +31,6 @@ public class CalendarDateMappingTestData extends TestData<CalendarDateMapping> {
 
     @Override
     protected CalendarDateMapping create(int index) {
-        return new CalendarDateMapping(gtfsIdlist[index], idList[index]);
+        return new CalendarDateMapping(gtfsIdList[index], idList[index]);
     }
 }

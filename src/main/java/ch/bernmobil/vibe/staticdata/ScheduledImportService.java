@@ -23,8 +23,8 @@ import java.time.LocalTime;
 @EnableScheduling
 public class ScheduledImportService {
     private final static Logger logger = Logger.getLogger(ScheduledImportService.class);
-    private JobLauncher jobLauncher;
-    private Job staticImportJob;
+    private final JobLauncher jobLauncher;
+    private final Job staticImportJob;
 
     @Autowired
     public ScheduledImportService(JobLauncher jobLauncher, Job staticImportJob) {

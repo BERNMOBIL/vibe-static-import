@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
-import ch.bernmobil.vibe.shared.entitiy.Route;
+import ch.bernmobil.vibe.shared.entity.Route;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.RouteTestData;
 import org.jooq.DSLContext;
 import org.jooq.Insert;
@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 public class RouteImportTest {

@@ -73,8 +73,8 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} to convert a subset of {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop} to
-     * {@link ch.bernmobil.vibe.shared.entitiy.Area}.
+     * Create a {@link Step} to convert a subset of {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop} to
+     * {@link ch.bernmobil.vibe.shared.entity.Area}.
      * @return {@link Step} which converts GTFS entities.
      *
      * @see AreaImport
@@ -87,8 +87,8 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} to convert a subset of {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop} to
-     * {@link ch.bernmobil.vibe.shared.entitiy.Area}.
+     * Create a {@link Step} to convert a subset of {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop} to
+     * {@link ch.bernmobil.vibe.shared.entity.Area}.
      * @return {@link Step} which converts GTFS entities.
      *
      * @see StopImport
@@ -101,8 +101,8 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsRoute} to
-     * {@link ch.bernmobil.vibe.shared.entitiy.Route}.
+     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsRoute} to
+     * {@link ch.bernmobil.vibe.shared.entity.Route}.
      * @return {@link Step} which converts GTFS entities.
      */
     @Bean
@@ -113,8 +113,8 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate} to
-     * {@link ch.bernmobil.vibe.shared.entitiy.CalendarDate}.
+     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate} to
+     * {@link ch.bernmobil.vibe.shared.entity.CalendarDate}.
      * @return {@link Step} which converts GTFS entities.
      */
     @Bean
@@ -127,8 +127,8 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip} to
-     * {@link ch.bernmobil.vibe.shared.entitiy.Journey}.
+     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip} to
+     * {@link ch.bernmobil.vibe.shared.entity.Journey}.
      * @return {@link Step} which converts GTFS entities.
      */
     @Bean
@@ -139,8 +139,8 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime} to
-     * {@link ch.bernmobil.vibe.shared.entitiy.Schedule}.
+     * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStopTime} to
+     * {@link ch.bernmobil.vibe.shared.entity.Schedule}.
      * @return {@link Step} which converts GTFS entities.
      */
     @Bean
@@ -167,7 +167,7 @@ public class DataImportJobConfiguration {
     }
 
     /**
-     * Creata a {@link org.springframework.batch.core.step.builder.StepBuilder} which consists of a {@link ItemReader},
+     * Create a {@link org.springframework.batch.core.step.builder.StepBuilder} which consists of a {@link ItemReader},
      * and {@link ItemProcessor} and a {@link ItemWriter}.
      * @param name of the {@link Step} which will be displayed in the logs and written into the database.
      * @param reader which is able to read types of {@link TIn}.

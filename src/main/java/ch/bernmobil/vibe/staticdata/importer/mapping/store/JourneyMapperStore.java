@@ -7,8 +7,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Provides mapping connection between {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip},
- * {@link ch.bernmobil.vibe.shared.entitiy.Journey} and the service id which GTFS uses in several other entities. It
+ * Provides mapping connection between {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip},
+ * {@link ch.bernmobil.vibe.shared.entity.Journey} and the service id which GTFS uses in several other entities. It
  * uses two different {@link Map} so it is possible to get a mapping by service id or trip id.
  *
  * @author Oliviero Chiodo

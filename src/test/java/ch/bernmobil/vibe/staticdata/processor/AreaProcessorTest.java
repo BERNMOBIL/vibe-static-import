@@ -1,8 +1,8 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.Area;
+import ch.bernmobil.vibe.shared.entity.Area;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;

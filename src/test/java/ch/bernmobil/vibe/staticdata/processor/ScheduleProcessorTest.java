@@ -1,16 +1,16 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.Schedule;
+import ch.bernmobil.vibe.shared.entity.Schedule;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.idprovider.UuidGenerator;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
+import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.JourneyMappingTestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.StopMappingTestData;
-import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper;
 
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;

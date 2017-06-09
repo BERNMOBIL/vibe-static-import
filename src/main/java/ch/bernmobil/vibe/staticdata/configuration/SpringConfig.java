@@ -240,7 +240,7 @@ public class SpringConfig {
      * @param transactionManager which is used to serialize access to the {@link DataSource}
      * @param dataSource which holds a connection to the job database.
      * @return {@link JobRepository} to save job information and logs.
-     * @throws Exception
+     * @throws Exception if there is any while building the repository.
      */
     private JobRepository getJobRepository(PlatformTransactionManager transactionManager, DataSource dataSource) throws Exception {
         JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();

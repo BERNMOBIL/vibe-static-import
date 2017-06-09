@@ -1,9 +1,9 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
-import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
+import ch.bernmobil.vibe.shared.entity.CalendarDate;
 import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import com.google.gson.JsonArray;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 /**
  * Class for converting {@link GtfsCalendarDate} into a {@link List} of {@link CalendarDate} (because the N:M relationship
- * between {@link GtfsCalendarDate} and {@link ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip}).
+ * between {@link GtfsCalendarDate} and {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip}).
  *
  * @author Oliviero Chiodo
  * @author Matteo Patisso
@@ -50,7 +50,7 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, List<Cale
 
     /**
      * Converts a {@link GtfsCalendarDate} into a {@link List} of {@link CalendarDate}. While converting it needs
-     * to save the relation to a {@link ch.bernmobil.vibe.shared.entitiy.Journey}, hence it needs to find all the
+     * to save the relation to a {@link ch.bernmobil.vibe.shared.entity.Journey}, hence it needs to find all the
      * {@link JourneyMapping} for a given GTFS service id. If there are no {@link JourneyMapping} with the service id
      * nothing will be processed and null is returned. Otherwise it extracts all needed information from the
      * {@link GtfsCalendarDate} and saves it into a {@link List}. The {@link MapperStore} for {@link CalendarDateMapping}

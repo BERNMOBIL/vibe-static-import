@@ -48,7 +48,6 @@ public class CalendarDateMapperImport extends MapperImport<CalendarDateMapping> 
      * {@link CalendarDateMapperContract} is used to set table name and field names, as well as the required "?"
      * for the {@link PreparedStatement} are added here.
      * @return A JOOQ instance of an insert query.
-     * @return
      */
     @Override
     Insert<Record> insertQuery() {

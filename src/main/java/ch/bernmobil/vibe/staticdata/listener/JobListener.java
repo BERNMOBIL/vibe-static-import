@@ -21,7 +21,7 @@ import java.sql.Timestamp;
  */
 @Component
 public class JobListener implements JobExecutionListener {
-    private static Logger logger = Logger.getLogger(JobListener.class);
+    private static final Logger logger = Logger.getLogger(JobListener.class);
     private final UpdateManager updateManager;
     private final UpdateNotificationSender updateNotificationSender;
 

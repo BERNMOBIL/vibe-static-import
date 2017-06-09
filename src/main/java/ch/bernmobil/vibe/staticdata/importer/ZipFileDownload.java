@@ -7,7 +7,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.zip.ZipInputStream;
 
@@ -34,7 +33,7 @@ public class ZipFileDownload implements ItemStreamReader<ZipInputStream> {
         this.fileSource = fileSource;
     }
 
-    private void downloadZip() throws IOException, URISyntaxException {
+    private void downloadZip() throws IOException {
         URL url = new URL(fileSource);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -57,8 +56,7 @@ public class ZipFileDownload implements ItemStreamReader<ZipInputStream> {
 
     /**
      * Download the file before the step, which uses this reader, starts to read.
-     * @throws ItemStreamException will be thrown if an {@link IOException} or {@link URISyntaxException} occurs when
-     * trying to download the ZIP file.
+     * @throws ItemStreamException will be thrown if an {@link IOException} occurs when trying to download the ZIP file.
      *
      * @see ItemStream
      */
@@ -66,7 +64,7 @@ public class ZipFileDownload implements ItemStreamReader<ZipInputStream> {
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         try {
             downloadZip();
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             throw new ItemStreamException(e);
         }
     }

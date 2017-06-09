@@ -1,10 +1,10 @@
 package ch.bernmobil.vibe.staticdata.processor;
 
 
-import ch.bernmobil.vibe.shared.entitiy.Stop;
+import ch.bernmobil.vibe.shared.entity.Stop;
 import ch.bernmobil.vibe.shared.mapping.AreaMapping;
 import ch.bernmobil.vibe.shared.mapping.StopMapping;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.StopMapperStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class StopProcessor extends Processor<GtfsStop, Stop>{
 
     /**
      * Constructor demanding {@link StopMapperStore} to save new {@link StopMapping} and a {@link MapperStore} for
-     * {@link AreaMapping} to get the relationship to {@link ch.bernmobil.vibe.shared.entitiy.Area}.
+     * {@link AreaMapping} to get the relationship to {@link ch.bernmobil.vibe.shared.entity.Area}.
      * @param stopMapper to save {@link StopMapping}.
      * @param areaMapper to get {@link AreaMapping}.
      */
@@ -39,12 +39,12 @@ public class StopProcessor extends Processor<GtfsStop, Stop>{
 
     /**
      * Processes a {@link GtfsStop}, extracts all information and saves into a {@link Stop}. But only if
-     * {@link GtfsStop#parentStation} is not empty, since {@link Stop} needs a relation to an {@link ch.bernmobil.vibe.shared.entitiy.Area}.
+     * {@link GtfsStop#parentStation} is not empty, since {@link Stop} needs a relation to an {@link ch.bernmobil.vibe.shared.entity.Area}.
      * If {@link GtfsStop#parentStation} is an empty {@link String} it will return null.
      * @param item to be processed
      * @return {@link Stop} which contains all necessary information of {@link GtfsStop} or, if {@link GtfsStop#parentStation}
      * is empty, null.
-     * @throws Exception is thrown if a {@link RuntimeException} occurrs.
+     * @throws Exception is thrown if a {@link RuntimeException} occurs.
      */
     @Override
     public Stop process(GtfsStop item) throws Exception {

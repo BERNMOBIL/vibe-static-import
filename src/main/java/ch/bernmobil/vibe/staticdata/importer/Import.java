@@ -36,7 +36,7 @@ public abstract class Import<TIn, TOut> {
     /**
      * Constructor which demands all common objects from an import configuration.
      * @param dataSource A fully configured datasource to which the converted entities can be written.
-     * @param fieldNames An array containing all columns of the CSV file. Basicly just a copy of the first line in the
+     * @param fieldNames An array containing all columns of the CSV file. Basically just a copy of the first line in the
      *                   corresponding CSV file in a Java array. If there are fewer or more columns in the CSV an exception
      *                   will occur when Spring Batch tries to read from the file.
      * @param filePath An absolute path to the file, which contains the GTFS data to be imported.

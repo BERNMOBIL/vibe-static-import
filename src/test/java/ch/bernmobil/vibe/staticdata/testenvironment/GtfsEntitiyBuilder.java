@@ -1,9 +1,9 @@
 package ch.bernmobil.vibe.staticdata.testenvironment;
 
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStop;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsStopTime;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsTrip;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStop;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStopTime;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip;
 
 public class GtfsEntitiyBuilder {
 

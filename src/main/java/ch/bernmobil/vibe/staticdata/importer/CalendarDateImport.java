@@ -3,9 +3,9 @@ package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.contract.CalendarDateContract;
-import ch.bernmobil.vibe.shared.entitiy.CalendarDate;
+import ch.bernmobil.vibe.shared.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsCalendarDateContract;
-import ch.bernmobil.vibe.staticdata.gtfs.entitiy.GtfsCalendarDate;
+import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.CalendarDateFieldSetMapper;
 import ch.bernmobil.vibe.staticdata.writer.ListUnpackingItemWriter;
 import com.google.gson.JsonObject;
@@ -65,7 +65,7 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
     /**
      * The GTFS Calendar Date has a N:M relationship to the GTFS Trip. Because of that the {@link org.springframework.batch.item.ItemReader}
      * will pass a {@link List} of {@link CalendarDate} to the writer. The {@link ItemWriter} processes a {@link List} of
-     * the given generic parameter in chunks, hence it excpects a {@link CalendarDate}. In this structure, the
+     * the given generic parameter in chunks, hence it expects a {@link CalendarDate}. In this structure, the
      * {@link ItemWriter}cannot flatten a {@link List} of Lists, which would be the result of this N:M relationship.
      * @return An {@link ItemWriter} which writes a {@link List} of {@link CalendarDate}.
      */
@@ -85,7 +85,7 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
 
         /**
          * Set the values of the prepared statement
-         * @param item Area which will be safed
+         * @param item Area which will be saved
          * @param ps {@link PreparedStatement} into these values will be written
          * @throws SQLException Exception will be thrown if the database returns an error
          */

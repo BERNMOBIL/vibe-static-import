@@ -1,4 +1,4 @@
-package ch.bernmobil.vibe.staticdata.gtfs.entitiy;
+package ch.bernmobil.vibe.staticdata.gtfs.entity;
 
 public class GtfsTrip {
     private String routeId;

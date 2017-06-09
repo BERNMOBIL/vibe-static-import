@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
  * @author Matteo Patisso
  */
 public class ListUnpackingItemWriter<T> implements ItemWriter<List<T>> {
-    private ItemWriter<T> delegate;
+    private final ItemWriter<T> delegate;
 
     /**
      * Constructor demanding another {@link ItemWriter} to write the flattened lists into.

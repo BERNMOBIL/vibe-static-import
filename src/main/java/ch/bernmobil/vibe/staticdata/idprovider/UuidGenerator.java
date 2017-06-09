@@ -24,7 +24,7 @@ public class UuidGenerator {
     /**
      * This method generates a new random {@link UUID} using {@link UUID#randomUUID()} . It is guaranteed that
      * it will not return the same number twice in its lifetime (usual restrictions for randomness in computer systems
-     * apply). This method also stores the new id as it can be retrieved again calling {{@link #getId()}}.
+     * apply). This method also stores the new id as it can be retrieved again calling {@link #getId()}.
      * @return Returns the new generated {@link UUID}
      */
     public UUID next() {

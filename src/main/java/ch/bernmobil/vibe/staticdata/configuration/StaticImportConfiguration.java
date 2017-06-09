@@ -10,7 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * Class which configures the jobs by assembling all steps and arranges them in a defined order.
+ *
+ * @author Oliviero Chiodo
+ * @author Matteo Patisso
+ */
 @Configuration
 @EnableBatchProcessing
 public class StaticImportConfiguration {
@@ -37,6 +42,10 @@ public class StaticImportConfiguration {
         this.jobExecutionListener = jobExecutionListener;
     }
 
+    /**
+     * Configures the import job.
+     * @return A {@link Job} which imports static schedule data.
+     */
     @Bean
     public Job importStaticJob(){
         return jobBuilderFactory.get("Import static data")

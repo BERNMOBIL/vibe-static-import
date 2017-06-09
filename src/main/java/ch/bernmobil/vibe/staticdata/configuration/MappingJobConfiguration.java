@@ -52,6 +52,11 @@ public class MappingJobConfiguration {
         this.updateTimestampManager = updateTimestampManager;
     }
 
+    /**
+     * Create a {@link Step} which is able to read {@link AreaMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
+     * @return {@link Step} which saves {@link AreaMapping}
+     */
     @Bean
     public Step areaMapperStep() {
         MapperStore<String, AreaMapping> mapperStore = getMapperStore("areaMapperStore");
@@ -59,6 +64,11 @@ public class MappingJobConfiguration {
         return buildMappingStep(helper, "Area mapper");
     }
 
+    /**
+     * Create a {@link Step} which is able to read {@link CalendarDateMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
+     * @return {@link Step} which saves {@link CalendarDateMapping}
+     */
     @Bean
     public Step calendarDateMapperStep() {
         MapperStore<Long, CalendarDateMapping> mapperStore = getMapperStore("calendarDateMapperStore");
@@ -66,6 +76,12 @@ public class MappingJobConfiguration {
         return buildMappingStep(helper, "Calendar date mapper");
     }
 
+    /**
+     * Create a {@link Step} which is able to read {@link ch.bernmobil.vibe.shared.mapping.JourneyMapping}
+     * from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader} and write
+     * it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
+     * @return {@link Step} which saves {@link ch.bernmobil.vibe.shared.mapping.JourneyMapping}
+     */
     @Bean
     public Step journeyMapperStep() {
         JourneyMapperStore mapperStore = (JourneyMapperStore)applicationContext.getBean("journeyMapperStore");
@@ -73,6 +89,11 @@ public class MappingJobConfiguration {
         return buildMappingStep(helper, "Journey mapper");
     }
 
+    /**
+     * Create a {@link Step} which is able to read {@link RouteMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
+     * @return {@link Step} which saves {@link RouteMapping}
+     */
     @Bean
     public Step routeMapperStep() {
         MapperStore<String, RouteMapping> mapperStore = getMapperStore("routeMapperStore");
@@ -80,6 +101,11 @@ public class MappingJobConfiguration {
         return buildMappingStep(helper, "Route mapper");
     }
 
+    /**
+     * Create a {@link Step} which is able to read {@link StopMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
+     * @return {@link Step} which saves {@link StopMapping}
+     */
     @Bean
     public Step stopMapperStep() {
         MapperStore<String, StopMapping> mapperStore = getMapperStore("stopMapperStore");
@@ -87,11 +113,26 @@ public class MappingJobConfiguration {
         return buildMappingStep(helper, "Stop mapper");
     }
 
+    /**
+     * Get a {@link MapperStore} by bean name from the currently loaded {@link ApplicationContext}.
+     * @param beanName of the {@link MapperStore}
+     * @param <I> ID type usually {@link String} or int.
+     * @param <O> Mapping type.
+     * @return A {@link MapperStore} by name.
+     */
     @SuppressWarnings("unchecked")
     private <I, O> MapperStore<I, O> getMapperStore(String beanName) {
         return (MapperStore<I, O>)applicationContext.getBean(beanName);
     }
 
+    /**
+     * Build a {@link Step} which uses {@link org.springframework.batch.item.ItemReader} and
+     * {@link org.springframework.batch.item.ItemWriter} from a {@link MapperImport} configuration instance.
+     * @param mappingHelper which provides the corresponding objects.
+     * @param stepName which is printed in the command line and the Spring Batch database.
+     * @param <T> Type of the mapping
+     * @return A fully configured step.
+     */
     private <T> Step buildMappingStep(MapperImport<T> mappingHelper, String stepName) {
         return stepBuilderFactory.get(stepName)
                 .<T, T>chunk(chunkSize)

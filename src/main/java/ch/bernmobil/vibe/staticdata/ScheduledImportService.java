@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 
+/**
+ * Class configures scheduling of the import job.
+ *
+ * @author Oliviero Chiodo
+ * @author Matteo Patisso
+ */
 @Service
 @EnableScheduling
 public class ScheduledImportService {
@@ -20,6 +26,19 @@ public class ScheduledImportService {
     private JobLauncher jobLauncher;
     private Job staticImportJob;
 
+    @Autowired
+    public ScheduledImportService(JobLauncher jobLauncher, Job staticImportJob) {
+        this.jobLauncher = jobLauncher;
+        this.staticImportJob = staticImportJob;
+    }
+
+    /**
+     * Schedules the job to the defined value in "bernmobil.batch.schedule" and starts it.
+     * @throws JobParametersInvalidException if job parameters are invalid.
+     * @throws JobExecutionAlreadyRunningException if job is already running.
+     * @throws JobRestartException if restarting the job is not possible.
+     * @throws JobInstanceAlreadyCompleteException if the job trying to start is already completed.
+     */
     @Scheduled(cron = "${bernmobil.batch.schedule}")
     public void run()
             throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
@@ -34,15 +53,5 @@ public class ScheduledImportService {
 
         logger.info(String.format("Job finished [%s with status {%s}] at %s", staticImportJob.getName(),
                         execution.getExitStatus(), LocalTime.now()));
-    }
-
-    @Autowired
-    public void setJobLauncher(JobLauncher jobLauncher) {
-        this.jobLauncher = jobLauncher;
-    }
-
-    @Autowired
-    public void setStaticImportJob(Job staticImportJob) {
-        this.staticImportJob = staticImportJob;
     }
 }

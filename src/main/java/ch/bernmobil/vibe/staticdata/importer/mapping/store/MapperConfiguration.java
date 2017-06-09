@@ -6,6 +6,13 @@ import ch.bernmobil.vibe.shared.mapping.RouteMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for {@link MapperStore} and its extensions. Because Java uses type erasure it is necessary to
+ * define a bean for all combination of generic parameters.
+ *
+ * @author Oliviero Chiodo
+ * @author Matteo Patisso
+ */
 @Configuration
 public class MapperConfiguration {
 

@@ -51,7 +51,6 @@ public class ZipFileDownload implements ItemStreamReader<ZipInputStream> {
      */
     @Override
     public ZipInputStream read() throws Exception {
-        //downloadZip();
         logger.debug(String.format("InputStream from ZIP file created from %s", fileSource));
         return zip;
     }

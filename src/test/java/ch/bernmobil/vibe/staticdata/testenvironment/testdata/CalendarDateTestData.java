@@ -10,12 +10,6 @@ import java.util.stream.IntStream;
 
 public class CalendarDateTestData extends TestData<CalendarDate> {
 
-    public CalendarDateTestData() {
-        dataSource = IntStream.range(0, idList.length)
-                .mapToObj(this::create)
-                .collect(Collectors.toList());
-    }
-
     private final UUID[] idList = {
             UUID.fromString("92e1a0ef-91ef-4850-baa6-4cb6e243bf95"),
             UUID.fromString("a015ff16-dc7d-4ac8-bd41-9fa7664f8f9b"),
@@ -43,6 +37,12 @@ public class CalendarDateTestData extends TestData<CalendarDate> {
             UUID.fromString("a015ff16-dc7d-4ac8-bd41-9fa7664f8f9b"),
             UUID.fromString("92e1a0ef-91ef-4850-baa6-4cb6e243bf95")
     };
+
+    public CalendarDateTestData() {
+        dataSource = IntStream.range(0, idList.length)
+                .mapToObj(this::create)
+                .collect(Collectors.toList());
+    }
 
     private final JsonObject[] daysList = {
             new JsonObject(),

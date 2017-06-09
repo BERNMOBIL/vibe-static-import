@@ -1,5 +1,6 @@
 package ch.bernmobil.vibe.staticdata.writer;
 
+import ch.bernmobil.vibe.staticdata.reader.LazyListItemReader;
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class AreaMapperImportTest {
 
     @Test
-    public void InsertQuery() {
+    public void insertQuery() {
         DSLContext dslContext = DSL.using(SQLDialect.POSTGRES);
         AreaMapperImport mapperImport = new AreaMapperImport(null, null, dslContext, null);
         Insert<Record> insert = mapperImport.insertQuery();

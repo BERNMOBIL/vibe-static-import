@@ -6,6 +6,7 @@ import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsStopTime;
 import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsTrip;
 
 public class GtfsEntitiyBuilder {
+    private GtfsEntitiyBuilder() {}
 
     public static GtfsStop buildStop(String stopName, String stopId, String parentStation){
         GtfsStop stop = new GtfsStop();

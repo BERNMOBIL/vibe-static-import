@@ -77,7 +77,7 @@ public class ZipFileDownload implements ItemStreamReader<ZipInputStream> {
      */
     @Override
     public void update(ExecutionContext executionContext) throws ItemStreamException {
-
+        // Resources in class will never change, so update must not do something.
     }
 
     /**

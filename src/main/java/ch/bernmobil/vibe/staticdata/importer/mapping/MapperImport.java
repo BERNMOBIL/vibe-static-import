@@ -1,7 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping;
 
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
-import ch.bernmobil.vibe.staticdata.writer.LazyListItemReader;
+import ch.bernmobil.vibe.staticdata.reader.LazyListItemReader;
 import org.jooq.Insert;
 import org.jooq.Record;
 import org.springframework.batch.core.configuration.annotation.StepScope;

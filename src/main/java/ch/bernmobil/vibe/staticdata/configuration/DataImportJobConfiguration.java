@@ -155,14 +155,14 @@ public class DataImportJobConfiguration {
      * and {@link ItemWriter}, which are configured in a subclass of {@link Import}, and a {@link ItemProcessor}.
      * @param name of the {@link Step} which will be displayed in the logs and written into the database.
      * @param importer which provides the {@link ItemReader} and {@link ItemWriter}.
-     * @param processor which is able to process {@link TIn} to {@link TOut}.
-     * @param <TIn> type which is read by the reader.
-     * @param <TOut> type which is written by the writer.
+     * @param processor which is able to process {@link IN} to {@link OUT}.
+     * @param <IN> type which is read by the reader.
+     * @param <OUT> type which is written by the writer.
      * @return {@link Step} which has been built from the given parameters.
      */
-    private <TIn, TOut> Step createStepBuilder(String name,
-            Import<TIn, TOut> importer,
-            ItemProcessor<TIn, TOut> processor) {
+    private <IN, OUT> Step createStepBuilder(String name,
+                                             Import<IN, OUT> importer,
+                                             ItemProcessor<IN, OUT> processor) {
         return createStepBuilder(name, importer.reader(), importer.writer(), processor);
     }
 
@@ -170,19 +170,19 @@ public class DataImportJobConfiguration {
      * Create a {@link org.springframework.batch.core.step.builder.StepBuilder} which consists of a {@link ItemReader},
      * and {@link ItemProcessor} and a {@link ItemWriter}.
      * @param name of the {@link Step} which will be displayed in the logs and written into the database.
-     * @param reader which is able to read types of {@link TIn}.
-     * @param writer which is able to write types of {@link TOut}.
-     * @param processor which is able to process {@link TIn} into {@link TOut}.
-     * @param <TIn> type which is read by the reader.
-     * @param <TOut> type which is written by the writer.
+     * @param reader which is able to read types of {@link IN}.
+     * @param writer which is able to write types of {@link OUT}.
+     * @param processor which is able to process {@link IN} into {@link OUT}.
+     * @param <IN> type which is read by the reader.
+     * @param <OUT> type which is written by the writer.
      * @return {@link Step} which has been built from the given parameters.
      */
-    private <TIn, TOut> Step createStepBuilder(String name,
-            ItemReader<TIn> reader,
-            ItemWriter<TOut> writer,
-            ItemProcessor<TIn, TOut> processor) {
+    private <IN, OUT> Step createStepBuilder(String name,
+                                             ItemReader<IN> reader,
+                                             ItemWriter<OUT> writer,
+                                             ItemProcessor<IN, OUT> processor) {
         return stepBuilderFactory.get(name)
-                .<TIn, TOut>chunk(chunkSize)
+                .<IN, OUT>chunk(chunkSize)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

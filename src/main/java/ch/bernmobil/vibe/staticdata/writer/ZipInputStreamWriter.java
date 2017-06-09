@@ -2,9 +2,13 @@ package ch.bernmobil.vibe.staticdata.writer;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.ItemStreamWriter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -82,7 +86,7 @@ public class ZipInputStreamWriter implements ItemStreamWriter<ZipInputStream> {
      */
     @Override
     public void update(ExecutionContext executionContext) throws ItemStreamException {
-
+        // Resources in class never change so this method does nothing.
     }
 
     /**
@@ -90,6 +94,6 @@ public class ZipInputStreamWriter implements ItemStreamWriter<ZipInputStream> {
      */
     @Override
     public void close() throws ItemStreamException {
-
+        // No un-managed resources in this class, so nothing must be explicitly closed.
     }
 }

@@ -22,7 +22,7 @@ import java.time.LocalTime;
 @Service
 @EnableScheduling
 public class ScheduledImportService {
-    private final static Logger logger = Logger.getLogger(ScheduledImportService.class);
+    private static final Logger logger = Logger.getLogger(ScheduledImportService.class);
     private final JobLauncher jobLauncher;
     private final Job staticImportJob;
 
@@ -40,8 +40,7 @@ public class ScheduledImportService {
      * @throws JobInstanceAlreadyCompleteException if the job trying to start is already completed.
      */
     @Scheduled(cron = "${bernmobil.batch.schedule}")
-    public void run()
-            throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+    public void run() throws JobExecutionException {
         JobParameters param = new JobParametersBuilder()
                 .addString(staticImportJob.getName(),String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();

@@ -23,15 +23,15 @@ import javax.sql.DataSource;
  * reads data from a CSV file and converts the lines into a POJO using a custom {@link FieldSetMapper}. It also implements
  * a {@link JdbcBatchItemWriter} which uses a {@link ItemPreparedStatementSetter} to save the converted entities to the
  * database.
- * @param <TIn> This type should match with a type holding GTFS information @see ch.bernmobil.vibe.staticdata.gtfs.entity.
- * @param <TOut> This type should be an entity which can be saved into the database.
+ * @param <IN> This type should match with a type holding GTFS information @see ch.bernmobil.vibe.staticdata.gtfs.entity.
+ * @param <OUT> This type should be an entity which can be saved into the database.
  */
-public abstract class Import<TIn, TOut> {
+public abstract class Import<IN, OUT> {
     private final DataSource dataSource;
     private final String[] fieldNames;
     private final String filePath;
-    private final FieldSetMapper<TIn> fieldSetMapper;
-    private final ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter;
+    private final FieldSetMapper<IN> fieldSetMapper;
+    private final ItemPreparedStatementSetter<OUT> itemPreparedStatementSetter;
 
     /**
      * Constructor which demands all common objects from an import configuration.
@@ -41,15 +41,15 @@ public abstract class Import<TIn, TOut> {
      *                   will occur when Spring Batch tries to read from the file.
      * @param filePath An absolute path to the file, which contains the GTFS data to be imported.
      * @param fieldSetMapper A class implementing the {@link FieldSetMapper} to convert every line into a instance of
-     *                       {@link TIn}.
+     *                       {@link IN}.
      * @param itemPreparedStatementSetter A class implementing {@link ItemPreparedStatementSetter} to fill the insert
-     *                                    query with data from an {@link TOut}.
+     *                                    query with data from an {@link OUT}.
      */
     public Import(DataSource dataSource,
                   String[] fieldNames,
                   String filePath,
-                  FieldSetMapper<TIn> fieldSetMapper,
-                  ItemPreparedStatementSetter<TOut> itemPreparedStatementSetter)
+                  FieldSetMapper<IN> fieldSetMapper,
+                  ItemPreparedStatementSetter<OUT> itemPreparedStatementSetter)
     {
         this.dataSource = dataSource;
         this.fieldNames = fieldNames;
@@ -59,27 +59,27 @@ public abstract class Import<TIn, TOut> {
     }
 
     /**
-     * Any implementing method must return a query for inserting {@link TOut} into the database. The resulting query
-     * must be compatible with {@link ItemPreparedStatementSetter} so it can fill in the values from {@link TOut}.
-     * @return A JOOQ insert query object which can be used by the {@link JdbcBatchItemWriter} to save {@link TOut} objects.
+     * Any implementing method must return a query for inserting {@link OUT} into the database. The resulting query
+     * must be compatible with {@link ItemPreparedStatementSetter} so it can fill in the values from {@link OUT}.
+     * @return A JOOQ insert query object which can be used by the {@link JdbcBatchItemWriter} to save {@link OUT} objects.
      */
     abstract Insert<Record> insertQuery();
 
     /**
-     * This method configures and returns a {@link FlatFileItemReader} of {@link TIn}. The item reader reads the file from
+     * This method configures and returns a {@link FlatFileItemReader} of {@link IN}. The item reader reads the file from
      * {@link #filePath}, skips the first line (this is usually the header of the CSV file), sets the column names from
      * {@link #fieldNames} and passes the {@link #fieldSetMapper}.
-     * @return A fully constructed {@link FlatFileItemReader} which reads {@link TIn}.
+     * @return A fully constructed {@link FlatFileItemReader} which reads {@link IN}.
      */
     @Bean
     @StepScope
-    public ItemReader<TIn> reader(){
-        FlatFileItemReader<TIn> reader = new FlatFileItemReader<>();
+    public ItemReader<IN> reader(){
+        FlatFileItemReader<IN> reader = new FlatFileItemReader<>();
         reader.setResource(new FileSystemResource(filePath));
         reader.setLinesToSkip(1);
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         tokenizer.setNames(fieldNames);
-        DefaultLineMapper<TIn> lineMapper = new DefaultLineMapper<>();
+        DefaultLineMapper<IN> lineMapper = new DefaultLineMapper<>();
         lineMapper.setLineTokenizer(tokenizer);
         lineMapper.setFieldSetMapper(fieldSetMapper);
         reader.setLineMapper(lineMapper);
@@ -87,15 +87,15 @@ public abstract class Import<TIn, TOut> {
     }
 
     /**
-     * This method configures and returns a {@link JdbcBatchItemWriter} of {@link TOut}. The item writer uses the query
-     * from {@link #insertQuery()} and the {@link #itemPreparedStatementSetter} to save objects of {@link TOut} into
+     * This method configures and returns a {@link JdbcBatchItemWriter} of {@link OUT}. The item writer uses the query
+     * from {@link #insertQuery()} and the {@link #itemPreparedStatementSetter} to save objects of {@link OUT} into
      * {@link #dataSource}.
-     * @return A fully constructed {@link JdbcBatchItemWriter} which writes {@link TOut}.
+     * @return A fully constructed {@link JdbcBatchItemWriter} which writes {@link OUT}.
      */
     @Bean
     @StepScope
-    public ItemWriter<TOut> writer() {
-        JdbcBatchItemWriter<TOut> writer = new JdbcBatchItemWriter<>();
+    public ItemWriter<OUT> writer() {
+        JdbcBatchItemWriter<OUT> writer = new JdbcBatchItemWriter<>();
         writer.setSql(insertQuery().getSQL());
         writer.setItemPreparedStatementSetter(itemPreparedStatementSetter);
         writer.setDataSource(dataSource);

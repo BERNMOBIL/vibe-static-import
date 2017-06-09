@@ -83,7 +83,7 @@ public class SpringConfig {
      * @return {@link DataSource}
      */
     @Bean(name = "StaticDataSource")
-    public DataSource StaticDataSource() {
+    public DataSource staticDataSource() {
         return createDataSource(environment.getProperty("spring.datasource.driver-class-name"),
                 environment.getProperty("spring.datasource.url"),
                 environment.getProperty("spring.datasource.username"),

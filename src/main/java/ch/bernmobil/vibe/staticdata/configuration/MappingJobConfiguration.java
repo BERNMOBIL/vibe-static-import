@@ -8,6 +8,7 @@ import ch.bernmobil.vibe.shared.mapping.StopMapping;
 import ch.bernmobil.vibe.staticdata.importer.mapping.*;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
+import ch.bernmobil.vibe.staticdata.reader.LazyListItemReader;
 import org.jooq.DSLContext;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -53,7 +54,7 @@ public class MappingJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} which is able to read {@link AreaMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * Create a {@link Step} which is able to read {@link AreaMapping} from a {@link LazyListItemReader}
      * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
      * @return {@link Step} which saves {@link AreaMapping}
      */
@@ -65,7 +66,7 @@ public class MappingJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} which is able to read {@link CalendarDateMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * Create a {@link Step} which is able to read {@link CalendarDateMapping} from a {@link LazyListItemReader}
      * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
      * @return {@link Step} which saves {@link CalendarDateMapping}
      */
@@ -78,7 +79,7 @@ public class MappingJobConfiguration {
 
     /**
      * Create a {@link Step} which is able to read {@link ch.bernmobil.vibe.shared.mapping.JourneyMapping}
-     * from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader} and write
+     * from a {@link LazyListItemReader} and write
      * it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
      * @return {@link Step} which saves {@link ch.bernmobil.vibe.shared.mapping.JourneyMapping}
      */
@@ -90,7 +91,7 @@ public class MappingJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} which is able to read {@link RouteMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * Create a {@link Step} which is able to read {@link RouteMapping} from a {@link LazyListItemReader}
      * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
      * @return {@link Step} which saves {@link RouteMapping}
      */
@@ -102,7 +103,7 @@ public class MappingJobConfiguration {
     }
 
     /**
-     * Create a {@link Step} which is able to read {@link StopMapping} from a {@link ch.bernmobil.vibe.staticdata.writer.LazyListItemReader}
+     * Create a {@link Step} which is able to read {@link StopMapping} from a {@link LazyListItemReader}
      * and write it into a {@link org.springframework.batch.item.database.JdbcBatchItemWriter}.
      * @return {@link Step} which saves {@link StopMapping}
      */

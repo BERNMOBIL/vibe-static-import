@@ -1,4 +1,4 @@
-package ch.bernmobil.vibe.staticdata.writer;
+package ch.bernmobil.vibe.staticdata.reader;
 
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
@@ -61,7 +61,7 @@ public class LazyListItemReader<T> implements ItemReader<T>, ItemStream{
      */
     @Override
     public void update(ExecutionContext executionContext) throws ItemStreamException {
-
+        // Resources in class never change so this method does nothing.
     }
 
     /**
@@ -69,6 +69,6 @@ public class LazyListItemReader<T> implements ItemReader<T>, ItemStream{
      */
     @Override
     public void close() throws ItemStreamException {
-
+        // No un-managed resources in this class, so nothing must be explicitly closed.
     }
 }

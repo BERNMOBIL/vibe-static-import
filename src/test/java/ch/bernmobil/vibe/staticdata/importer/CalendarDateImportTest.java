@@ -2,6 +2,7 @@ package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
 import ch.bernmobil.vibe.shared.entity.CalendarDate;
+import ch.bernmobil.vibe.staticdata.importer.preparedstatementsetter.CalendarDatePreparedStatementSetter;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.CalendarDateTestData;
 import org.jooq.DSLContext;
 import org.jooq.Insert;
@@ -34,7 +35,7 @@ public class CalendarDateImportTest {
         UpdateTimestampManager manager = new UpdateTimestampManager();
         Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
         manager.setActiveUpdateTimestamp(timestamp);
-        CalendarDateImport.CalendarDatePreparedStatementSetter setter = new CalendarDateImport.CalendarDatePreparedStatementSetter(manager);
+        CalendarDatePreparedStatementSetter setter = new CalendarDatePreparedStatementSetter(manager);
         CalendarDateTestData testData = new CalendarDateTestData();
         CalendarDate date = testData.get(0);
         setter.setValues(date, ps);

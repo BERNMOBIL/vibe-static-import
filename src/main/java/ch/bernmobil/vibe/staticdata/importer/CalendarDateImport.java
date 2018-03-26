@@ -7,20 +7,17 @@ import ch.bernmobil.vibe.shared.entity.CalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsCalendarDateContract;
 import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.CalendarDateFieldSetMapper;
+import ch.bernmobil.vibe.staticdata.importer.preparedstatementsetter.CalendarDatePreparedStatementSetter;
 import ch.bernmobil.vibe.staticdata.writer.ListUnpackingItemWriter;
-import com.google.gson.JsonObject;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Insert;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
-import org.postgresql.util.PGobject;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -71,46 +68,6 @@ public class CalendarDateImport extends Import<GtfsCalendarDate,CalendarDate> {
      */
     public ItemWriter<List<CalendarDate>> listItemWriter() {
         return new ListUnpackingItemWriter<>(writer());
-    }
-
-    /**
-     * Class implementing {@link ItemPreparedStatementSetter} to set the prepared statement values in the query
-     */
-    public static class CalendarDatePreparedStatementSetter implements ItemPreparedStatementSetter<CalendarDate> {
-        private final UpdateTimestampManager updateTimestampManager;
-
-        public CalendarDatePreparedStatementSetter(UpdateTimestampManager updateTimestampManager) {
-            this.updateTimestampManager = updateTimestampManager;
-        }
-
-        /**
-         * Set the values of the prepared statement
-         * @param item Area which will be saved
-         * @param ps {@link PreparedStatement} into these values will be written
-         * @throws SQLException Exception will be thrown if the database returns an error
-         */
-        @Override
-        public void setValues(CalendarDate item, PreparedStatement ps) throws SQLException {
-                ps.setObject(1, item.getId());
-                ps.setDate(2, item.getValidFrom());
-                ps.setDate(3, item.getValidUntil());
-                ps.setObject(4, item.getJourney());
-                ps.setObject(5, createPgJson(item.getDays()));
-                ps.setTimestamp(6, updateTimestampManager.getActiveUpdateTimestamp());
-        }
-
-        /**
-         * Method to map the {@link JsonObject} content into a PostgreSQL JSON entity.
-         * @param days The object containing a the defined JSON array
-         * @return A object holding the JSON data to save it into the database
-         * @throws SQLException Exception will be thrown if the database returns an error
-         */
-        private PGobject createPgJson(JsonObject days) throws SQLException {
-            PGobject jsonObject = new PGobject();
-            jsonObject.setType("json");
-            jsonObject.setValue(days.toString());
-            return jsonObject;
-        }
     }
 
 }

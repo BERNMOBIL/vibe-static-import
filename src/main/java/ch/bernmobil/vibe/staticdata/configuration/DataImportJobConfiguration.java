@@ -112,6 +112,22 @@ public class DataImportJobConfiguration {
                 applicationContext.getBean(RouteProcessor.class));
     }
 
+    @Bean
+    public Step calendarImportStep() {
+        CalendarImport importer = new CalendarImport(staticDataSource, dslContext, destinationFolder, updateTimestampManager);
+        return createStepBuilder("Calendar import step",
+                importer.reader(),
+                importer.listItemWriter(),
+                applicationContext.getBean(CalendarProcessor.class));
+    }
+
+    @Bean Step calendarExceptionImportSetp() {
+        CalendarExceptionImport importer = new CalendarExceptionImport(staticDataSource, dslContext, destinationFolder, updateTimestampManager);
+        return createStepBuilder("Calendar-exception import",
+                importer.reader(),
+                importer.writer(),
+                applicationContext.getBean(CalendarExceptionProcessor.class));
+    }
     /**
      * Create a {@link Step} to convert {@link ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate} to
      * {@link ch.bernmobil.vibe.shared.entity.CalendarDate}.

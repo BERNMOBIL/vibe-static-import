@@ -14,10 +14,7 @@ public final class GtfsRouteContract {
     public static final String ROUTE_LONG_NAME = "route_long_name";
     public static final String ROUTE_DESC = "route_desc";
     public static final String ROUTE_TYPE = "route_type";
-    public static final String ROUTE_URL = "route_url";
-    public static final String ROUTE_COLOR = "route_color";
-    public static final String ROUTE_TEXT_COLOR = "route_text_color";
-    public static final String[] FIELD_NAMES = {ROUTE_ID, AGENCY_ID, ROUTE_SHORT_NAME, ROUTE_LONG_NAME, ROUTE_DESC, ROUTE_TYPE, ROUTE_URL, ROUTE_COLOR, ROUTE_TEXT_COLOR};
+    public static final String[] FIELD_NAMES = {ROUTE_ID, AGENCY_ID, ROUTE_SHORT_NAME, ROUTE_LONG_NAME, ROUTE_DESC, ROUTE_TYPE};
 
     private GtfsRouteContract() {}
 }

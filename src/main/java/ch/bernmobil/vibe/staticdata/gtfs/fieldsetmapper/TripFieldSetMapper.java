@@ -19,9 +19,7 @@ public class TripFieldSetMapper implements FieldSetMapper<GtfsTrip> {
         GtfsTrip trip = new GtfsTrip();
         trip.setServiceId(fieldSet.readString(GtfsTripContract.SERVICE_ID));
         trip.setRouteId(fieldSet.readString(GtfsTripContract.ROUTE_ID));
-        trip.setBlockId(fieldSet.readString(GtfsTripContract.BLOCK_ID));
         trip.setDirectionId(fieldSet.readString(GtfsTripContract.DIRECTION_ID));
-        trip.setShapeId(fieldSet.readString(GtfsTripContract.SHAPE_ID));
         trip.setTripHeadsign(fieldSet.readString(GtfsTripContract.TRIP_HEADSIGN));
         trip.setTripId(fieldSet.readString(GtfsTripContract.TRIP_ID));
         trip.setTripShortName(fieldSet.readString(GtfsTripContract.TRIP_SHORT_NAME));

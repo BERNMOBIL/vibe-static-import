@@ -18,13 +18,9 @@ public class StopFieldSetMapper implements FieldSetMapper<GtfsStop> {
     public GtfsStop mapFieldSet(FieldSet fieldSet) throws BindException {
         GtfsStop stop = new GtfsStop();
         stop.setStopId(fieldSet.readString(GtfsStopContract.STOP_ID));
-        stop.setStopCode(fieldSet.readString(GtfsStopContract.STOP_CODE));
         stop.setStopName(fieldSet.readString(GtfsStopContract.STOP_NAME));
-        stop.setStopDesc(fieldSet.readString(GtfsStopContract.STOP_DESC));
         stop.setStopLat(fieldSet.readString(GtfsStopContract.STOP_LAT));
         stop.setStopLon(fieldSet.readString(GtfsStopContract.STOP_LON));
-        stop.setZoneId(fieldSet.readString(GtfsStopContract.ZONE_ID));
-        stop.setStopUrl(fieldSet.readString(GtfsStopContract.STOP_URL));
         stop.setLocationType(fieldSet.readString(GtfsStopContract.LOCATION_TYPE));
         stop.setParentStation(fieldSet.readString(GtfsStopContract.PARENT_STATION));
         return stop;

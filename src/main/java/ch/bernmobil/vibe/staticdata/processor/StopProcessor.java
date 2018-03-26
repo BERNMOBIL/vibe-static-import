@@ -46,18 +46,25 @@ public class StopProcessor extends Processor<GtfsStop, Stop>{
      * is empty, null.
      * @throws Exception is thrown if a {@link RuntimeException} occurs.
      */
+    @SuppressWarnings("RedundantThrows")
     @Override
     public Stop process(GtfsStop item) throws Exception {
-        String parentStation = item.getParentStation();
-        if(!parentStation.isEmpty()) {
-            UUID id = idGenerator.next();
-            String stopId = item.getStopId();
-            stopMapper.addMapping(stopId, new StopMapping(stopId, item.getStopName(), id));
-
-            UUID areaId = areaMapper.getMapping(item.getParentStation()).getId();
-
-            return new Stop(id, item.getStopName(), areaId);
+        UUID id = idGenerator.next();
+        String stopId = item.getStopId();
+        StopMapping mapping = stopMapper.getStopByStopName(item.getStopName());
+        if(mapping != null) {
+               stopMapper.addMapping(stopId, new StopMapping(stopId, item.getStopName(), mapping.getId()));
+               return null;
         }
-        return null;
+
+        stopMapper.addMapping(stopId, new StopMapping(stopId, item.getStopName(), id));
+        String parentStation = item.getParentStation();
+        UUID areaId;
+        if(!parentStation.isEmpty()) {
+            areaId = areaMapper.getMapping(item.getParentStation()).getId();
+        } else {
+            areaId = areaMapper.getMapping(item.getStopId()).getId();
+        }
+        return new Stop(id, item.getStopName(), areaId);
     }
 }

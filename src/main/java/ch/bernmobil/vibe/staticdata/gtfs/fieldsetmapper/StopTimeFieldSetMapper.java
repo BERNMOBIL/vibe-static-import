@@ -23,10 +23,8 @@ public class StopTimeFieldSetMapper implements FieldSetMapper<GtfsStopTime> {
         stopTime.setDepartureTime(fieldSet.readString(GtfsStopTimeContract.DEPARTURE_TIME));
         stopTime.setStopId(fieldSet.readString(GtfsStopTimeContract.STOP_ID));
         stopTime.setStopSequence(fieldSet.readString(GtfsStopTimeContract.STOP_SEQUENCE));
-        stopTime.setStopHeadsign(fieldSet.readString(GtfsStopTimeContract.STOP_HEADSIGN));
         stopTime.setPickupType(fieldSet.readString(GtfsStopTimeContract.PICKUP_TYPE));
         stopTime.setDropOffType(fieldSet.readString(GtfsStopTimeContract.DROP_OFF_TYPE));
-        stopTime.setShapeDistTravelled(fieldSet.readString(GtfsStopTimeContract.SHAPE_DIST_TRAVELED));
 
         return stopTime;
     }

@@ -37,6 +37,7 @@ public class AreaProcessor extends Processor<GtfsStop,Area> {
      * null
      * @throws Exception if there is any {@link RuntimeException} while processing the {@link GtfsStop}.
      */
+    @SuppressWarnings("RedundantThrows")
     @Override
     public Area process(GtfsStop item) throws Exception {
         String name = item.getStopName();

@@ -23,9 +23,6 @@ public class RouteFieldSetMapper implements FieldSetMapper<GtfsRoute> {
         route.setRouteLongName(fieldSet.readString(GtfsRouteContract.ROUTE_LONG_NAME));
         route.setRouteDesc(fieldSet.readString(GtfsRouteContract.ROUTE_DESC));
         route.setRouteType(fieldSet.readString(GtfsRouteContract.ROUTE_TYPE));
-        route.setRouteUrl(fieldSet.readString(GtfsRouteContract.ROUTE_URL));
-        route.setRouteColor(fieldSet.readString(GtfsRouteContract.ROUTE_COLOR));
-        route.setRouteTextColor(fieldSet.readString(GtfsRouteContract.ROUTE_TEXT_COLOR));
         return route;
     }
 

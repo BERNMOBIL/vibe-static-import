@@ -51,6 +51,7 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
      * @return {@link Schedule} which contains all necessary information from a {@link GtfsStopTime}.
      * @throws Exception will be thrown if there is a {@link RuntimeException} during processing.
      */
+    @SuppressWarnings("RedundantThrows")
     @Override
     public Schedule process(GtfsStopTime item) throws Exception {
         StopMapping stopMapping = stopMapper.getMapping(item.getStopId());
@@ -92,6 +93,8 @@ public class ScheduleProcessor extends Processor<GtfsStopTime, Schedule> {
      * @return {@link String} which identifies the platform of the stop.
      */
     private String parsePlatform(String stopId)  {
-        return stopId.split("_")[1];
+        //TODO: Strategic
+        String[] split = stopId.split(":");
+        return split[split.length - 1];
     }
 }

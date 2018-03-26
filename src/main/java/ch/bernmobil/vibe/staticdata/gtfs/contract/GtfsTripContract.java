@@ -14,9 +14,7 @@ public final class GtfsTripContract {
     public static final String TRIP_HEADSIGN = "trip_headsign";
     public static final String TRIP_SHORT_NAME = "trip_short_name";
     public static final String DIRECTION_ID = "direction_id";
-    public static final String BLOCK_ID = "block_id";
-    public static final String SHAPE_ID = "shape_id";
-    public static final String[] FIELD_NAMES = {ROUTE_ID, SERVICE_ID, TRIP_ID, TRIP_HEADSIGN, TRIP_SHORT_NAME, DIRECTION_ID, BLOCK_ID, SHAPE_ID};
+    public static final String[] FIELD_NAMES = {ROUTE_ID, SERVICE_ID, TRIP_ID, TRIP_HEADSIGN, TRIP_SHORT_NAME, DIRECTION_ID};
 
     private GtfsTripContract() {}
 }

@@ -33,7 +33,7 @@ public class JourneyProcessor extends Processor<GtfsTrip, Journey> {
      * @param stopMapperStore to get and save {@link StopMapping}.
      */
     @Autowired
-    public JourneyProcessor(MapperStore<String, RouteMapping> routeMapperStore,
+    public JourneyProcessor(@Qualifier("routeMapperStore") MapperStore<String, RouteMapping> routeMapperStore,
                             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore,
                             StopMapperStore stopMapperStore) {
         this.routeMapperStore = routeMapperStore;

@@ -78,10 +78,9 @@ public class CalendarDateProcessor extends Processor<GtfsCalendarDate, List<Cale
 
         for(JourneyMapping journeyMapping : journeyMappings) {
             UUID journeyId = journeyMapping.getId();
-            Long gtfsServiceId = Long.parseLong(item.getServiceId());
             String mappingKey = String.format("%s%s", item.getServiceId(), item.getDate());
             UUID id = idGenerator.getId();
-            calendarDateMapper.addMapping(mappingKey, new CalendarDateMapping(gtfsServiceId, id));
+            calendarDateMapper.addMapping(mappingKey, new CalendarDateMapping(item.getServiceId(), id));
             idGenerator.next();
             calendarDates.add(new CalendarDate(id, validFrom, validUntil, journeyId, days));
         }

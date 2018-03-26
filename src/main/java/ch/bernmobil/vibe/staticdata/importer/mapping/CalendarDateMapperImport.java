@@ -74,7 +74,7 @@ public class CalendarDateMapperImport extends MapperImport<CalendarDateMapping> 
          */
         @Override
         public void setValues(CalendarDateMapping item, PreparedStatement ps) throws SQLException {
-            ps.setLong(1, item.getGtfsId());
+            ps.setString(1, item.getGtfsId());
             ps.setObject(2, item.getId());
             ps.setTimestamp(3, updateTimestampManager.getActiveUpdateTimestamp());
         }

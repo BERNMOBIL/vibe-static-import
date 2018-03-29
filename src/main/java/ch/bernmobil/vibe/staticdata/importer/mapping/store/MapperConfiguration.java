@@ -41,4 +41,9 @@ public class MapperConfiguration {
         return new StopMapperStore();
     }
 
+    @Bean("calendarListMapperStore")
+    public ListMapperStore<String, CalendarDateMapping> calendarListMapperStore() {
+        return new ListMapperStore<>();
+    }
+
 }

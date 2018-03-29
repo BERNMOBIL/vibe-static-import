@@ -43,7 +43,7 @@ public class MappingJobConfiguration {
     public MappingJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
             @Qualifier("MapperDataSource") DataSource mapperDataSource,
-            ApplicationContext applicationContext,
+            @Qualifier("baseContext") ApplicationContext applicationContext,
             @Qualifier("MapperDslContext") DSLContext dslContext,
             UpdateTimestampManager updateTimestampManager) {
         this.stepBuilderFactory = stepBuilderFactory;
@@ -139,6 +139,7 @@ public class MappingJobConfiguration {
                 .<T, T>chunk(chunkSize)
                 .reader(mappingHelper.reader())
                 .writer(mappingHelper.writer())
+                .allowStartIfComplete(true)
                 .build();
     }
 }

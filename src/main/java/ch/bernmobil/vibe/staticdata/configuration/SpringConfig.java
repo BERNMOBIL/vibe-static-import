@@ -53,7 +53,7 @@ public class SpringConfig {
     /**
      * Create a {@link DataSource} for the Spring Batch Job-Repository, where it stores all its jobs and logs.
      *
-     * @see <a href=http://docs.spring.io/spring-batch/reference/html/ />
+     * @see <a href=http://docs.spring.io/spring-batch/reference/html/></a>
      *
      * @return {@link DataSource} for a job repository.
      */
@@ -108,6 +108,7 @@ public class SpringConfig {
      * Build a {@link JobLauncher} by using a {@link PlatformTransactionManager} to connect Spring Batch to its
      * {@link DataSource}.
      * @param transactionManager to manage the connection to the job repository
+     * @param sqliteDataSource to save job information
      * @return {@link JobLauncher} which is used to start jobs and steps.
      * @throws Exception will be thrown if there is an {@link Exception} while creating.
      */

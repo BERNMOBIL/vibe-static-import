@@ -1,5 +1,7 @@
 package ch.bernmobil.vibe.staticdata.importer.mapping.store;
 
+import org.springframework.dao.DuplicateKeyException;
+
 import java.util.*;
 
 /**
@@ -15,8 +17,12 @@ public class MapperStore<I, O> {
      * Add a mapping object to the store.
      * @param id which leads to the mapping.
      * @param mapping as value for the id.
+     * @throws DuplicateKeyException if the id already exists in the mapper store
      */
-    public void addMapping(I id, O mapping) {
+    public void addMapping(I id, O mapping) throws DuplicateKeyException{
+        if(mappingMap.containsKey(id)) {
+            throw new DuplicateKeyException(String.format("%s already exists in mapper store", id));
+        }
         mappingMap.put(id, mapping);
     }
 

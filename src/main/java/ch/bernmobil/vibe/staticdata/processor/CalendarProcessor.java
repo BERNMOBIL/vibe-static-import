@@ -5,6 +5,7 @@ import ch.bernmobil.vibe.shared.mapping.CalendarDateMapping;
 import ch.bernmobil.vibe.shared.mapping.JourneyMapping;
 import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendar;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.JourneyMapperStore;
+import ch.bernmobil.vibe.staticdata.importer.mapping.store.ListMapperStore;
 import ch.bernmobil.vibe.staticdata.importer.mapping.store.MapperStore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -27,12 +28,12 @@ import java.util.UUID;
 public class CalendarProcessor extends Processor<GtfsCalendar, List<CalendarDate>> {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-    private final MapperStore<String, CalendarDateMapping> calendarDateMapper;
+    private final ListMapperStore<String, CalendarDateMapping> calendarDateMapper;
     private final JourneyMapperStore journeyMapperStore;
 
     @Autowired
     public CalendarProcessor(
-            @Qualifier("calendarDateMapperStore") MapperStore<String, CalendarDateMapping> calendarDateMapper,
+            @Qualifier("calendarListMapperStore") ListMapperStore<String, CalendarDateMapping> calendarDateMapper,
             @Qualifier("journeyMapperStore") JourneyMapperStore journeyMapperStore) {
         this.calendarDateMapper = calendarDateMapper;
         this.journeyMapperStore = journeyMapperStore;
@@ -42,7 +43,6 @@ public class CalendarProcessor extends Processor<GtfsCalendar, List<CalendarDate
     @Override
     public List<CalendarDate> process(GtfsCalendar item) throws Exception {
         List<JourneyMapping> journeyMappings = journeyMapperStore.getMappingsByServiceId(item.getServiceId());
-        journeyMapperStore.getMapping(item.getServiceId());
 
         if(journeyMappings.isEmpty()) {
             return null;
@@ -55,7 +55,6 @@ public class CalendarProcessor extends Processor<GtfsCalendar, List<CalendarDate
 
             Collection<DayOfWeek> serviceDays = getDaysOfWeek(item);
             JsonObject serviceDaysJson = saveDaysToJson(serviceDays);
-
 
             UUID journeyId = journeyMapping.getId();
             UUID id = idGenerator.getId();

@@ -49,7 +49,7 @@ public class DataImportJobConfiguration {
     public DataImportJobConfiguration(
             StepBuilderFactory stepBuilderFactory,
             @Qualifier("StaticDataSource") DataSource staticDataSource,
-            ApplicationContext applicationContext,
+            @Qualifier("baseContext") ApplicationContext applicationContext,
             @Qualifier("StaticDslContext") DSLContext dslContext,
             UpdateTimestampManager updateTimestampManager) {
         this.stepBuilderFactory = stepBuilderFactory;
@@ -125,7 +125,7 @@ public class DataImportJobConfiguration {
         CalendarExceptionImport importer = new CalendarExceptionImport(staticDataSource, dslContext, destinationFolder, updateTimestampManager);
         return createStepBuilder("Calendar-exception import",
                 importer.reader(),
-                importer.writer(),
+                importer.listWriter(),
                 applicationContext.getBean(CalendarExceptionProcessor.class));
     }
     /**
@@ -202,6 +202,7 @@ public class DataImportJobConfiguration {
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
+                .allowStartIfComplete(true)
                 .build();
     }
 }

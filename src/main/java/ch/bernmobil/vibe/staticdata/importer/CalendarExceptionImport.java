@@ -1,17 +1,18 @@
 package ch.bernmobil.vibe.staticdata.importer;
 
 import ch.bernmobil.vibe.shared.UpdateTimestampManager;
-import ch.bernmobil.vibe.shared.contract.CalendarDateContract;
 import ch.bernmobil.vibe.shared.entity.CalendarException;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.CalendarExceptionContract;
 import ch.bernmobil.vibe.staticdata.gtfs.contract.GtfsCalendarDateContract;
 import ch.bernmobil.vibe.staticdata.gtfs.entity.GtfsCalendarDate;
 import ch.bernmobil.vibe.staticdata.gtfs.fieldsetmapper.CalendarDateFieldSetMapper;
+import ch.bernmobil.vibe.staticdata.writer.ListUnpackingItemWriter;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Insert;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 
 import javax.sql.DataSource;
@@ -20,6 +21,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.jooq.impl.DSL.table;
@@ -43,6 +45,9 @@ public class CalendarExceptionImport extends Import<GtfsCalendarDate, CalendarEx
                 .values(Collections.nCopies(CalendarExceptionContract.COLUMNS.length, "?"));
     }
 
+    public ItemWriter<List<CalendarException>> listWriter() {
+        return new ListUnpackingItemWriter<>(super.writer());
+    }
 
     private static class CalendarExceptionFieldSetMapper implements ItemPreparedStatementSetter<CalendarException> {
         private final UpdateTimestampManager updateTimestampManager;

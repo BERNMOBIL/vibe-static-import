@@ -8,6 +8,7 @@ import org.jooq.Insert;
 import org.jooq.Record;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.PreparedStatement;
@@ -38,7 +39,7 @@ public class CalendarDateMapperImportTest {
         CalendarDateMappingTestData testData = new CalendarDateMappingTestData();
         CalendarDateMapping mapping = testData.get(0);
         setter.setValues(mapping, ps);
-        verify(ps, times(1)).setLong(eq(1), eq(mapping.getGtfsId()));
+        verify(ps, times(1)).setString(eq(1), eq(mapping.getGtfsId()));
         verify(ps, times(1)).setObject(eq(2), eq(mapping.getId()));
         verify(ps, times(1)).setTimestamp(eq(3), eq(timestamp));
     }

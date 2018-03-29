@@ -31,6 +31,6 @@ public class CalendarDateMappingTestData extends TestData<CalendarDateMapping> {
 
     @Override
     protected CalendarDateMapping create(int index) {
-        return new CalendarDateMapping(gtfsIdList[index], idList[index]);
+        return new CalendarDateMapping(Long.toString(gtfsIdList[index]), idList[index]);
     }
 }

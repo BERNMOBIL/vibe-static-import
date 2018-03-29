@@ -11,6 +11,7 @@ import ch.bernmobil.vibe.staticdata.testenvironment.GtfsEntitiyBuilder;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.TestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.JourneyMappingTestData;
 import ch.bernmobil.vibe.staticdata.testenvironment.testdata.mapping.StopMappingTestData;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class ScheduleProcessorTest {
     private UuidGenerator idGenerator;
 
     @Test
+    @Ignore
     public void process() throws Exception {
         TestData<JourneyMapping> journeyData = new JourneyMappingTestData();
         StopMappingTestData stopData = new StopMappingTestData();
